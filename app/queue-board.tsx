@@ -193,14 +193,14 @@ function Row({ i, openId, setOpenId, toggleStatus, author, setAuthor, drafts, se
   return (
     <li className={dim ? "opacity-55" : ""}>
       <div onClick={() => setOpenId(open ? null : i.id)} className="flex w-full cursor-pointer items-center gap-2.5 px-4 py-2.5 text-left hover:bg-gray-50">
-        <span className="w-12 shrink-0 text-[11px] font-medium text-gray-400">{i.fund}</span>
+        <span className="shrink-0 whitespace-nowrap text-[11px] font-medium text-gray-400" title={i.fund}>{i.fund}</span>
         {i.companyId ? (
-          <Link href={`/company/${i.companyId}`} onClick={(e) => e.stopPropagation()} className="w-24 shrink-0 truncate text-sm font-medium hover:text-[#1f3a5f] hover:underline">{i.company}</Link>
+          <Link href={`/company/${i.companyId}`} onClick={(e) => e.stopPropagation()} className="min-w-0 max-w-[8rem] shrink truncate text-sm font-medium hover:text-[#1f3a5f] hover:underline">{i.company}</Link>
         ) : (
-          <span className="w-24 shrink-0 truncate text-sm font-medium">{i.company}</span>
+          <span className="min-w-0 max-w-[8rem] shrink truncate text-sm font-medium">{i.company}</span>
         )}
         <span className={`w-20 shrink-0 rounded-full py-0.5 text-center text-[11px] ring-1 ${kindColor[i.kind]}`}>{i.kind}</span>
-        <span className="flex-1 truncate text-xs text-gray-500">{i.detail}</span>
+        <span className="min-w-0 flex-1 truncate text-xs text-gray-500">{i.detail}</span>
         {i.memos.length > 0 && <span className="shrink-0 text-[11px] text-gray-400">💬 {i.memos.length}</span>}
         {meta && <span className={`shrink-0 rounded-full px-1.5 py-0.5 text-[10px] ring-1 ${meta.chip}`}>{meta.label}</span>}
         <span className="shrink-0 text-gray-300">{open ? "▾" : "▸"}</span>
