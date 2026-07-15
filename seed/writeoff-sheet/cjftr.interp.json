@@ -1,0 +1,93 @@
+{
+  "tab": "프론티어랩스 투자자산 관리(2025.4Q)",
+  "companies": [
+    {
+      "name": "베러먼데이코리아㈜",
+      "nameEn": "",
+      "status": "live",
+      "statusLabel": "",
+      "duplicated": false,
+      "note": ""
+    },
+    {
+      "name": "㈜엘로이랩",
+      "nameEn": "",
+      "status": "live",
+      "statusLabel": "",
+      "duplicated": true,
+      "note": ""
+    },
+    {
+      "name": "㈜잇그린",
+      "nameEn": "",
+      "status": "live",
+      "statusLabel": "",
+      "duplicated": false,
+      "note": ""
+    },
+    {
+      "name": "㈜도시곳간",
+      "nameEn": "",
+      "status": "live",
+      "statusLabel": "",
+      "duplicated": true,
+      "note": ""
+    },
+    {
+      "name": "㈜왓섭",
+      "nameEn": "",
+      "status": "live",
+      "statusLabel": "",
+      "duplicated": true,
+      "note": ""
+    },
+    {
+      "name": "잇마플㈜",
+      "nameEn": "",
+      "status": "live",
+      "statusLabel": "",
+      "duplicated": true,
+      "note": ""
+    },
+    {
+      "name": "㈜제트커머스코퍼레이션",
+      "nameEn": "",
+      "status": "writeoff",
+      "statusLabel": "",
+      "duplicated": false,
+      "note": "평가금액 1,000원·MOIC≈0, 감액 처리"
+    },
+    {
+      "name": "㈜현관앞마켓",
+      "nameEn": "",
+      "status": "live",
+      "statusLabel": "",
+      "duplicated": false,
+      "note": "투자금 상환 중"
+    },
+    {
+      "name": "담화컴퍼니㈜",
+      "nameEn": "",
+      "status": "live",
+      "statusLabel": "",
+      "duplicated": true,
+      "note": ""
+    },
+    {
+      "name": "㈜에스앤이컴퍼니",
+      "nameEn": "",
+      "status": "live",
+      "statusLabel": "",
+      "duplicated": true,
+      "note": ""
+    }
+  ],
+  "duplicatedBases": [
+    "엘로이랩",
+    "도시곳간",
+    "왓섭",
+    "잇마플",
+    "담화컴퍼니",
+    "에스앤이컴퍼니"
+  ]
+}

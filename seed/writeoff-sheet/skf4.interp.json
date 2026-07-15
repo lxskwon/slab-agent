@@ -1,0 +1,514 @@
+{
+  "tab": "투자집행",
+  "companies": [
+    {
+      "name": "부톡",
+      "nameEn": "Bootalk",
+      "status": "live",
+      "statusLabel": "LIVE",
+      "duplicated": false,
+      "note": ""
+    },
+    {
+      "name": "파이노버스랩",
+      "nameEn": "FiNovus Lab",
+      "status": "live",
+      "statusLabel": "LIVE",
+      "duplicated": true,
+      "note": ""
+    },
+    {
+      "name": "핸들",
+      "nameEn": "Handle",
+      "status": "exit",
+      "statusLabel": "M&A",
+      "duplicated": false,
+      "note": "M&A 타진 중"
+    },
+    {
+      "name": "배젠",
+      "nameEn": "Baegen",
+      "status": "live",
+      "statusLabel": "LIVE",
+      "duplicated": false,
+      "note": ""
+    },
+    {
+      "name": "도지마",
+      "nameEn": "Dojima",
+      "status": "writeoff",
+      "statusLabel": "W/O",
+      "duplicated": false,
+      "note": "상각"
+    },
+    {
+      "name": "에이치투씨",
+      "nameEn": "H2 Inc(Health2Sync)",
+      "status": "live",
+      "statusLabel": "LIVE",
+      "duplicated": false,
+      "note": ""
+    },
+    {
+      "name": "나인하이어",
+      "nameEn": "Ninehire",
+      "status": "exit",
+      "statusLabel": "M&A",
+      "duplicated": false,
+      "note": "M&A(24.1Q), 잡코리아"
+    },
+    {
+      "name": "브라이튼 코퍼레이션",
+      "nameEn": "Brightn",
+      "status": "writeoff",
+      "statusLabel": "W/O",
+      "duplicated": false,
+      "note": "폐업(25.1Q)"
+    },
+    {
+      "name": "빌리오",
+      "nameEn": "Billyo",
+      "status": "writeoff",
+      "statusLabel": "W/O",
+      "duplicated": false,
+      "note": "폐업(25.2Q)"
+    },
+    {
+      "name": "틴고랜드",
+      "nameEn": "Tingoland",
+      "status": "live",
+      "statusLabel": "LIVE",
+      "duplicated": false,
+      "note": ""
+    },
+    {
+      "name": "폴슨",
+      "nameEn": "Folsn",
+      "status": "live",
+      "statusLabel": "LIVE",
+      "duplicated": false,
+      "note": ""
+    },
+    {
+      "name": "잇그린",
+      "nameEn": "Itgreen",
+      "status": "live",
+      "statusLabel": "LIVE",
+      "duplicated": false,
+      "note": ""
+    },
+    {
+      "name": "빔스튜디오",
+      "nameEn": "Beam Studio",
+      "status": "live",
+      "statusLabel": "LIVE",
+      "duplicated": false,
+      "note": ""
+    },
+    {
+      "name": "그로스핏",
+      "nameEn": "Growth Fit",
+      "status": "writeoff",
+      "statusLabel": "W/O",
+      "duplicated": false,
+      "note": "폐업(25.2Q)"
+    },
+    {
+      "name": "하이퍼액션",
+      "nameEn": "Hyperaction (Infinite Hourglass)",
+      "status": "writeoff",
+      "statusLabel": "W/O",
+      "duplicated": false,
+      "note": "폐업예정(25.3Q)"
+    },
+    {
+      "name": "브로츠",
+      "nameEn": "Brots",
+      "status": "live",
+      "statusLabel": "LIVE",
+      "duplicated": false,
+      "note": ""
+    },
+    {
+      "name": "민트엔에프티",
+      "nameEn": "Mint NFT",
+      "status": "writeoff",
+      "statusLabel": "W/O",
+      "duplicated": false,
+      "note": "폐업(25.1Q)"
+    },
+    {
+      "name": "오마이어스",
+      "nameEn": "Oh My Earth",
+      "status": "live",
+      "statusLabel": "LIVE",
+      "duplicated": false,
+      "note": ""
+    },
+    {
+      "name": "로그스택",
+      "nameEn": "Logstack",
+      "status": "live",
+      "statusLabel": "LIVE",
+      "duplicated": false,
+      "note": ""
+    },
+    {
+      "name": "페이워크",
+      "nameEn": "Paywork",
+      "status": "live",
+      "statusLabel": "LIVE",
+      "duplicated": false,
+      "note": ""
+    },
+    {
+      "name": "와이오엘",
+      "nameEn": "YOL Cargo",
+      "status": "live",
+      "statusLabel": "LIVE",
+      "duplicated": false,
+      "note": ""
+    },
+    {
+      "name": "엑스크루",
+      "nameEn": "Xcrew",
+      "status": "live",
+      "statusLabel": "LIVE",
+      "duplicated": false,
+      "note": ""
+    },
+    {
+      "name": "프론트맨",
+      "nameEn": "Frontman",
+      "status": "writeoff",
+      "statusLabel": "W/O",
+      "duplicated": false,
+      "note": "폐업(24.4Q)"
+    },
+    {
+      "name": "마인이스",
+      "nameEn": "Mine.is",
+      "status": "live",
+      "statusLabel": "LIVE",
+      "duplicated": false,
+      "note": ""
+    },
+    {
+      "name": "펄스나인(구 무버스)",
+      "nameEn": "Pulse9",
+      "status": "live",
+      "statusLabel": "LIVE",
+      "duplicated": false,
+      "note": ""
+    },
+    {
+      "name": "브이아이코리아",
+      "nameEn": "VI Korea",
+      "status": "live",
+      "statusLabel": "LIVE",
+      "duplicated": false,
+      "note": ""
+    },
+    {
+      "name": "메타파스",
+      "nameEn": "Metarpas",
+      "status": "live",
+      "statusLabel": "LIVE",
+      "duplicated": false,
+      "note": "대표자 자기주식 무단 처분 계약위반건"
+    },
+    {
+      "name": "이어가다",
+      "nameEn": "Eargada",
+      "status": "live",
+      "statusLabel": "LIVE",
+      "duplicated": false,
+      "note": ""
+    },
+    {
+      "name": "소프트랜더스",
+      "nameEn": "Softlanders",
+      "status": "live",
+      "statusLabel": "LIVE",
+      "duplicated": false,
+      "note": ""
+    },
+    {
+      "name": "플라잉노트",
+      "nameEn": "Flying Note",
+      "status": "live",
+      "statusLabel": "LIVE",
+      "duplicated": false,
+      "note": "유튜브만 유지 중, 폐업의사 없음"
+    },
+    {
+      "name": "제트커머스코퍼레이션",
+      "nameEn": "Z Commerce",
+      "status": "writeoff",
+      "statusLabel": "W/O",
+      "duplicated": false,
+      "note": "폐업(25.2Q)"
+    },
+    {
+      "name": "스파크펫",
+      "nameEn": "Sparkpet",
+      "status": "live",
+      "statusLabel": "LIVE",
+      "duplicated": true,
+      "note": ""
+    },
+    {
+      "name": "아몬디",
+      "nameEn": "Amondy",
+      "status": "writeoff",
+      "statusLabel": "W/O",
+      "duplicated": false,
+      "note": "폐업(25.1Q)"
+    },
+    {
+      "name": "벳플럭스",
+      "nameEn": "Vetflux",
+      "status": "live",
+      "statusLabel": "LIVE",
+      "duplicated": false,
+      "note": ""
+    },
+    {
+      "name": "라이다",
+      "nameEn": "RIDA",
+      "status": "exit",
+      "statusLabel": "Capital Return",
+      "duplicated": false,
+      "note": "Capital Return(22.1Q)"
+    },
+    {
+      "name": "스플랩",
+      "nameEn": "Splab",
+      "status": "live",
+      "statusLabel": "LIVE",
+      "duplicated": false,
+      "note": ""
+    },
+    {
+      "name": "마이샵 클라우드",
+      "nameEn": "Myshopcloud",
+      "status": "live",
+      "statusLabel": "LIVE",
+      "duplicated": false,
+      "note": ""
+    },
+    {
+      "name": "엘에이소주",
+      "nameEn": "LA Soju",
+      "status": "live",
+      "statusLabel": "LIVE",
+      "duplicated": false,
+      "note": ""
+    },
+    {
+      "name": "유유유유유",
+      "nameEn": "UUUUU",
+      "status": "live",
+      "statusLabel": "LIVE",
+      "duplicated": false,
+      "note": ""
+    },
+    {
+      "name": "플루언트",
+      "nameEn": "FluentT",
+      "status": "live",
+      "statusLabel": "LIVE",
+      "duplicated": false,
+      "note": ""
+    },
+    {
+      "name": "룩인사이트",
+      "nameEn": "Look Insight",
+      "status": "live",
+      "statusLabel": "LIVE",
+      "duplicated": false,
+      "note": ""
+    },
+    {
+      "name": "케이존",
+      "nameEn": "KZONE",
+      "status": "live",
+      "statusLabel": "LIVE",
+      "duplicated": false,
+      "note": ""
+    },
+    {
+      "name": "히릿소프트",
+      "nameEn": "Hititsoft",
+      "status": "live",
+      "statusLabel": "LIVE",
+      "duplicated": false,
+      "note": ""
+    },
+    {
+      "name": "뭉클랩",
+      "nameEn": "Moonklabs",
+      "status": "live",
+      "statusLabel": "LIVE",
+      "duplicated": true,
+      "note": ""
+    },
+    {
+      "name": "퀸라이브",
+      "nameEn": "Queen Live",
+      "status": "exit",
+      "statusLabel": "M&A",
+      "duplicated": false,
+      "note": "M&A(25.4Q), 폰드그룹"
+    },
+    {
+      "name": "토폴로그",
+      "nameEn": "Topolog",
+      "status": "writeoff",
+      "statusLabel": "W/O",
+      "duplicated": false,
+      "note": "폐업 단계, 재무리포트만 유지"
+    },
+    {
+      "name": "아스타",
+      "nameEn": "Astar",
+      "status": "live",
+      "statusLabel": "LIVE",
+      "duplicated": false,
+      "note": ""
+    },
+    {
+      "name": "에크네",
+      "nameEn": "Ecne",
+      "status": "live",
+      "statusLabel": "LIVE",
+      "duplicated": false,
+      "note": ""
+    },
+    {
+      "name": "본작",
+      "nameEn": "Bonjac",
+      "status": "live",
+      "statusLabel": "LIVE",
+      "duplicated": false,
+      "note": ""
+    },
+    {
+      "name": "펜테크놀로지",
+      "nameEn": "Story Protocol",
+      "status": "live",
+      "statusLabel": "LIVE",
+      "duplicated": true,
+      "note": ""
+    },
+    {
+      "name": "쿠파",
+      "nameEn": "KUPA",
+      "status": "live",
+      "statusLabel": "LIVE",
+      "duplicated": false,
+      "note": ""
+    },
+    {
+      "name": "모바",
+      "nameEn": "MOBA",
+      "status": "live",
+      "statusLabel": "LIVE",
+      "duplicated": false,
+      "note": ""
+    },
+    {
+      "name": "스타일메이트",
+      "nameEn": "Stylemate",
+      "status": "live",
+      "statusLabel": "LIVE",
+      "duplicated": false,
+      "note": ""
+    },
+    {
+      "name": "펄스애드",
+      "nameEn": "PulseAd",
+      "status": "live",
+      "statusLabel": "LIVE",
+      "duplicated": false,
+      "note": ""
+    },
+    {
+      "name": "위베어소프트",
+      "nameEn": "Webaresoft",
+      "status": "live",
+      "statusLabel": "LIVE",
+      "duplicated": false,
+      "note": ""
+    },
+    {
+      "name": "드래프타입",
+      "nameEn": "Draftype",
+      "status": "live",
+      "statusLabel": "LIVE",
+      "duplicated": false,
+      "note": ""
+    },
+    {
+      "name": "캥스터즈",
+      "nameEn": "Kangsters",
+      "status": "live",
+      "statusLabel": "LIVE",
+      "duplicated": false,
+      "note": ""
+    },
+    {
+      "name": "휴스페이스",
+      "nameEn": "Huespace",
+      "status": "live",
+      "statusLabel": "LIVE",
+      "duplicated": false,
+      "note": ""
+    },
+    {
+      "name": "르호사",
+      "nameEn": "Lehosah",
+      "status": "live",
+      "statusLabel": "LIVE",
+      "duplicated": false,
+      "note": ""
+    },
+    {
+      "name": "제스트",
+      "nameEn": "Zest",
+      "status": "live",
+      "statusLabel": "LIVE",
+      "duplicated": false,
+      "note": ""
+    },
+    {
+      "name": "부에노컴퍼니",
+      "nameEn": "Bueno-company",
+      "status": "live",
+      "statusLabel": "LIVE",
+      "duplicated": false,
+      "note": ""
+    },
+    {
+      "name": "룬 엘엔씨",
+      "nameEn": "Lune Inc.",
+      "status": "live",
+      "statusLabel": "LIVE",
+      "duplicated": false,
+      "note": ""
+    },
+    {
+      "name": "폴리머라이즈",
+      "nameEn": "Polymerize",
+      "status": "live",
+      "statusLabel": "LIVE",
+      "duplicated": false,
+      "note": ""
+    }
+  ],
+  "duplicatedBases": [
+    "파이노버스랩",
+    "스파크펫",
+    "뭉클랩"
+  ]
+}

@@ -6,7 +6,7 @@ import { nameKeys, normName, hasFundSheet, listTabs } from "@/lib/writeoff/sheet
 import { loadInterp } from "@/lib/writeoff/interp-cache";
 import type { InterpretedCompany } from "@/lib/writeoff/interpret";
 import { judgeReflection, canonStatus } from "@/lib/writeoff/reflect";
-import { getReviewState, type ReviewStatus } from "@/lib/review/store";
+import { getReviewState, type ReviewStatus, type Memo } from "@/lib/review/store";
 
 /** 해석된 상태 → 표시/판정용 문자열 */
 function mapStatus(s: InterpretedCompany["status"]): string {
@@ -67,8 +67,8 @@ export interface DashIssue {
   detail: string;
   severity: "red" | "yellow";
   evidence: IssueEvidence;
-  status: ReviewStatus; // open/ack/resolved/dismissed (사람 검토)
-  note: string; // 사람이 남긴 메모
+  status: ReviewStatus; // open/ack/dismissed (사람 검토, 메모와 독립)
+  memos: Memo[]; // 작성자별 메모 (여러 명 · 공유)
 }
 export interface DashFund {
   name: string;
@@ -157,11 +157,11 @@ export async function getDashboard(): Promise<Dashboard> {
     });
   }
 
-  // 사람 검토 상태(확인함/해결됨/무시 + 메모) 병합
+  // 사람 검토 상태(확인/무시) + 메모 병합
   const reviewState = await getReviewState();
   for (const i of issues) {
     const s = reviewState[i.id];
-    if (s) { i.status = s.status; i.note = s.note; }
+    if (s) { i.status = s.status; i.memos = s.memos; }
   }
 
   const red = issues.filter((i) => i.severity === "red").length;
@@ -205,7 +205,7 @@ function mkIssue(
     id: issueId(f.search, category, row.company, kind),
     fund: f.name, fundSlug: f.search, company: row.company, companyId: row.companyId,
     kind, category, severity, detail, evidence,
-    status: "open", note: "",
+    status: "open", memos: [],
   };
 }
 export { slabEnabled };
