@@ -15,3 +15,5 @@ data/writeoff-sheet/*.xlsx
 data/writeoff-sheet/*.csv
 data/writeoff-sheet/*.json
 tsconfig.tsbuildinfo
+.vercel
+.env*
