@@ -1,0 +1,17 @@
+node_modules
+.next
+out
+.env
+.env.local
+*.log
+.DS_Store
+output
+data/registry-cache.json
+next-env.d.ts
+data/registry-samples/*.pdf
+!data/registry-samples/.gitkeep
+
+# 감액 스프레드시트(재무 데이터) — 커밋 금지
+data/writeoff-sheet/*.xlsx
+data/writeoff-sheet/*.csv
+data/writeoff-sheet/*.json
