@@ -1,5 +1,7 @@
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import path from "node:path";
+// 읽기전용 환경(Vercel)용 번들 스냅샷 — 배치는 로컬에서 파일을 갱신하고 커밋한다.
+import bundled from "@/data/registry-cache.json";
 
 /**
  * 등기부등본 파싱 결과 디스크 캐시.
@@ -22,9 +24,9 @@ let writing: Promise<void> = Promise.resolve();
 async function load(): Promise<Record<string, CachedExtract>> {
   if (mem) return mem;
   try {
-    mem = JSON.parse(await readFile(FILE, "utf8"));
+    mem = JSON.parse(await readFile(FILE, "utf8")); // 로컬: 배치가 갱신한 최신 파일
   } catch {
-    mem = {};
+    mem = (bundled as Record<string, CachedExtract>) ?? {}; // 읽기전용 환경: 커밋된 스냅샷
   }
   return mem!;
 }

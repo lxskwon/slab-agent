@@ -6,7 +6,6 @@ out
 *.log
 .DS_Store
 output
-data/registry-cache.json
 next-env.d.ts
 data/registry-samples/*.pdf
 !data/registry-samples/.gitkeep
@@ -15,3 +14,4 @@ data/registry-samples/*.pdf
 data/writeoff-sheet/*.xlsx
 data/writeoff-sheet/*.csv
 data/writeoff-sheet/*.json
+tsconfig.tsbuildinfo

@@ -2,6 +2,14 @@ import ExcelJS from "exceljs";
 import { readFile, writeFile, mkdir, access } from "node:fs/promises";
 import path from "node:path";
 import { statusCategory } from "./reflect";
+import { CLOUD } from "@/lib/cloud";
+import { putSheet, hasSheetBlob, getSheetBuffer } from "./blob-store";
+
+/** 펀드 시트 원본(.xlsx) 바이트를 백엔드에서 가져옴 (클라우드=Blob, 로컬=디스크) */
+async function getFundBuffer(slug: string): Promise<Buffer | null> {
+  if (CLOUD) return getSheetBuffer(slug);
+  try { return await readFile(fundFile(slug)); } catch { return null; }
+}
 
 /**
  * 감액 투자현황 DB 로더 — 펀드별 파일(data/writeoff-sheet/<fund>.xlsx).
@@ -106,24 +114,32 @@ export async function loadFundSheet(slug: string): Promise<Map<string, SheetEntr
   if (cache.has(slug)) return cache.get(slug)!;
   let map: Map<string, SheetEntry> | null = null;
   try {
-    const wb = new ExcelJS.Workbook();
-    await wb.xlsx.readFile(fundFile(slug));
-    map = parseWorkbook(wb);
+    const buf = await getFundBuffer(slug);
+    if (buf) {
+      const wb = new ExcelJS.Workbook();
+      await wb.xlsx.load(buf as any);
+      map = parseWorkbook(wb);
+    }
   } catch {
-    map = null; // 파일 없음
+    map = null; // 파일 없음/읽기 실패
   }
   cache.set(slug, map);
   return map;
 }
 
-/** 업로드 파일 저장 + 캐시 무효화 */
+/** 업로드 파일 저장 + 캐시 무효화 (클라우드=Blob, 로컬=디스크) */
 export async function saveFundSheet(slug: string, buf: Buffer): Promise<void> {
-  await mkdir(DIR, { recursive: true });
-  await writeFile(fundFile(slug), buf);
+  if (CLOUD) {
+    await putSheet(slug, buf);
+  } else {
+    await mkdir(DIR, { recursive: true });
+    await writeFile(fundFile(slug), buf);
+  }
   cache.delete(slug);
 }
 
 export async function hasFundSheet(slug: string): Promise<boolean> {
+  if (CLOUD) return hasSheetBlob(slug);
   try {
     await access(fundFile(slug));
     return true;
@@ -143,8 +159,10 @@ function colLetter(i: number): string {
 
 /** 업로드된 펀드 파일의 탭 이름 목록 */
 export async function listTabs(slug: string): Promise<string[]> {
+  const buf = await getFundBuffer(slug);
+  if (!buf) return [];
   const wb = new ExcelJS.Workbook();
-  await wb.xlsx.readFile(fundFile(slug));
+  await wb.xlsx.load(buf as any);
   return wb.worksheets.map((w) => w.name);
 }
 
@@ -156,8 +174,10 @@ export async function sheetToText(
   slug: string,
   tab: string,
 ): Promise<{ text: string; names: string[] }> {
+  const buf = await getFundBuffer(slug);
+  if (!buf) return { text: "", names: [] };
   const wb = new ExcelJS.Workbook();
-  await wb.xlsx.readFile(fundFile(slug));
+  await wb.xlsx.load(buf as any);
   const ws = wb.getWorksheet(tab) ?? wb.worksheets[0];
   if (!ws) return { text: "", names: [] };
   const lastCol = Math.min(ws.columnCount, 50);

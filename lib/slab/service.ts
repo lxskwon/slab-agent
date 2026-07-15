@@ -1,4 +1,5 @@
 import "server-only";
+import { unstable_cache } from "next/cache";
 import { slabList, slabGet, slabEnabled, type Constraint } from "./api";
 import { getCached } from "@/lib/registry/cache";
 import { qKey, qLabel, registerQups, registerUrl } from "./registry-source";
@@ -88,7 +89,8 @@ export interface Dashboard {
   funds: DashFund[];
 }
 
-export async function getDashboard(): Promise<Dashboard> {
+// SLAB 집계(무거움)만 계산 — 사람 검토(메모/상태) 병합은 하지 않음. 이 결과가 캐시된다.
+async function computeDashboardBase(): Promise<Dashboard> {
   const funds = await getFunds();
   const dashFunds: DashFund[] = [];
   const issues: DashIssue[] = [];
@@ -157,13 +159,6 @@ export async function getDashboard(): Promise<Dashboard> {
     });
   }
 
-  // 사람 검토 상태(확인/무시) + 메모 병합
-  const reviewState = await getReviewState();
-  for (const i of issues) {
-    const s = reviewState[i.id];
-    if (s) { i.status = s.status; i.memos = s.memos; }
-  }
-
   const red = issues.filter((i) => i.severity === "red").length;
   const yellow = issues.filter((i) => i.severity === "yellow").length;
   // 고유 기업 수: 한 회사가 여러 펀드에 있으면 한 번만 (SLAB 공식 수치와 일치). id 없으면 이름으로 폴백.
@@ -182,6 +177,16 @@ export async function getDashboard(): Promise<Dashboard> {
     issues,
     funds: dashFunds,
   };
+}
+
+// SLAB 집계는 5분 캐시(콜드 로드/타임아웃 완화). 메모/검토상태는 매 요청 Redis에서 신선하게 병합.
+const cachedBase = unstable_cache(computeDashboardBase, ["dashboard-base-v1"], { revalidate: 300 });
+
+export async function getDashboard(): Promise<Dashboard> {
+  const base = await cachedBase();
+  const rs = await getReviewState();
+  const issues = base.issues.map((i) => ({ ...i, status: rs[i.id]?.status ?? "open", memos: rs[i.id]?.memos ?? [] }));
+  return { ...base, issues };
 }
 
 function fmt(n: number | null): string {

@@ -1,0 +1,896 @@
+{
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1770686020097x377427701668213060/%5BBM%5D%20%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8_260108.pdf": {
+    "shareCountTotal": 10342,
+    "issueDate": "2026-01-08",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1769398922431x325152371678602430/%E1%84%8B%E1%85%B5%E1%86%BA%E1%84%86%E1%85%A1%E1%84%91%E1%85%B3%E1%86%AF%20%E1%84%83%E1%85%B3%E1%86%BC%E1%84%80%E1%85%B5%E1%84%87%E1%85%AE%E1%84%83%E1%85%B3%E1%86%BC%E1%84%87%E1%85%A9%E1%86%AB%20251105.pdf": {
+    "shareCountTotal": 661696,
+    "issueDate": "2025-11-05",
+    "method": "ocr",
+    "confidence": 0.95
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1776756716627x648812164406760000/%EB%8F%84%EC%8B%9C%EA%B3%B3%EA%B0%84_%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8_260223.pdf": {
+    "shareCountTotal": 166385,
+    "issueDate": "2026-02-12",
+    "method": "ocr",
+    "confidence": 0.95
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1777515330046x494550117212333900/%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8_%EC%97%98%EB%A1%9C%EC%9D%B4%EB%9E%A9%282026.04.16%29.pdf": {
+    "shareCountTotal": 204246,
+    "issueDate": "2026-04-24",
+    "method": "ocr",
+    "confidence": 0.95
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1776664485793x782611811772620700/%EB%8B%B4%ED%99%94%EC%BB%B4%ED%8D%BC%EB%8B%88_%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8%28%EB%A7%90%EC%86%8C%ED%8F%AC%ED%95%A8%29%202026-01-21.pdf": {
+    "shareCountTotal": 30568,
+    "issueDate": "2026-01-21",
+    "method": "text",
+    "confidence": null
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1777548569787x158383092984991200/260420_%E1%84%87%E1%85%A5%E1%86%B8%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%83%E1%85%B3%E1%86%BC%E1%84%80%E1%85%B5%E1%84%87%E1%85%AE%E1%84%83%E1%85%B3%E1%86%BC%E1%84%87%E1%85%A9%E1%86%AB_%E1%84%8B%E1%85%AA%E1%86%BA%E1%84%89%E1%85%A5%E1%86%B8.pdf": {
+    "shareCountTotal": 7356025,
+    "issueDate": "2026-04-20",
+    "method": "ocr",
+    "confidence": 0.95
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1776766874857x731014924969177500/%EC%97%90%EC%8A%A4%EC%95%A4%EC%9D%B4%EC%BB%B4%ED%8D%BC%EB%8B%88_%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8.pdf": {
+    "shareCountTotal": 449740,
+    "issueDate": "2026-04-10",
+    "method": "ocr",
+    "confidence": 0.96
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1779858957920x876516334606044900/%28%EC%A3%BC%29%EC%9E%87%EA%B7%B8%EB%A6%B0_%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8_260513.pdf": {
+    "shareCountTotal": 92764,
+    "issueDate": "2026-05-13",
+    "method": "ocr",
+    "confidence": 0.95
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1779078083074x166177357308639580/%E1%84%8B%E1%85%B5%E1%84%8B%E1%85%A5%E1%84%80%E1%85%A1%E1%84%83%E1%85%A1_%E1%84%8C%E1%85%AE%E1%84%89%E1%85%B5%E1%86%A8%E1%84%92%E1%85%AC%E1%84%89%E1%85%A1_%E1%84%83%E1%85%B3%E1%86%BC%E1%84%80%E1%85%B5%E1%84%87%E1%85%AE%E1%84%83%E1%85%B3%E1%86%BC%E1%84%87%E1%85%A9%E1%86%AB_2026-02-03.pdf": {
+    "shareCountTotal": 170256,
+    "issueDate": "2026-02-03",
+    "method": "text",
+    "confidence": null
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1776843791802x190324655777218240/%ED%8C%8C%EC%9D%B4%EB%85%B8%EB%B2%84%EC%8A%A4%EB%9E%A9_%EB%93%B1%EA%B8%B0%EC%82%AC%ED%95%AD%EC%A0%84%EB%B6%80%EC%A6%9D%EB%AA%85%EC%84%9C%28%EB%A7%90%EC%86%8C%EC%82%AC%ED%95%AD%ED%8F%AC%ED%95%A8%29_260422.pdf": {
+    "shareCountTotal": 3036,
+    "issueDate": "2026-04-22",
+    "method": "text",
+    "confidence": null
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1777539124473x491577365482449600/%EC%BA%A5%EC%8A%A4%ED%84%B0%EC%A6%88_%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8_20260420.pdf": {
+    "shareCountTotal": 60473,
+    "issueDate": "2026-04-20",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1778122347512x278476020590884300/%5B%EC%A3%BC%EC%8B%9D%ED%9A%8C%EC%82%AC%20%EC%BC%80%EC%9D%B4%EC%A1%B4%5D%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8_26.04.15.pdf": {
+    "shareCountTotal": 1073171,
+    "issueDate": "2026-04-29",
+    "method": "ocr",
+    "confidence": 0.95
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1777790908902x184842878948050940/%E1%84%8C%E1%85%AE%E1%84%89%E1%85%B5%E1%86%A8%E1%84%92%E1%85%AC%E1%84%89%E1%85%A1%E1%84%86%E1%85%A9%E1%84%87%E1%85%A1_%E1%84%83%E1%85%B3%E1%86%BC%E1%84%80%E1%85%B5%E1%84%87%E1%85%AE%E1%84%83%E1%85%B3%E1%86%BC%E1%84%87%E1%85%A9%E1%86%AB.pdf": {
+    "shareCountTotal": 106452,
+    "issueDate": "2026-04-30",
+    "method": "text",
+    "confidence": null
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1778509380204x306068713681237250/%E1%84%8C%E1%85%AE%E1%84%89%E1%85%B5%E1%86%A8%E1%84%92%E1%85%AC%E1%84%89%E1%85%A1_%E1%84%90%E1%85%A9%E1%84%91%E1%85%A9%E1%86%AF%E1%84%85%E1%85%A9%E1%84%80%E1%85%B3_%E1%84%83%E1%85%B3%E1%86%BC%E1%84%80%E1%85%B5%E1%84%87%E1%85%AE%E1%84%83%E1%85%B3%E1%86%BC%E1%84%87%E1%85%A9%E1%86%AB_2026-05-11.pdf": {
+    "shareCountTotal": 80000,
+    "issueDate": "2026-05-11",
+    "method": "text",
+    "confidence": null
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1779196720965x994999251916567600/%28%E1%84%8C%E1%85%AE%29%E1%84%87%E1%85%A9%E1%86%AB%E1%84%8C%E1%85%A1%E1%86%A8%20%E1%84%83%E1%85%B3%E1%86%BC%E1%84%80%E1%85%B5%E1%84%89%E1%85%A1%E1%84%92%E1%85%A1%E1%86%BC%E1%84%8C%E1%85%A5%E1%86%AB%E1%84%87%E1%85%AE%E1%84%8C%E1%85%B3%E1%86%BC%E1%84%86%E1%85%A7%E1%86%BC%E1%84%89%E1%85%A5_260420.pdf": {
+    "shareCountTotal": 682248,
+    "issueDate": "2026-04-20",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1776409742145x949652059021644800/%EB%B0%B0%EC%A0%A0%EB%93%B1%EA%B8%B0%20%ED%95%A9%EB%B3%B82026.2.pdf": {
+    "shareCountTotal": 18499,
+    "issueDate": "2026-02-25",
+    "method": "ocr",
+    "confidence": 0.95
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1747273373754x386542024018250430/%EB%B6%80%ED%86%A1%28%EC%A3%BC%29-%EB%93%B1%EA%B8%B0%EC%82%AC%ED%95%AD%EC%A0%84%EB%B6%80%EC%A6%9D%EB%AA%85%EC%84%9C%28%EB%A7%90%EC%86%8C%ED%8F%AC%ED%95%A8%29.pdf": {
+    "shareCountTotal": 125958,
+    "issueDate": "2025-01-24",
+    "method": "ocr",
+    "confidence": 0.95
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1776837258303x356653514067145150/%E1%84%83%E1%85%B3%E1%86%BC%E1%84%80%E1%85%B5%E1%84%89%E1%85%A1%E1%84%92%E1%85%A1%E1%86%BC%E1%84%8C%E1%85%A5%E1%86%AB%E1%84%87%E1%85%AE%E1%84%8C%E1%85%B3%E1%86%BC%E1%84%86%E1%85%A7%E1%86%BC%E1%84%89%E1%85%A5_260416.pdf": {
+    "shareCountTotal": 1983400,
+    "issueDate": "2026-04-16",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1776327564927x175863445218753760/%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8_%EC%97%90%ED%81%AC%EB%84%A4.pdf": {
+    "shareCountTotal": 106452,
+    "issueDate": "2026-03-09",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1777309088891x659329204531750700/4.%20%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8_%ED%94%8C%EB%A3%A8%EC%96%B8%ED%8A%B8_260206.pdf": {
+    "shareCountTotal": 3529,
+    "issueDate": "2026-02-06",
+    "method": "ocr",
+    "confidence": 0.95
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1754465410908x164746387999381340/%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8%20%282024.09.11%29.pdf": {
+    "shareCountTotal": 22223,
+    "issueDate": "2024-09-11",
+    "method": "ocr",
+    "confidence": 0.95
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1760919420082x585245436660552200/%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8%28%ED%95%B8%EB%93%A4%29%28250825%29.pdf": {
+    "shareCountTotal": 1490027,
+    "issueDate": "2025-08-25",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1776849990364x689575926633616500/00.%E1%84%83%E1%85%B3%E1%86%BC%E1%84%80%E1%85%B5%E1%84%89%E1%85%A1%E1%84%92%E1%85%A1%E1%86%BC%E1%84%8C%E1%85%A5%E1%86%AB%E1%84%87%E1%85%AE%E1%84%8C%E1%85%B3%E1%86%BC%E1%84%86%E1%85%A7%E1%86%BC%E1%84%89%E1%85%A5_%E1%84%92%E1%85%B5%E1%84%85%E1%85%B5%E1%86%BA%E1%84%89%E1%85%A9%E1%84%91%E1%85%B3%E1%84%90%E1%85%B3_260422.pdf": {
+    "shareCountTotal": 10646,
+    "issueDate": "2026-04-22",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1777006984747x109064848368471070/%EC%BF%A0%ED%8C%8C%20%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8_%EC%A0%9C%EC%B6%9C%EC%9A%A9_0424.pdf": {
+    "shareCountTotal": 72649,
+    "issueDate": "2026-04-24",
+    "method": "ocr",
+    "confidence": 0.95
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1779360605499x276663401996502400/7.%20%EB%93%B1%EA%B8%B0%EC%82%AC%ED%95%AD%EC%A0%84%EB%B6%80%EC%A6%9D%EB%AA%85%EC%84%9C%28%EB%A7%90%EC%86%8C%EC%82%AC%ED%95%AD%20%ED%8F%AC%ED%95%A8%29.pdf": {
+    "shareCountTotal": 75180,
+    "issueDate": "2026-03-30",
+    "method": "ocr",
+    "confidence": 0.95
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1776752568260x398486591186799600/%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EC%82%AC%ED%95%AD%EC%A6%9D%EB%AA%85%EC%84%9C_20260318.pdf": {
+    "shareCountTotal": 42582,
+    "issueDate": "2026-03-18",
+    "method": "ocr",
+    "confidence": 0.96
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1778660022792x178598917143074180/260420_%EB%A3%A9%EC%9D%B8%EC%82%AC%EC%9D%B4%ED%8A%B8_%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8.pdf": {
+    "shareCountTotal": 310813,
+    "issueDate": "2026-04-20",
+    "method": "ocr",
+    "confidence": 0.96
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1776852660717x349331468379190400/%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8_%EB%A7%88%EC%9D%B8%EC%9D%B4%EC%8A%A4_1Q26.pdf": {
+    "shareCountTotal": 51016,
+    "issueDate": "2026-04-03",
+    "method": "ocr",
+    "confidence": 0.96
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1777636710509x863761169220735500/%E1%84%86%E1%85%AE%E1%86%BC%E1%84%8F%E1%85%B3%E1%86%AF%E1%84%85%E1%85%A2%E1%86%B8_%E1%84%83%E1%85%B3%E1%86%BC%E1%84%80%E1%85%B5%E1%84%87%E1%85%AE%E1%84%83%E1%85%B3%E1%86%BC%E1%84%87%E1%85%A9%E1%86%AB.pdf": {
+    "shareCountTotal": 10646,
+    "issueDate": "2026-04-09",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1779854623130x901690057968623400/%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B82605.pdf": {
+    "shareCountTotal": 21429,
+    "issueDate": "2026-05-20",
+    "method": "ocr",
+    "confidence": 0.96
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1769579241800x130969760953457250/2025.12.31%20OME%20%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8%28%EB%A7%90%EC%86%8C%EC%82%AC%ED%95%AD%20%ED%8F%AC%ED%95%A8%29.pdf": {
+    "shareCountTotal": 61255,
+    "issueDate": "2025-12-31",
+    "method": "ocr",
+    "confidence": 0.95
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1778218472987x544964348970790300/260320_%E1%84%83%E1%85%B3%E1%86%BC%E1%84%80%E1%85%B5%E1%84%89%E1%85%A1%E1%84%92%E1%85%A1%E1%86%BC%E1%84%8C%E1%85%B3%E1%86%BC%E1%84%86%E1%85%A7%E1%86%BC%E1%84%89%E1%85%A5_%E1%84%86%E1%85%A1%E1%86%AF%E1%84%89%E1%85%A9%E1%84%89%E1%85%A1%E1%84%92%E1%85%A1%E1%86%BC%E1%84%91%E1%85%A9%E1%84%92%E1%85%A1%E1%86%B7_%E1%84%8C%E1%85%B5%E1%84%90%E1%85%AE%E1%84%89%E1%85%B5%E1%84%80%E1%85%B3%E1%84%86%E1%85%A1_%E1%84%91%E1%85%A1%E1%84%8B%E1%85%B5%E1%86%AF%E1%84%8E%E1%85%AE%E1%86%A8%E1%84%89%E1%85%A9.pdf": {
+    "shareCountTotal": 15574,
+    "issueDate": "2026-03-20",
+    "method": "ocr",
+    "confidence": 0.95
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1757379725643x963757952509080000/%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80250811.pdf": {
+    "shareCountTotal": 2016373,
+    "issueDate": "2025-05-27",
+    "method": "ocr",
+    "confidence": 0.95
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1776819688460x836628574655267600/%28%EC%A3%BC%29%ED%8E%84%EC%8A%A4%EC%95%A0%EB%93%9C_%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8_20260401.pdf": {
+    "shareCountTotal": 158995,
+    "issueDate": "2026-04-01",
+    "method": "ocr",
+    "confidence": 0.96
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1753258415468x993034283013373600/250424_%E1%84%8F%E1%85%B1%E1%86%AB%E1%84%85%E1%85%A1%E1%84%8B%E1%85%B5%E1%84%87%E1%85%B3%20%E1%84%83%E1%85%B3%E1%86%BC%E1%84%80%E1%85%B5%E1%84%89%E1%85%A1%E1%84%92%E1%85%A1%E1%86%BC.pdf": {
+    "shareCountTotal": 4259,
+    "issueDate": "2025-04-23",
+    "method": "ocr",
+    "confidence": 0.95
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1779857017986x712796292583887500/%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8%28%ED%98%84%EC%9E%AC%EC%9C%A0%ED%9A%A8%2920260417.pdf": {
+    "shareCountTotal": 51725,
+    "issueDate": "2026-04-17",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1778129285683x215547450880238000/3.%20%EC%8A%A4%ED%8C%8C%ED%81%AC%ED%8E%AB_%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8_260505.pdf": {
+    "shareCountTotal": 127228,
+    "issueDate": "2026-05-06",
+    "method": "ocr",
+    "confidence": 0.95
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1774415505768x593251331110171000/%E1%84%83%E1%85%B3%E1%86%BC%E1%84%80%E1%85%B5%E1%84%87%E1%85%AE%E1%84%83%E1%85%B3%E1%86%BC%E1%84%87%E1%85%A9%E1%86%AB_%E1%84%89%E1%85%B3%E1%84%91%E1%85%B3%E1%86%AF%E1%84%85%E1%85%A2%E1%86%B8_260209%20%281%29.pdf": {
+    "shareCountTotal": 10836,
+    "issueDate": "2026-02-09",
+    "method": "ocr",
+    "confidence": 0.96
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1776836197205x675992806483260500/%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8.pdf": {
+    "shareCountTotal": 36955,
+    "issueDate": "2026-04-03",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1778229711952x884149555033843800/%EC%9C%A0%EC%9C%A0%EC%9C%A0%EC%9C%A0%EC%9C%A0_%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8%2020260331.pdf": {
+    "shareCountTotal": 440002,
+    "issueDate": "2026-03-31",
+    "method": "ocr",
+    "confidence": 0.95
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1779713892225x255355388734654700/260508_%EB%93%B1%EA%B8%B0%EC%82%AC%ED%95%AD%EC%A6%9D%EB%AA%85%EC%84%9C_%EB%B2%B3%ED%94%8C%EB%9F%AD%EC%8A%A4_%EB%B3%B8%EC%A0%90%EC%9D%B4%EC%A0%84.pdf": {
+    "shareCountTotal": 14372,
+    "issueDate": "2026-05-08",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1776344952189x828567021853526800/%EC%9C%84%EB%B2%A0%EC%96%B4%EC%86%8C%ED%94%84%ED%8A%B8_%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8%282026.02.19%29.pdf": {
+    "shareCountTotal": 159594,
+    "issueDate": "2026-02-19",
+    "method": "ocr",
+    "confidence": 0.95
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1778458286142x405396971710287900/%E1%84%83%E1%85%B3%E1%86%BC%E1%84%80%E1%85%B5%E1%84%87%E1%85%AE%E1%84%83%E1%85%B3%E1%86%BC%E1%84%87%E1%85%A9%E1%86%AB_%E1%84%8B%E1%85%A6%E1%86%A8%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%AE.pdf": {
+    "shareCountTotal": 1189851,
+    "issueDate": "2026-04-08",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1776317617260x591708548344462800/%EB%B2%95%EC%9D%B8%EC%A0%84%EB%B6%80%EC%82%AC%ED%95%AD%EC%A6%9D%EB%AA%85%EC%84%9C_%28%EC%A3%BC%29%EC%99%80%EC%9D%B4%EC%98%A4%EC%97%98_20260415%28%EC%9C%A0%ED%9A%A8%EC%82%AC%ED%95%AD%2C%20%EB%B9%84%EA%B3%B5%EA%B0%9C%29.pdf": {
+    "shareCountTotal": 3200415,
+    "issueDate": "2026-04-15",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1777264087690x246617284582624450/%E1%84%83%E1%85%B3%E1%86%BC%E1%84%80%E1%85%B5%E1%84%89%E1%85%A1%E1%84%92%E1%85%A1%E1%86%BC%E1%84%8C%E1%85%B3%E1%86%BC%E1%84%86%E1%85%A7%E1%86%BC%E1%84%89%E1%85%A5%28%E1%84%86%E1%85%A1%E1%86%AF%E1%84%89%E1%85%A9%E1%84%91%E1%85%A9%E1%84%92%E1%85%A1%E1%86%B7%29_%E1%84%8C%E1%85%A6%E1%84%89%E1%85%B3%E1%84%90%E1%85%B3%28%E1%84%87%E1%85%A9%E1%86%AB%E1%84%8C%E1%85%A5%E1%86%B7%29_260416.pdf": {
+    "shareCountTotal": 33233,
+    "issueDate": "2026-04-15",
+    "method": "ocr",
+    "confidence": 0.96
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1770366501595x553030499670272640/%ED%8F%B4%EC%8A%A8%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8_251212.pdf": {
+    "shareCountTotal": 44630,
+    "issueDate": "2025-12-12",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1776671947653x509419549611494600/3.%20%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8_26.04.07_%28%EC%A3%BC%29%EB%B6%80%EC%97%90%EB%85%B8%EC%BB%B4%ED%8D%BC%EB%8B%88.pdf": {
+    "shareCountTotal": 345708,
+    "issueDate": "2026-04-07",
+    "method": "ocr",
+    "confidence": 0.96
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1776753944949x377134238781510200/%28%EC%A3%BC%29%EB%B9%94%EC%8A%A4%ED%8A%9C%EB%94%94%EC%98%A4-%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8%28260407%29.pdf": {
+    "shareCountTotal": 562500,
+    "issueDate": "2026-04-07",
+    "method": "ocr",
+    "confidence": 0.95
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1763605731629x351943281133585400/05.%20%EC%82%AC%EC%97%85%EC%9E%90%EB%93%B1%EB%A1%9D%EC%A6%9D-%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8.pdf": {
+    "shareCountTotal": 22600,
+    "issueDate": "2025-05-12",
+    "method": "ocr",
+    "confidence": 0.95
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1778554906354x175058919847534300/%5B%E1%84%90%E1%85%B5%E1%86%AB%E1%84%80%E1%85%A9%E1%84%85%E1%85%A2%E1%86%AB%E1%84%83%E1%85%B3%5D%20%E1%84%83%E1%85%B3%E1%86%BC%E1%84%80%E1%85%B5%E1%84%87%E1%85%AE%E1%84%83%E1%85%B3%E1%86%BC%E1%84%87%E1%85%A9%E1%86%AB_2603_%E1%84%86%E1%85%A1%E1%86%AF%E1%84%89%E1%85%A9%E1%84%91%E1%85%A9%E1%84%92%E1%85%A1%E1%86%B7.pdf": {
+    "shareCountTotal": 36967,
+    "issueDate": "2026-03-11",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1761124592116x318313799722691000/%EC%95%84%EC%8A%A4%ED%83%80_%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8_25.07.09.pdf": {
+    "shareCountTotal": 117104,
+    "issueDate": "2025-07-09",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1768554820177x882802122264321700/%EC%82%AC%EC%97%85%EC%9E%90%EB%93%B1%EB%A1%9D%EC%A6%9D_%EC%95%84%EC%8A%A4%ED%83%80%20%2825.11%29.pdf": {
+    "shareCountTotal": null,
+    "issueDate": null,
+    "method": "text",
+    "confidence": 0
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1755592246232x819117554887898600/BROTS%20SRL%20Company.pdf": {
+    "shareCountTotal": null,
+    "issueDate": null,
+    "method": "text",
+    "confidence": 0
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1761467885519x592904651112379900/Certificate%20of%20Incorporation%20on%20Change%20of%20Name%20-%20H2%20INC..pdf": {
+    "shareCountTotal": null,
+    "issueDate": null,
+    "method": "text",
+    "confidence": 0
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1776978297826x807029537867166000/Huespace%20-%20A%26R%20COI%20%282023-12-14%29%20%28Filed%29.pdf": {
+    "shareCountTotal": null,
+    "issueDate": null,
+    "method": "text",
+    "confidence": 0
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1745836436670x913187257495143200/Certificate%20-%20H2%20Inc..pdf": {
+    "shareCountTotal": null,
+    "issueDate": "2013-06-27",
+    "method": "ocr",
+    "confidence": 0.95
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1770242373871x453327904425202560/Huespace%20-%20A%26R%20COI%20%282023-12-14%29%20%28Filed%29.pdf": {
+    "shareCountTotal": null,
+    "issueDate": null,
+    "method": "text",
+    "confidence": 0
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1762568565709x911731291575612700/HuespaceInc%20-%20Filed%20Certificate%20of%20Incorporation%20%281%29.pdf": {
+    "shareCountTotal": null,
+    "issueDate": null,
+    "method": "text",
+    "confidence": 0
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1754678598913x332581273731103800/Huespace%20-%20A%26R%20COI%20%282023-12-14%29%20%28Filed%29.pdf": {
+    "shareCountTotal": null,
+    "issueDate": null,
+    "method": "text",
+    "confidence": 0
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1777511209538x572329723339427300/%EC%95%84%EB%B6%80%ED%95%98%ED%82%B4_%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8260403.pdf": {
+    "shareCountTotal": 106383,
+    "issueDate": "2026-04-03",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1754032044467x748999257439455500/%EC%97%90%EC%9D%B4%EC%9E%84%ED%8C%A9%ED%8A%B8_%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8.pdf": {
+    "shareCountTotal": 3919,
+    "issueDate": "2025-08-01",
+    "method": "ocr",
+    "confidence": 0.95
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1755781969557x978464862929371400/%E1%84%87%E1%85%B5%E1%84%90%E1%85%B3%E1%84%87%E1%85%A1%E1%84%8B%E1%85%B5%E1%84%90%E1%85%B3_%E1%84%87%E1%85%A5%E1%86%B8%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%83%E1%85%B3%E1%86%BC%E1%84%80%E1%85%B5%E1%84%87%E1%85%AE%E1%84%83%E1%85%B3%E1%86%BC%E1%84%87%E1%85%A9%E1%86%AB_250820.pdf": {
+    "shareCountTotal": 124650,
+    "issueDate": "2025-08-20",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1777427427041x497321054941326700/%EB%93%B1%EA%B8%B0%EC%82%AC%ED%95%AD%EC%A0%84%EB%B6%80%EC%A6%9D%EB%AA%85%EC%84%9C%20%EC%BB%A4%EB%A6%AC%EC%96%B4%EB%8D%B0%EC%9D%B4%20%EC%A3%BC%EC%8B%9D%ED%9A%8C%EC%82%AC%20260306%20%281%29.pdf": {
+    "shareCountTotal": 610470,
+    "issueDate": "2026-03-06",
+    "method": "text",
+    "confidence": 0
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1745559215473x195603911087674400/%EB%B8%8C%EB%A7%81%EC%BD%94%20%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8_250408.pdf": {
+    "shareCountTotal": 1126272,
+    "issueDate": "2025-04-08",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1778217411462x205473502539266200/%E3%88%9C%EC%86%8C%ED%94%84%ED%8A%B8%EB%A8%BC%ED%8A%B8_%EB%93%B1%EA%B8%B0%EC%82%AC%ED%95%AD%EC%A0%84%EB%B6%80%EC%A6%9D%EB%AA%85%EC%84%9C_20260402.pdf": {
+    "shareCountTotal": 1083891,
+    "issueDate": "2026-04-02",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1777263102968x384697471208166340/%ED%81%90%EB%A6%AC%EC%98%A4%EC%B9%A9%EC%8A%A4_%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8%20260403.pdf": {
+    "shareCountTotal": 21057,
+    "issueDate": "2026-04-03",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1776819542415x963812687375227400/%ED%81%AC%EB%A0%88%ED%8C%8C%EC%8A%A4%EC%86%94%EB%A3%A8%EC%85%98_%EB%93%B1%EA%B8%B0%EC%82%AC%ED%95%AD%EC%A0%84%EB%B6%80%EC%A6%9D%EB%AA%85%EC%84%9C%28%EB%A7%90%EC%86%8C%EC%82%AC%ED%95%AD%20%ED%8F%AC%ED%95%A8%29_20260414.pdf": {
+    "shareCountTotal": 211949,
+    "issueDate": "2026-04-14",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1753357799610x973213298796440800/250702_%EB%B2%95%EC%9D%B8%20%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8.pdf": {
+    "shareCountTotal": 32834,
+    "issueDate": "2025-07-02",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1776940380573x754605371983832000/20260202_%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8.pdf": {
+    "shareCountTotal": 792578,
+    "issueDate": "2026-02-02",
+    "method": "ocr",
+    "confidence": 0.95
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1776330239695x254699236797288000/%5B%EB%93%B1%EA%B8%B0%EC%99%84%EB%A3%8C%5D%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8_%28%EC%A3%BC%29%EC%BD%94%EC%BD%94%EC%A7%80_20260331.pdf": {
+    "shareCountTotal": 2838238,
+    "issueDate": "2026-04-10",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1770165788904x225665440991627460/%EC%98%A5%ED%83%80%EC%BD%94%28%EC%A3%BC%29_%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8_20260102.pdf": {
+    "shareCountTotal": 1822867,
+    "issueDate": "2026-01-02",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1770104439895x321282151354034240/3.%20%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8%20%281%29.pdf": {
+    "shareCountTotal": 29488,
+    "issueDate": "2026-01-13",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1777529777549x645625172524613600/%5B%ED%94%BC%ED%94%BC%EC%97%A0%EC%95%84%EC%9D%B4%5D%20%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8.pdf": {
+    "shareCountTotal": 26561,
+    "issueDate": "2026-04-27",
+    "method": "ocr",
+    "confidence": 0.98
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1778496587407x490267813804658370/%E1%84%83%E1%85%B3%E1%86%BC%E1%84%80%E1%85%B5%E1%84%89%E1%85%A1%E1%84%92%E1%85%A1%E1%86%BC%E1%84%8C%E1%85%A5%E1%86%AB%E1%84%87%E1%85%AE%E1%84%8C%E1%85%B3%E1%86%BC%E1%84%86%E1%85%A7%E1%86%BC%E1%84%89%E1%85%A5_%E1%84%85%E1%85%A9%E1%84%85%E1%85%A2%E1%86%B8%E1%84%89%E1%85%B3_20260323.pdf": {
+    "shareCountTotal": 723635,
+    "issueDate": "2026-03-23",
+    "method": "ocr",
+    "confidence": 0.95
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1776657739011x606771005759213300/20260331_%EB%A6%AC%ED%95%98%EB%B2%A0%EC%8A%A4%ED%8A%B8_%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EC%82%AC%ED%95%AD%EC%A0%84%EB%B6%80%EC%A6%9D%EB%AA%85%EC%84%9C.pdf": {
+    "shareCountTotal": 163722,
+    "issueDate": "2026-04-17",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1744800307633x359935530939270900/%28%E1%84%8C%E1%85%AE%29%E1%84%90%E1%85%A6%E1%86%AF%E1%84%85%E1%85%A1_250212_%E1%84%83%E1%85%B3%E1%86%BC%E1%84%80%E1%85%B5%E1%84%87%E1%85%AE%E1%84%83%E1%85%B3%E1%86%BC%E1%84%87%E1%85%A9%E1%86%AB_.pdf": {
+    "shareCountTotal": 23780,
+    "issueDate": "2025-02-06",
+    "method": "text",
+    "confidence": 0
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1778805516979x251563820099862430/%ED%8D%BC%EC%8A%A4%EB%84%90%EC%97%90%EC%9D%B4%EC%95%84%EC%9D%B4_%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EC%82%AC%ED%95%AD%EC%A0%84%EB%B6%80%EC%A6%9D%EB%AA%85%EC%84%9C_260407.pdf": {
+    "shareCountTotal": 366072,
+    "issueDate": "2026-04-07",
+    "method": "ocr",
+    "confidence": 0.95
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1771826636523x347241712274647400/%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8_260121.pdf": {
+    "shareCountTotal": 471911,
+    "issueDate": "2026-01-21",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1768804601628x135491630186980180/%E1%84%89%E1%85%A6%E1%84%85%E1%85%B5%E1%86%AB%E1%84%8F%E1%85%A5%E1%86%B7%E1%84%91%E1%85%A5%E1%84%82%E1%85%B5%20%E1%84%83%E1%85%B3%E1%86%BC%E1%84%80%E1%85%B5%E1%84%87%E1%85%AE%E1%84%83%E1%85%B3%E1%86%BC%E1%84%87%E1%85%A9%E1%86%AB%20%E1%84%87%E1%85%A9%E1%86%A8%E1%84%89%E1%85%A1%E1%84%87%E1%85%A9%E1%86%AB.pdf": {
+    "shareCountTotal": 11334,
+    "issueDate": "2024-07-11",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1769756659919x408407486637431230/%EC%97%90%EC%96%B4%EB%A1%9C%EC%BC%80%EC%9D%B4%ED%99%80%EB%94%A9%EC%8A%A4%20%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8_260126.pdf": {
+    "shareCountTotal": 4618693,
+    "issueDate": "2026-01-26",
+    "method": "text",
+    "confidence": 0
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1776829261583x402370077980892100/260420_%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8_%28%EC%A3%BC%29%EC%95%8C%ED%8A%B8%EC%97%90%EC%9D%B4.pdf": {
+    "shareCountTotal": 392919,
+    "issueDate": "2026-04-20",
+    "method": "ocr",
+    "confidence": 0.95
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1769567984629x244835577403336160/%E1%84%87%E1%85%A5%E1%86%B8%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%83%E1%85%B3%E1%86%BC%E1%84%80%E1%85%B5%E1%84%87%E1%85%AE%E1%84%83%E1%85%B3%E1%86%BC%E1%84%87%E1%85%A9%E1%86%AB_%28%E1%84%8C%E1%85%AE%29%E1%84%8B%E1%85%A2%E1%86%A8%E1%84%89%E1%85%B3_2026.01.14.pdf": {
+    "shareCountTotal": 446020,
+    "issueDate": "2026-01-14",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1761909361646x979109272065310700/%EC%A3%BC%EC%8B%9D%ED%9A%8C%EC%82%AC_%EC%97%91%EC%86%8C%EC%8B%9C%EC%8A%A4%ED%85%9C%EC%A6%88_%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8_2025-08-18.pdf": {
+    "shareCountTotal": 69644,
+    "issueDate": "2025-08-18",
+    "method": "text",
+    "confidence": 0
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1781054651168x194802904422813440/%EC%95%84%EC%8B%9C%EC%95%88%EB%B3%B4%EC%8A%A4%20%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8%202026%EB%85%84%20Q1.pdf": {
+    "shareCountTotal": 2668,
+    "issueDate": "2026-06-09",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1754648162013x336188518903356200/250217_%E1%84%83%E1%85%B3%E1%86%BC%E1%84%80%E1%85%B5%E1%84%87%E1%85%AE%E1%84%83%E1%85%B3%E1%86%BC%E1%84%87%E1%85%A9%E1%86%AB_%E1%84%92%E1%85%A2%E1%84%87%E1%85%B3%E1%84%92%E1%85%A2%E1%84%83%E1%85%B3.pdf": {
+    "shareCountTotal": 311691,
+    "issueDate": "2025-02-17",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1776920802366x653529958612296400/ABZ_%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8_20260213.pdf": {
+    "shareCountTotal": 12897,
+    "issueDate": "2026-02-13",
+    "method": "ocr",
+    "confidence": 0.95
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1776730278463x817743772581248000/%EB%93%B1%EA%B8%B0%EC%82%AC%ED%95%AD%EC%A0%84%EB%B6%80%EC%A6%9D%EB%AA%85%EC%84%9C_MD_260413.pdf": {
+    "shareCountTotal": 2106555,
+    "issueDate": "2026-04-13",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1778469177227x191171349657066180/%E1%84%8B%E1%85%AD%E1%84%8F%E1%85%AE%E1%84%89%E1%85%B3_%E1%84%83%E1%85%B3%E1%86%BC%E1%84%80%E1%85%B5%E1%84%87%E1%85%AE%E1%84%83%E1%85%B3%E1%86%BC%E1%84%87%E1%85%A9%E1%86%AB%28%E1%84%86%E1%85%A1%E1%86%AF%E1%84%89%E1%85%A9%E1%84%89%E1%85%A1%E1%84%92%E1%85%A1%E1%86%BC%E1%84%91%E1%85%A9%E1%84%92%E1%85%A1%E1%86%B7%29_202605.pdf": {
+    "shareCountTotal": 19870,
+    "issueDate": "2026-05-11",
+    "method": "ocr",
+    "confidence": 0.95
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1753985617585x492578451119685100/20250728_%E1%84%87%E1%85%A5%E1%86%B8%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%83%E1%85%B3%E1%86%BC%E1%84%80%E1%85%B5%E1%84%87%E1%85%AE%E1%84%83%E1%85%B3%E1%86%BC%E1%84%87%E1%85%A9%E1%86%AB_%E1%84%86%E1%85%B2%E1%84%8C%E1%85%B3%E1%84%85%E1%85%A1%E1%84%8B%E1%85%B5%E1%84%87%E1%85%B3.pdf": {
+    "shareCountTotal": 1621108,
+    "issueDate": "2025-07-28",
+    "method": "ocr",
+    "confidence": 0.95
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1769560240687x995918514640785700/%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8_%28%EC%A3%BC%29%ED%8E%84%ED%95%8F_20260118.pdf": {
+    "shareCountTotal": 171746,
+    "issueDate": "2026-01-18",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1770106457780x744246139798687000/%E1%84%87%E1%85%A5%E1%86%B8%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%83%E1%85%B3%E1%86%BC%E1%84%80%E1%85%B5%E1%84%87%E1%85%AE%E1%84%83%E1%85%B3%E1%86%BC%E1%84%87%E1%85%A9%E1%86%AB%28%E1%84%86%E1%85%A1%E1%86%AF%E1%84%89%E1%85%A9%E1%84%89%E1%85%A1%E1%84%92%E1%85%A1%E1%86%BC%E1%84%91%E1%85%A9%E1%84%92%E1%85%A1%E1%86%B7%29_%28%E1%84%8C%E1%85%AE%29%E1%84%8F%E1%85%AE%E1%84%8B%E1%85%A6%E1%86%AB%E1%84%8C%E1%85%B3%E1%84%87%E1%85%A5%E1%84%8F%E1%85%B5%E1%86%BA_20260127.pdf": {
+    "shareCountTotal": 103802,
+    "issueDate": "2026-01-27",
+    "method": "ocr",
+    "confidence": 0.95
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1776413946304x722208691003899400/%EC%84%BC%EC%8A%A4%ED%86%A4_%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8%28%EB%A7%90%EC%86%8C%EC%82%AC%ED%95%AD%ED%8F%AC%ED%95%A8%29.pdf": {
+    "shareCountTotal": 11075199,
+    "issueDate": "2026-04-09",
+    "method": "ocr",
+    "confidence": 0.95
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1768802583138x617999835059628900/20260101_Stipop%20_Certificate%20of%20Incorporation.pdf": {
+    "shareCountTotal": null,
+    "issueDate": "2020-02-14",
+    "method": "ocr",
+    "confidence": 0.95
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1777507415646x922718402496341200/%E1%84%89%E1%85%B3%E1%84%8B%E1%85%AA%E1%84%8E%E1%85%B5%E1%84%8B%E1%85%A9%E1%86%AB_%E1%84%83%E1%85%B3%E1%86%BC%E1%84%80%E1%85%B5%E1%84%89%E1%85%A1%E1%84%92%E1%85%A1%E1%86%BC%E1%84%8C%E1%85%A5%E1%86%AB%E1%84%87%E1%85%AE%E1%84%8C%E1%85%B3%E1%86%BC%E1%84%86%E1%85%A7%E1%86%BC%E1%84%89%E1%85%A5_20260330.pdf": {
+    "shareCountTotal": 23770,
+    "issueDate": "2026-03-30",
+    "method": "ocr",
+    "confidence": 0.95
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1779072475021x735884572529111000/%EB%93%B1%EA%B8%B0%EC%82%AC%ED%95%AD%EC%A0%84%EB%B6%80%EC%A6%9D%EB%AA%85%EC%84%9C_%EB%B2%A8%EB%A3%A8%EA%B0%80_260324.pdf": {
+    "shareCountTotal": 16216,
+    "issueDate": "2026-03-24",
+    "method": "text",
+    "confidence": 0
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1776842372949x990620273180721900/%E1%84%87%E1%85%B3%E1%84%8B%E1%85%B5%E1%84%85%E1%85%A9%E1%84%80%E1%85%A5_%E1%84%8C%E1%85%AE%E1%84%89%E1%85%B5%E1%86%A8%E1%84%92%E1%85%AC%E1%84%89%E1%85%A1_%E1%84%83%E1%85%B3%E1%86%BC%E1%84%80%E1%85%B5%E1%84%87%E1%85%AE%E1%84%83%E1%85%B3%E1%86%BC%E1%84%87%E1%85%A9%E1%86%AB_2026-04-08%20%281%29.pdf": {
+    "shareCountTotal": 13910,
+    "issueDate": "2026-04-08",
+    "method": "text",
+    "confidence": 0
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1776909282416x474451903054124350/%E1%84%83%E1%85%B3%E1%86%BC%E1%84%80%E1%85%B5%E1%84%89%E1%85%A1%E1%84%92%E1%85%A1%E1%86%BC%E1%84%8C%E1%85%A5%E1%86%AB%E1%84%87%E1%85%AE%E1%84%8C%E1%85%B3%E1%86%BC%E1%84%86%E1%85%A7%E1%86%BC%E1%84%89%E1%85%A5.pdf": {
+    "shareCountTotal": 24428,
+    "issueDate": "2026-04-03",
+    "method": "text",
+    "confidence": 0
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1769479249431x690992344421607000/%28%EC%A3%BC%29%EB%8D%94%ED%81%B4%EB%A1%9C%EC%A0%AF%EC%BB%B4%ED%8D%BC%EB%8B%88_%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B82026.PDF": {
+    "shareCountTotal": 9561461,
+    "issueDate": "2026-01-15",
+    "method": "ocr",
+    "confidence": 0.9
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1744854899635x153244684132367800/%E1%84%91%E1%85%A5%E1%84%91%E1%85%A9%E1%84%86%E1%85%B5%20%E1%84%89%E1%85%A5%E1%84%87%E1%85%B5%E1%84%89%E1%85%B3%20%E1%84%89%E1%85%A9%E1%84%80%E1%85%A2%E1%84%89%E1%85%A5%20%282%29.pdf": {
+    "shareCountTotal": null,
+    "issueDate": null,
+    "method": "text",
+    "confidence": 0
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1744772044092x568569694273843800/TalkFile_%5B%ED%8E%98%EC%8A%A4%EC%B9%B4%EB%A1%9C%5D_IR%282023%29_v4.0.pdf.pdf": {
+    "shareCountTotal": null,
+    "issueDate": null,
+    "method": "text",
+    "confidence": 0
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1770104110293x472058258592671800/2.%20%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8_20260122_%EC%97%A3%EC%A7%80%ED%81%AC%EB%A1%9C%EC%8A%A4_compressed.pdf": {
+    "shareCountTotal": 45513,
+    "issueDate": "2026-01-22",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1752732047742x971717802921801200/%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8%28%EB%A7%90%EC%86%8C%EC%82%AC%ED%95%AD%ED%8F%AC%ED%95%A8%2920250613.pdf": {
+    "shareCountTotal": 211337,
+    "issueDate": "2025-06-13",
+    "method": "ocr",
+    "confidence": 0.96
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1745451300335x639271602512075500/%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8_250417.pdf": {
+    "shareCountTotal": 153915,
+    "issueDate": "2025-04-17",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1776393141917x371971584820521860/%EB%B8%94%EB%A1%9C%EC%BD%94%20%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8_260409.pdf": {
+    "shareCountTotal": 170051,
+    "issueDate": "2026-04-09",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1776678443444x779943829570898700/%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8-%ED%8C%8C%EC%9D%B4%ED%80%80%ED%8A%B8.pdf": {
+    "shareCountTotal": 71332,
+    "issueDate": "2026-04-01",
+    "method": "ocr",
+    "confidence": 0.96
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1746007135272x233852096381547140/%E1%84%8C%E1%85%B5%E1%84%8B%E1%85%A1%E1%84%8B%E1%85%B5%E1%84%87%E1%85%B5%E1%86%AF%E1%84%85%E1%85%B5%E1%84%8B%E1%85%A5%E1%86%AB%E1%84%89%E1%85%B3_%E1%84%87%E1%85%A5%E1%86%B8%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%83%E1%85%B3%E1%86%BC%E1%84%80%E1%85%B5%E1%84%87%E1%85%AE%E1%84%83%E1%85%B3%E1%86%BC%E1%84%87%E1%85%A9%E1%86%AB250312.pdf": {
+    "shareCountTotal": 513125,
+    "issueDate": "2025-03-12",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1776821962063x390251800718119900/%ED%8C%A8%EC%8A%A4%ED%8A%B8%EB%B7%B0_%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8_20260422%20%EB%B0%9C%EA%B8%89.pdf": {
+    "shareCountTotal": 147683,
+    "issueDate": "2026-04-22",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1776836258828x354370666066239550/%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8_%EB%82%98%EC%9D%B8%EB%9D%BC%EC%9D%B4%EB%B8%8C%EC%8A%A4_20260422.pdf": {
+    "shareCountTotal": 70602,
+    "issueDate": "2026-04-22",
+    "method": "text",
+    "confidence": 0
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1776845507513x577909978110151000/%EB%94%A5%ED%8C%8C%EC%9D%B8_%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8.pdf": {
+    "shareCountTotal": 5257086,
+    "issueDate": "2026-04-22",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1761530096122x727087396066795400/%EB%B9%84%EB%A7%88%EC%9D%B4%ED%94%84%EB%A0%8C%EC%A6%88_%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8_251027.pdf": {
+    "shareCountTotal": 283309,
+    "issueDate": "2025-10-27",
+    "method": "ocr",
+    "confidence": 0.95
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1777797088651x398716856571005950/3.%20%EB%9E%AD%EC%BD%94%EB%93%9C_%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8_2026-01-20.pdf": {
+    "shareCountTotal": 176551,
+    "issueDate": "2026-01-20",
+    "method": "ocr",
+    "confidence": 0.95
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1776666795631x422418211594200100/%5B%EB%A3%A8%EC%84%BC%ED%8A%B8%EB%B8%94%EB%A1%9D%5D%20%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8_260409.PDF": {
+    "shareCountTotal": 748369,
+    "issueDate": "2026-04-09",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1777534594711x861635074023861000/%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8%28%EB%A7%90%EC%86%8C%EC%82%AC%ED%95%AD%ED%8F%AC%ED%95%A8%29_2026.04.15_%28%EC%A3%BC%29%EB%A6%AC%EC%B2%B4.pdf": {
+    "shareCountTotal": 333186,
+    "issueDate": "2026-04-15",
+    "method": "ocr",
+    "confidence": 0.95
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1747311428771x440629490694768300/1-2.%20%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8.pdf": {
+    "shareCountTotal": 156407,
+    "issueDate": "2025-05-12",
+    "method": "text",
+    "confidence": 0
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1776833700397x592764986264869600/%5B%EB%AA%A8%EB%B9%84%EB%91%90%5D%EB%93%B1%EA%B8%B0%EC%82%AC%ED%95%AD%EC%A0%84%EB%B6%80%EC%A6%9D%EB%AA%85%EC%84%9C_260407_%EB%A7%90%EC%86%8C%EC%82%AC%ED%95%AD%ED%8F%AC%ED%95%A8.pdf": {
+    "shareCountTotal": 590881,
+    "issueDate": "2026-04-07",
+    "method": "ocr",
+    "confidence": 0.96
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1779784183072x990148749387576000/%EC%95%84%EC%9D%B4%EB%A6%AC%EC%8A%A4_%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8.pdf": {
+    "shareCountTotal": 114400,
+    "issueDate": "2026-05-26",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1776653279158x889410930294685300/%EB%93%B1%EA%B8%B0%EC%82%AC%ED%95%AD%EC%A0%84%EB%B6%80%EC%A6%9D%EB%AA%85%EC%84%9C%28%EB%A7%90%EC%86%8C%EC%82%AC%ED%95%AD%20%ED%8F%AC%ED%95%A8%29_260415.pdf": {
+    "shareCountTotal": 709404,
+    "issueDate": "2026-04-15",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1760930249253x555823392567110340/%5B%EC%BF%BC%EB%93%9C%EB%A9%94%EB%94%94%EC%8A%A8%5D%20%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8_251002%28%EB%A7%90%EC%86%8C%EC%82%AC%ED%95%AD%ED%8F%AC%ED%95%A8%29.pdf": {
+    "shareCountTotal": 9590443,
+    "issueDate": "2025-10-02",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1776733923616x796492997746207000/2.%20KHAV_%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8_2026.04.20_%EA%B8%B0%EC%A4%80_1Q%20%EB%B3%80%EA%B2%BD%20%EC%82%AC%ED%95%AD%20%EC%97%86%EC%9D%8C..pdf": {
+    "shareCountTotal": 710778,
+    "issueDate": "2026-04-20",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1776328390817x409920781102805200/%28%EC%A3%BC%29%EB%A7%88%ED%94%8C%EC%BD%94%ED%8D%BC%EB%A0%88%EC%9D%B4%EC%85%98%20%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8%28%EC%9C%A0%ED%9A%A8%EC%82%AC%ED%95%AD%29%2020260416.pdf": {
+    "shareCountTotal": 2726984,
+    "issueDate": "2026-04-16",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1773380206475x232060980473699700/%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8_%ED%99%88%EC%A6%88%EC%BB%B4%ED%8D%BC%EB%8B%88_260108.pdf": {
+    "shareCountTotal": 2235555,
+    "issueDate": "2026-01-08",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1777452218720x122681050349755300/%ED%86%A0%EC%8A%A4%EB%9E%A9-%EB%93%B1%EB%B3%B8%2820260406%29_%EB%8C%80%ED%91%9C%EC%9D%B4%EC%82%AC%20%EC%A3%BC%EC%86%8C%EB%B3%80%EA%B2%BD%2C%20%EC%9D%B4%EC%82%AC%EC%84%A0%EC%9E%84%28%ED%95%B4%EC%9E%84%29%20%EB%93%B1.pdf": {
+    "shareCountTotal": 68872,
+    "issueDate": "2026-04-06",
+    "method": "text",
+    "confidence": 0
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1776841588760x528703817940863170/3.%20%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8.pdf": {
+    "shareCountTotal": 1813511,
+    "issueDate": "2026-04-01",
+    "method": "ocr",
+    "confidence": 0.95
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1776415370533x316545373070897340/%28%EC%A3%BC%29%EC%BB%A8%EC%85%89%EC%85%98_%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8_260403.pdf": {
+    "shareCountTotal": 1780000,
+    "issueDate": "2026-04-03",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1778159195324x887884471756471600/260309_%E1%84%83%E1%85%B3%E1%86%BC%E1%84%80%E1%85%B5%E1%84%87%E1%85%AE%E1%84%83%E1%85%B3%E1%86%BC%E1%84%87%E1%85%A9%E1%86%AB_%E1%84%8B%E1%85%A6%E1%84%8F%E1%85%B2%E1%84%85%E1%85%B5%E1%84%87%E1%85%A1%E1%84%8B%E1%85%B5%E1%84%8B%E1%85%A9.pdf": {
+    "shareCountTotal": 200000,
+    "issueDate": "2026-03-09",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1776323158854x690844512693861100/%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8_%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B9%88_20260226.pdf": {
+    "shareCountTotal": 285656,
+    "issueDate": "2026-02-26",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1776648432502x571228780178182340/0.2%20%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8%20260420.pdf": {
+    "shareCountTotal": 105000,
+    "issueDate": "2026-04-20",
+    "method": "ocr",
+    "confidence": 0.95
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1773030029589x876869985482920700/%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8%282601%29.pdf": {
+    "shareCountTotal": 10000,
+    "issueDate": "2026-01-20",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1776641841927x951188456695520300/%EB%A7%81%ED%81%AC%ED%94%8C%EB%A6%AD%EC%8A%A4%20%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8%28%EB%A7%90%EC%86%8C%ED%8F%AC%ED%95%A8%29%20260219.pdf": {
+    "shareCountTotal": 65382,
+    "issueDate": "2026-02-19",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1774324572177x617409859161589800/1.%2020260304_%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8.pdf": {
+    "shareCountTotal": 284393,
+    "issueDate": "2026-03-04",
+    "method": "ocr",
+    "confidence": 0.96
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1769095197483x992232655995178400/%EB%9F%AD%EC%8A%A4%EB%B0%94%EC%9D%B4%EC%98%B4-%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8%2825.11.04%29.PDF": {
+    "shareCountTotal": 40000,
+    "issueDate": "2025-11-04",
+    "method": "ocr",
+    "confidence": 0.98
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1768869624258x416220533248213200/260106_%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8_%28%EC%A3%BC%29%EB%A9%94%EB%94%94%EB%9D%B5%EC%8A%A4.pdf": {
+    "shareCountTotal": 65497,
+    "issueDate": "2026-01-06",
+    "method": "ocr",
+    "confidence": 0.95
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1776738200062x591402964503094700/%EB%B8%94%EB%A3%A8%EC%9B%A8%EC%9D%B4%EB%B8%8C%EB%B0%94%EC%9D%B4%EC%98%A4_%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8_260209.pdf": {
+    "shareCountTotal": 22000,
+    "issueDate": "2026-01-22",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1776984527700x150764307163046240/20260417%5B%E1%84%8B%E1%85%A1%E1%86%AF%E1%84%86%E1%85%A5%E1%84%90%E1%85%B5%E1%84%85%E1%85%B5%E1%84%8B%E1%85%A5%E1%86%AF%E1%84%8C%E1%85%B3_%E1%84%8B%E1%85%B5%E1%86%B7%E1%84%8B%E1%85%AF%E1%86%AB_%E1%84%8B%E1%85%AA%E1%86%AB%E1%84%85%E1%85%AD%20__%5D.pdf": {
+    "shareCountTotal": 104500,
+    "issueDate": "2026-04-17",
+    "method": "ocr",
+    "confidence": 0.95
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1777514796581x618251542321924000/2%29%20%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8.pdf": {
+    "shareCountTotal": 515552,
+    "issueDate": "2026-04-08",
+    "method": "ocr",
+    "confidence": 0.95
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1776822080274x713252466354455000/%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8_%EC%8A%88%ED%83%80%EA%B2%90.pdf": {
+    "shareCountTotal": 180000,
+    "issueDate": "2026-04-14",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1777339728998x484467325289620800/%EC%8A%AC%EB%A1%9C%EC%9B%A8%EC%9D%B4%EB%B8%8C%20%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8.pdf": {
+    "shareCountTotal": 133048,
+    "issueDate": "2026-01-27",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1769072921639x693619639443258500/%EB%9D%BC%EC%8A%A4%ED%8A%B8%EC%8A%A4%ED%94%84%EB%A7%81_%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8_20251231.pdf": {
+    "shareCountTotal": 505021,
+    "issueDate": "2025-12-31",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1778496489074x415592553975892500/04.%EB%93%B1%EA%B8%B0%EC%82%AC%ED%95%AD%EC%A0%84%EB%B6%80%EC%A6%9D%EB%AA%85%EC%84%9C_260406.pdf": {
+    "shareCountTotal": 26710,
+    "issueDate": "2026-04-06",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1769402605884x527503753105478200/%EB%93%B1%EA%B8%B0%EC%82%AC%ED%95%AD%EC%A0%84%EB%B6%80%EC%A6%9D%EB%AA%85%EC%84%9C_260126.pdf": {
+    "shareCountTotal": 23651,
+    "issueDate": "2026-01-26",
+    "method": "ocr",
+    "confidence": 0.95
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1769731776340x818456544732341800/%EB%93%B1%EA%B8%B0%EC%82%AC%ED%95%AD%EC%A0%84%EB%B6%80%EC%A6%9D%EB%AA%85%EC%84%9C_260116%20%281%29.pdf": {
+    "shareCountTotal": 480773,
+    "issueDate": "2026-01-16",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1776416031602x970429685573175900/%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8_260402.pdf": {
+    "shareCountTotal": 267237,
+    "issueDate": "2026-04-02",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1776413167092x703447252335974000/%EB%93%B1%EA%B8%B0%EC%82%AC%ED%95%AD%EC%A0%84%EB%B6%80%EC%A6%9D%EB%AA%85%EC%84%9C_26.3.10.pdf": {
+    "shareCountTotal": 71756,
+    "issueDate": "2026-03-10",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1753927392466x638452912999272200/%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8_20250117.pdf": {
+    "shareCountTotal": 293400,
+    "issueDate": "2025-01-17",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1777613553030x480514604003477570/%E1%84%89%E1%85%B3%E1%84%91%E1%85%B3%E1%84%85%E1%85%B5%E1%86%BC%E1%84%8B%E1%85%A5%E1%84%80%E1%85%A6%E1%84%8B%E1%85%B5%E1%86%AB_%E1%84%83%E1%85%B3%E1%86%BC%E1%84%80%E1%85%B5%E1%84%87%E1%85%AE%E1%84%83%E1%85%B3%E1%86%BC%E1%84%87%E1%85%A9%E1%86%AB_2604.pdf": {
+    "shareCountTotal": 102750,
+    "issueDate": "2026-04-24",
+    "method": "text",
+    "confidence": 0
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1776870510307x162255639246976740/%EC%9E%84%ED%8C%A9%ED%84%B0%EC%8A%A4%28%EB%B2%95%EC%9D%B8%29%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8_260409_%EB%A7%90%EC%86%8C%EC%82%AC%ED%95%AD%ED%8F%AC%ED%95%A8.pdf": {
+    "shareCountTotal": 102500,
+    "issueDate": "2026-04-09",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1776823720618x174152716661820400/%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8_260420.pdf": {
+    "shareCountTotal": 3034050,
+    "issueDate": "2026-04-20",
+    "method": "ocr",
+    "confidence": 0.95
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1770183109773x244275908709550080/%EC%9D%B4%EB%85%B8%EC%A0%9C%EB%8B%89%EC%8A%A4_%EB%93%B1%EA%B8%B0%EC%82%AC%ED%95%AD%EC%A0%84%EB%B6%80%EC%A6%9D%EB%AA%85%EC%84%9C%28%EB%A7%90%EC%86%8C%EC%82%AC%ED%95%AD%ED%8F%AC%ED%95%A8%29.pdf": {
+    "shareCountTotal": 140789,
+    "issueDate": "2026-02-04",
+    "method": "ocr",
+    "confidence": 0.97
+  },
+  "https://d7bd69b1813cc461e6ef7f8c29d59ae1.cdn.bubble.io/f1770904541323x586379252405564400/%EC%A3%BC%EC%8B%9D%ED%9A%8C%EC%82%AC_%EB%AF%B8%EB%93%9C%EB%B0%94%EB%A5%B4_%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8_2026-02-11.pdf": {
+    "shareCountTotal": 125639,
+    "issueDate": "2026-02-11",
+    "method": "text",
+    "confidence": 0
+  }
+}
