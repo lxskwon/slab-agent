@@ -1,13 +1,13 @@
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import path from "node:path";
 import type { InterpretedCompany } from "./interpret";
-import { CLOUD, redis } from "@/lib/cloud";
+import { getServiceClient } from "@/lib/db/client";
 
-/** 펀드별 시트 해석 결과 캐시. 클라우드=Redis, 로컬=디스크(data/writeoff-sheet/<fund>.interp.json) */
+/** 펀드별 시트 해석 결과 캐시. Supabase(fund_interp 테이블) 있으면 그걸, 없으면 로컬 디스크. */
 
 const DIR = path.join(process.cwd(), "data", "writeoff-sheet");
 const file = (slug: string) => path.join(DIR, `${slug}.interp.json`);
-const key = (slug: string) => `slab:interp:${slug}`;
+const TABLE = "fund_interp";
 
 export interface FundInterp {
   tab: string;
@@ -16,8 +16,10 @@ export interface FundInterp {
 }
 
 export async function loadInterp(slug: string): Promise<FundInterp | null> {
-  if (CLOUD) {
-    return (await redis().get<FundInterp>(key(slug))) ?? null;
+  const c = getServiceClient();
+  if (c) {
+    const { data } = await c.from(TABLE).select("data").eq("fund", slug).maybeSingle();
+    return (data?.data as FundInterp) ?? null;
   }
   try {
     return JSON.parse(await readFile(file(slug), "utf8")) as FundInterp;
@@ -27,8 +29,9 @@ export async function loadInterp(slug: string): Promise<FundInterp | null> {
 }
 
 export async function saveInterp(slug: string, data: FundInterp): Promise<void> {
-  if (CLOUD) {
-    await redis().set(key(slug), data);
+  const c = getServiceClient();
+  if (c) {
+    await c.from(TABLE).upsert({ fund: slug, data, updated_at: new Date().toISOString() });
     return;
   }
   await mkdir(DIR, { recursive: true });

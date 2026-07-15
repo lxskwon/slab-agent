@@ -2,12 +2,14 @@ import ExcelJS from "exceljs";
 import { readFile, writeFile, mkdir, access } from "node:fs/promises";
 import path from "node:path";
 import { statusCategory } from "./reflect";
-import { CLOUD } from "@/lib/cloud";
-import { putSheet, hasSheetBlob, getSheetBuffer } from "./blob-store";
+import { getServiceClient } from "@/lib/db/client";
+import { putSheet, hasSheetBlob, getSheetBuffer } from "./supa-storage";
 
-/** 펀드 시트 원본(.xlsx) 바이트를 백엔드에서 가져옴 (클라우드=Blob, 로컬=디스크) */
+const SUPA = () => getServiceClient() !== null;
+
+/** 펀드 시트 원본(.xlsx) 바이트를 백엔드에서 가져옴 (Supabase Storage 또는 로컬 디스크) */
 async function getFundBuffer(slug: string): Promise<Buffer | null> {
-  if (CLOUD) return getSheetBuffer(slug);
+  if (SUPA()) return getSheetBuffer(slug);
   try { return await readFile(fundFile(slug)); } catch { return null; }
 }
 
@@ -127,9 +129,9 @@ export async function loadFundSheet(slug: string): Promise<Map<string, SheetEntr
   return map;
 }
 
-/** 업로드 파일 저장 + 캐시 무효화 (클라우드=Blob, 로컬=디스크) */
+/** 업로드 파일 저장 + 캐시 무효화 (Supabase Storage 또는 로컬 디스크) */
 export async function saveFundSheet(slug: string, buf: Buffer): Promise<void> {
-  if (CLOUD) {
+  if (SUPA()) {
     await putSheet(slug, buf);
   } else {
     await mkdir(DIR, { recursive: true });
@@ -139,7 +141,7 @@ export async function saveFundSheet(slug: string, buf: Buffer): Promise<void> {
 }
 
 export async function hasFundSheet(slug: string): Promise<boolean> {
-  if (CLOUD) return hasSheetBlob(slug);
+  if (SUPA()) return hasSheetBlob(slug);
   try {
     await access(fundFile(slug));
     return true;

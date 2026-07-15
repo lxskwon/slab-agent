@@ -1,11 +1,11 @@
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
 import path from "node:path";
-import { CLOUD, redis } from "@/lib/cloud";
+import { getServiceClient } from "@/lib/db/client";
 
 /**
  * 조치 필요 큐의 사람 검토 상태 + 메모 저장소.
- * 백엔드: 클라우드(Vercel)=Upstash Redis 해시, 로컬/컨테이너=디스크 JSON.
+ * 백엔드: Supabase(review_items 테이블) 있으면 그걸, 없으면 로컬 디스크 JSON.
  * 키 = 이슈 ID(펀드·분류·회사·종류). status(확인/무시)와 memos는 서로 독립.
  */
 
@@ -15,7 +15,7 @@ export interface ReviewItem { status: ReviewStatus; memos: Memo[]; updatedAt: st
 export type ReviewState = Record<string, ReviewItem>;
 
 const FILE = path.join(process.cwd(), "data", "review-state.json");
-const HASH = "slab:review";
+const TABLE = "review_items";
 const VALID: ReviewStatus[] = ["open", "ack", "dismissed"];
 
 function normItem(v: any): ReviewItem {
@@ -28,6 +28,7 @@ function normItem(v: any): ReviewItem {
   return { status, memos, updatedAt: v?.updatedAt ?? "" };
 }
 const isDefault = (it: ReviewItem) => it.status === "open" && it.memos.length === 0;
+const rowToItem = (r: any): ReviewItem => normItem({ status: r.status, memos: r.memos, updatedAt: r.updated_at });
 
 // ---- 디스크 백엔드 ----
 let mem: ReviewState | null = null;
@@ -46,19 +47,21 @@ async function diskPersist(m: ReviewState) {
   await writing;
 }
 
-// ---- 공통 접근자 (백엔드 분기) ----
+// ---- 공통 접근자 (Supabase 우선, 없으면 디스크) ----
 async function readItem(id: string): Promise<ReviewItem> {
-  if (CLOUD) {
-    const v = await redis().hget<any>(HASH, id);
-    return v ? normItem(v) : { status: "open", memos: [], updatedAt: "" };
+  const c = getServiceClient();
+  if (c) {
+    const { data } = await c.from(TABLE).select("status,memos,updated_at").eq("id", id).maybeSingle();
+    return data ? rowToItem(data) : { status: "open", memos: [], updatedAt: "" };
   }
   const m = await diskLoad();
   return m[id] ?? { status: "open", memos: [], updatedAt: "" };
 }
 async function writeItem(id: string, item: ReviewItem): Promise<void> {
-  if (CLOUD) {
-    if (isDefault(item)) await redis().hdel(HASH, id);
-    else await redis().hset(HASH, { [id]: item });
+  const c = getServiceClient();
+  if (c) {
+    if (isDefault(item)) await c.from(TABLE).delete().eq("id", id);
+    else await c.from(TABLE).upsert({ id, status: item.status, memos: item.memos, updated_at: item.updatedAt });
     return;
   }
   const m = await diskLoad();
@@ -67,10 +70,11 @@ async function writeItem(id: string, item: ReviewItem): Promise<void> {
 }
 
 export async function getReviewState(): Promise<ReviewState> {
-  if (CLOUD) {
-    const all = (await redis().hgetall<Record<string, any>>(HASH)) ?? {};
+  const c = getServiceClient();
+  if (c) {
+    const { data } = await c.from(TABLE).select("id,status,memos,updated_at");
     const out: ReviewState = {};
-    for (const [id, v] of Object.entries(all)) { const it = normItem(v); if (!isDefault(it)) out[id] = it; }
+    for (const r of data ?? []) { const it = rowToItem(r); if (!isDefault(it)) out[(r as any).id] = it; }
     return out;
   }
   return { ...(await diskLoad()) };
