@@ -6,14 +6,14 @@ import type { Dashboard } from "@/lib/slab/service";
 import { NAVY } from "./tracker-tables";
 import QueueBoard from "./queue-board";
 
-function Kpi({ label, value, sub, href, big = true }: { label: string; value: React.ReactNode; sub?: string; href?: string; big?: boolean }) {
+function Kpi({ label, value, sub, href }: { label: string; value: React.ReactNode; sub?: string; href?: string }) {
   const body = (
     <div className={`flex h-full flex-col rounded-xl border border-gray-200 bg-white px-3.5 py-2.5 shadow-sm ${href ? "transition hover:border-[#1f3a5f] hover:shadow" : ""}`}>
       <div className="flex items-center justify-between text-[11px] font-medium text-gray-500">
         {label}
         {href && <span className="text-gray-300">→</span>}
       </div>
-      <div className={`mt-0.5 truncate font-bold tabular-nums ${big ? "text-2xl" : "text-lg"}`} style={{ color: NAVY }}>{value}</div>
+      <div className="mt-0.5 truncate text-2xl font-bold tabular-nums" style={{ color: NAVY }}>{value}</div>
       <div className="mt-auto pt-0.5 text-[11px] text-gray-400">{sub ?? " "}</div>
     </div>
   );
@@ -63,7 +63,7 @@ export default function DashboardClient({ dash }: { dash: Dashboard }) {
         <Kpi
           label="펀드"
           value={sel ? sel.name : totals.funds}
-          big={!sel}
+         
           sub={sel ? "선택된 펀드" : "클릭해서 펀드별 보기"}
           href={sel ? `/fund/${sel.slug}` : "/funds"}
         />
@@ -75,7 +75,7 @@ export default function DashboardClient({ dash }: { dash: Dashboard }) {
         <Kpi
           label="감액 분석"
           value={sel ? (sel.writeoffUploaded ? "완료" : "미업로드") : `${totals.processed} / ${totals.funds}`}
-          big={!sel}
+         
           sub="투자현황 DB"
           href={sel ? `/fund/${sel.slug}?tab=writeoff` : "/funds"}
         />
