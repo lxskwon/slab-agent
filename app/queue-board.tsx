@@ -104,13 +104,16 @@ export default function QueueBoard({ issues, fund }: { issues: DashIssue[]; fund
   };
 
   const rank = (s: DashIssue["severity"]) => (s === "red" ? 0 : 1);
+  const isMulti = (i: DashIssue) => (/개\s*펀드$/.test(i.fund) ? 1 : 0); // 여러 펀드 이슈는 각 그룹 맨 아래로
   const forCat = (category: DashIssue["category"]) =>
     items
       .filter((i) => i.category === category)
       .filter((i) => fund === "all" || i.fundSlug === fund)
       .filter((i) => sev === "all" || i.severity === sev);
   const visible = (category: DashIssue["category"]) =>
-    forCat(category).filter((i) => showDismissed || i.status !== "dismissed").sort((a, b) => rank(a.severity) - rank(b.severity));
+    forCat(category)
+      .filter((i) => showDismissed || i.status !== "dismissed")
+      .sort((a, b) => rank(a.severity) - rank(b.severity) || isMulti(a) - isMulti(b));
 
   const hiddenCount = (["followup", "writeoff"] as const).reduce((n, c) => n + forCat(c).filter((i) => i.status === "dismissed").length, 0);
 
