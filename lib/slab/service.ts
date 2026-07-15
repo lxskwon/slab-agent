@@ -63,6 +63,7 @@ export interface DashIssue {
   fundSlug: string;
   company: string;
   companyId?: string; // 기업 상세 페이지 링크용
+  fundSlugs?: string[]; // 후속투자 이슈가 걸친 모든 펀드 (펀드 필터 매칭용)
   kind: "후속 불일치" | "감액 미반영" | "확인 필요";
   category: "followup" | "writeoff"; // 후속투자 / 감액
   detail: string;
@@ -98,6 +99,7 @@ async function computeDashboardBase(): Promise<Dashboard> {
   // 후속투자는 회사 단위 판정(등기부·SLAB) → 같은 회사가 여러 펀드에 있어도 큐에는 1건만. 펀드 수는 카운트해서 라벨에 표기.
   const fuSeen = new Set<string>();
   const fuFundCount = new Map<string, number>();
+  const fuFundSlugs = new Map<string, string[]>();
 
   // 전 펀드 트래커를 병렬(배치)로 미리 계산 → 콜드 로드 단축. 집계는 순서 유지하며 순차 처리.
   const BATCH = 6;
@@ -129,6 +131,7 @@ async function computeDashboardBase(): Promise<Dashboard> {
       if (worthy) {
         const key = r.companyId || r.company;
         fuFundCount.set(key, (fuFundCount.get(key) ?? 0) + 1);
+        (fuFundSlugs.get(key) ?? fuFundSlugs.set(key, []).get(key)!).push(f.search);
         if (!fuSeen.has(key)) {
           fuSeen.add(key);
           if (r.match === "불일치") {
@@ -173,7 +176,9 @@ async function computeDashboardBase(): Promise<Dashboard> {
   // 여러 펀드에 걸친 후속투자 이슈는 펀드 수로 라벨 표기 (예: "8개 펀드")
   for (const i of issues) {
     if (i.category === "followup") {
-      const n = fuFundCount.get(i.companyId || i.company) ?? 1;
+      const key = i.companyId || i.company;
+      i.fundSlugs = fuFundSlugs.get(key);
+      const n = fuFundCount.get(key) ?? 1;
       if (n > 1) i.fund = `${n}개 펀드`;
     }
   }

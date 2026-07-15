@@ -108,7 +108,7 @@ export default function QueueBoard({ issues, fund }: { issues: DashIssue[]; fund
   const forCat = (category: DashIssue["category"]) =>
     items
       .filter((i) => i.category === category)
-      .filter((i) => fund === "all" || i.fundSlug === fund)
+      .filter((i) => fund === "all" || i.fundSlug === fund || (i.fundSlugs?.includes(fund) ?? false))
       .filter((i) => sev === "all" || i.severity === sev);
   const visible = (category: DashIssue["category"]) =>
     forCat(category)
