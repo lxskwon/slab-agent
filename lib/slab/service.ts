@@ -2,7 +2,7 @@ import "server-only";
 import { unstable_cache } from "next/cache";
 import { slabList, slabGet, slabEnabled, type Constraint } from "./api";
 import { getCached } from "@/lib/registry/cache";
-import { qKey, qLabel, registerQups, registerUrl } from "./registry-source";
+import { qKey, qLabel, quarterNum, registerQups, registerUrl } from "./registry-source";
 import { nameKeys, normName, hasFundSheet, listTabs } from "@/lib/writeoff/sheet";
 import { loadInterp } from "@/lib/writeoff/interp-cache";
 import type { InterpretedCompany } from "@/lib/writeoff/interpret";
@@ -204,7 +204,7 @@ async function computeDashboardBase(): Promise<Dashboard> {
 }
 
 // SLAB 집계는 5분 캐시(콜드 로드/타임아웃 완화). 메모/검토상태는 매 요청 Redis에서 신선하게 병합.
-const cachedBase = unstable_cache(computeDashboardBase, ["dashboard-base-v2"], { revalidate: 300 });
+const cachedBase = unstable_cache(computeDashboardBase, ["dashboard-base-v3"], { revalidate: 300 });
 
 export async function getDashboard(): Promise<Dashboard> {
   const base = await cachedBase();
@@ -305,13 +305,31 @@ interface RegistryView {
   url: string | null; // 채택된 등기부 PDF 원본 링크 (증거 확인용)
 }
 
-// 대상 분기 (모든 행 고정). 등기부가 이 분기가 아니면 비고에 실제 분기 표기.
-const TARGET_YEAR = 2026;
-const TARGET_Q = "1분기";
-const TARGET_LABEL = "2026년 1분기";
-const TARGET_KEY = TARGET_YEAR * 10 + 1;
+// 대상 분기 = 제출된 분기보고 중 가장 최근 것 (자동 감지). SLAB에 새 분기가 제출되면 자동으로 따라감.
+export interface TargetQuarter { year: number; quarter: string; key: number; label: string }
+let _target: TargetQuarter | null = null;
+export async function getTargetQuarter(): Promise<TargetQuarter> {
+  if (_target) return _target;
+  try {
+    // "report made" 최신순 상위 100건 → 그중 제출된 것의 최대 (연도·분기)
+    const rows = await slabList<Obj>("quarterlyupdate", { sort: { field: "report made", descending: true }, limit: 100, maxPages: 1 });
+    let best = { y: 0, q: 0 };
+    for (const r of rows) {
+      if (!isSubmitted(r)) continue;
+      const y = (r.year as number) ?? 0;
+      const q = quarterNum(r.quarter as string);
+      if (y * 10 + q > best.y * 10 + best.q) best = { y, q };
+    }
+    if (best.y > 0) {
+      _target = { year: best.y, quarter: `${best.q}분기`, key: best.y * 10 + best.q, label: `${best.y}년 ${best.q}분기` };
+      return _target;
+    }
+  } catch { /* 폴백 */ }
+  _target = { year: 2026, quarter: "1분기", key: 20261, label: "2026년 1분기" };
+  return _target;
+}
 
-async function registryView(qups: Obj[]): Promise<RegistryView> {
+async function registryView(qups: Obj[], targetKey: number): Promise<RegistryView> {
   const empty: RegistryView = {
     shares: null, date: null, regLabel: null, fromDifferentQuarter: false,
     attached: false, cachedOk: false, oversized: false, unprocessed: false, lowConfidenceOcr: false,
@@ -321,7 +339,7 @@ async function registryView(qups: Obj[]): Promise<RegistryView> {
   if (regs.length === 0) return empty;
 
   const mk = (q: Obj, extra: Partial<RegistryView>): RegistryView => ({
-    ...empty, attached: true, regLabel: qLabel(q), url: registerUrl(q), fromDifferentQuarter: qKey(q) !== TARGET_KEY, ...extra,
+    ...empty, attached: true, regLabel: qLabel(q), url: registerUrl(q), fromDifferentQuarter: qKey(q) !== targetKey, ...extra,
   });
 
   // 최신부터: 판독 성공한 가장 최근 등기부를 채택 (최신 파일이 잘못/판독불가면 과거로 폴백).
@@ -363,6 +381,7 @@ export async function getFundTracker(fundSearch: string): Promise<FundTracker | 
 
   const fund = (await getFunds()).find((f) => f.search === fundSearch);
   if (!fund) return null;
+  const target = await getTargetQuarter();
 
   // 감액: 펀드별 업로드 파일 → 탭 선택 → LLM 해석(캐시). 상태별 UI 분기.
   const interp = await loadInterp(fund.search);
@@ -416,20 +435,20 @@ export async function getFundTracker(fundSearch: string): Promise<FundTracker | 
   for (const co of dedup.values()) {
     const name = co["company name"] as string;
     const qups = qupsByCompany.get(co._id) ?? [];
-    // 투자유치여부는 대상 분기(2026 1Q) 제출 보고 기준. 없으면 미확인.
-    const targetQup = qups.find((q) => q.year === TARGET_YEAR && q.quarter === TARGET_Q && isSubmitted(q)) ?? null;
+    // 투자유치여부는 대상 분기(자동 감지) 제출 보고 기준. 없으면 미확인.
+    const targetQup = qups.find((q) => q.year === target.year && q.quarter === target.quarter && isSubmitted(q)) ?? null;
     // 명시적 0은 '0주'로 표시, null/미기재만 '미기재'
     const rawShareOut = co["share outstanding"];
     const slabShares = typeof rawShareOut === "number" ? rawShareOut : null;
     // 분기보고 자체가 기재한 총발행주식수 (대상 분기 보고 기준) — SLAB/등기부와 교차검증
-    const reportQup = targetQup ?? qups.find((q) => q.year === TARGET_YEAR && q.quarter === TARGET_Q) ?? null;
+    const reportQup = targetQup ?? qups.find((q) => q.year === target.year && q.quarter === target.quarter) ?? null;
     const rawReport = reportQup?.["latest issued share outstanding"];
     const reportShares = typeof rawReport === "number" ? rawReport : null;
     const lang = co["main language for the contract"] as string | undefined;
     const foreign = Boolean(lang && lang !== "Korean");
     const slabStatus = statusByCompany.get(co._id) ?? (co["company investment status"] as string) ?? "";
 
-    const reg = await registryView(qups);
+    const reg = await registryView(qups, target.key);
 
     let match: FollowupRow["match"] = "";
     let followupApplicable = "";
@@ -476,7 +495,7 @@ export async function getFundTracker(fundSearch: string): Promise<FundTracker | 
     }
 
     followup.push({
-      no: 0, company: name, companyId: co._id as string, quarter: TARGET_LABEL,
+      no: 0, company: name, companyId: co._id as string, quarter: target.label,
       investStatus: investStatus(targetQup), registryDate: reg.date, registryShares: reg.shares,
       slabShares, reportShares, match, followupApplicable, note: notes.join(" · "), flag,
       registryQuarter: reg.regLabel, registryUrl: reg.url,

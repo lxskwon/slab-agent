@@ -39,17 +39,22 @@ async function req<T>(path: string): Promise<T> {
 /** 데이터 타입 전체 조회 (페이지네이션 자동, constraints 지원) */
 export async function slabList<T = Record<string, unknown>>(
   type: string,
-  opts: { constraints?: Constraint[]; limit?: number } = {},
+  opts: { constraints?: Constraint[]; limit?: number; sort?: { field: string; descending?: boolean }; maxPages?: number } = {},
 ): Promise<T[]> {
   const out: T[] = [];
   let cursor = 0;
   const pageSize = opts.limit ?? 100;
-  for (let i = 0; i < 200; i++) {
+  const maxPages = opts.maxPages ?? 200;
+  for (let i = 0; i < maxPages; i++) {
     const params = new URLSearchParams();
     params.set("limit", String(pageSize));
     params.set("cursor", String(cursor));
     if (opts.constraints?.length) {
       params.set("constraints", JSON.stringify(opts.constraints));
+    }
+    if (opts.sort) {
+      params.set("sort_field", opts.sort.field);
+      params.set("descending", String(opts.sort.descending ?? false));
     }
     const { response } = await req<BubbleListResponse<T>>(`/obj/${type}?${params}`);
     out.push(...response.results);
