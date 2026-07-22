@@ -2,6 +2,7 @@ import "server-only";
 import { unstable_cache } from "next/cache";
 import { slabList, slabGet, slabEnabled, type Constraint } from "./api";
 import { getCached } from "@/lib/registry/cache";
+import { getManualMap, type ManualReg } from "@/lib/registry/manual";
 import { qKey, qLabel, quarterNum, registerQups, registerUrl } from "./registry-source";
 import { nameKeys, normName, hasFundSheet, listTabs } from "@/lib/writeoff/sheet";
 import { loadInterp } from "@/lib/writeoff/interp-cache";
@@ -204,7 +205,7 @@ async function computeDashboardBase(): Promise<Dashboard> {
 }
 
 // SLAB 집계는 5분 캐시(콜드 로드/타임아웃 완화). 메모/검토상태는 매 요청 Redis에서 신선하게 병합.
-const cachedBase = unstable_cache(computeDashboardBase, ["dashboard-base-v6"], { revalidate: 300 });
+const cachedBase = unstable_cache(computeDashboardBase, ["dashboard-base-v6"], { revalidate: 300, tags: ["dashboard-base"] });
 
 export async function getDashboard(): Promise<Dashboard> {
   const base = await cachedBase();
@@ -380,7 +381,33 @@ async function registryView(qups: Obj[], targetKey: number): Promise<RegistryVie
 // ---- per-fund tracker ----
 const trackerCache = new Map<string, FundTracker>();
 
+// 수기 입력 등기부등본값을 후속투자 행에 덮어씀 (판독 불가였던 건). 캐시된 트래커에 매번 신선하게 오버레이.
+function applyManualRow(r: FollowupRow, manual: Map<string, ManualReg>): FollowupRow {
+  if (r.registryShares != null || !r.registryUrl) return r;
+  const mo = manual.get(r.registryUrl);
+  if (!mo) return r;
+  let match: FollowupRow["match"] = r.match;
+  let followupApplicable = r.followupApplicable;
+  let flag: FollowupRow["flag"] = r.flag;
+  if (r.slabShares != null) {
+    if (mo.shares === r.slabShares) { match = "일치"; followupApplicable = "N"; flag = undefined; }
+    else { match = "불일치"; flag = "red"; }
+  }
+  // 판독 불가/처리 대기/오첨부 관련 비고 제거 후 '수기 입력' 표시
+  const kept = r.note.split(" · ").filter((s) => s && !/판독|처리 대기|오첨부/.test(s));
+  kept.push(`등기부등본 수기 입력${mo.author ? ` (${mo.author})` : ""}`);
+  return { ...r, registryShares: mo.shares, registryDate: mo.issueDate ?? r.registryDate, match, followupApplicable, flag, note: kept.join(" · ") };
+}
+
 export async function getFundTracker(fundSearch: string): Promise<FundTracker | null> {
+  const base = await buildTracker(fundSearch);
+  if (!base) return null;
+  const manual = await getManualMap();
+  if (manual.size === 0) return base;
+  return { ...base, followup: base.followup.map((r) => applyManualRow(r, manual)) };
+}
+
+async function buildTracker(fundSearch: string): Promise<FundTracker | null> {
   const cached = trackerCache.get(fundSearch);
   if (cached) return cached;
 

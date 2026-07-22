@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { DashIssue } from "@/lib/slab/service";
 import type { ReviewStatus } from "@/lib/review/store";
@@ -27,6 +28,7 @@ function fmtTime(iso: string): string {
 type Sev = "all" | "red" | "yellow";
 
 export default function QueueBoard({ issues, fund }: { issues: DashIssue[]; fund: string }) {
+  const router = useRouter();
   const [items, setItems] = useState(issues);
   const [sev, setSev] = useState<Sev>("all");
   const [showDismissed, setShowDismissed] = useState(false);
@@ -48,6 +50,9 @@ export default function QueueBoard({ issues, fund }: { issues: DashIssue[]; fund
     try { localStorage.setItem("myMemoIds", JSON.stringify([...next])); } catch {}
     return next;
   };
+
+  // 서버가 새 이슈 목록을 보내면(router.refresh 등) 동기화 — 수기 입력으로 일치된 건이 큐에서 빠지도록
+  useEffect(() => { setItems(issues); }, [issues]);
 
   // 라이브: 2초마다 서버의 상태/메모를 병합 → 다른 사람이 남긴 메모가 자동 반영
   useEffect(() => {
@@ -103,6 +108,20 @@ export default function QueueBoard({ issues, fund }: { issues: DashIssue[]; fund
     post({ id: i.id, deleteMemo: { memoId } });
   };
 
+  // 판독 불가 등기부등본의 발행주식총수 수기 입력 → 서버 저장 후 새로고침(재평가: 일치면 큐에서 빠짐)
+  const saveManual = async (i: DashIssue, shares: number) => {
+    const url = i.evidence.registryUrl;
+    if (!url) return;
+    setItems((prev) => prev.map((x) => (x.id === i.id ? { ...x, evidence: { ...x.evidence, registryShares: shares } } : x)));
+    try {
+      await fetch("/api/registry-manual", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url, shares, author: author.trim() || undefined }),
+      });
+    } catch {}
+    router.refresh(); // 서버 재평가 반영
+  };
+
   const rank = (s: DashIssue["severity"]) => (s === "red" ? 0 : 1);
   const isMulti = (i: DashIssue) => (/개\s*펀드$/.test(i.fund) ? 1 : 0); // 여러 펀드 이슈는 각 그룹 맨 아래로
   const forCat = (category: DashIssue["category"]) =>
@@ -117,7 +136,7 @@ export default function QueueBoard({ issues, fund }: { issues: DashIssue[]; fund
 
   const hiddenCount = (["followup", "writeoff"] as const).reduce((n, c) => n + forCat(c).filter((i) => i.status === "dismissed").length, 0);
 
-  const rowProps = { openId, setOpenId, toggleStatus, author, setAuthor, drafts, setDrafts, publishMemo, mine, editMemo: editMemoFn, deleteMemo: deleteMemoFn };
+  const rowProps = { openId, setOpenId, toggleStatus, author, setAuthor, drafts, setDrafts, publishMemo, mine, editMemo: editMemoFn, deleteMemo: deleteMemoFn, saveManual };
 
   return (
     <div className="space-y-3">
@@ -160,6 +179,7 @@ type RowShared = {
   mine: Set<string>;
   editMemo: (i: DashIssue, memoId: string, content: string) => void;
   deleteMemo: (i: DashIssue, memoId: string) => void;
+  saveManual: (i: DashIssue, shares: number) => void;
 };
 
 function Section({ title, issues, ...shared }: { title: string; issues: DashIssue[] } & RowShared) {
@@ -185,14 +205,18 @@ function Section({ title, issues, ...shared }: { title: string; issues: DashIssu
   );
 }
 
-function Row({ i, openId, setOpenId, toggleStatus, author, setAuthor, drafts, setDrafts, publishMemo, mine, editMemo, deleteMemo }: { i: DashIssue } & RowShared) {
+function Row({ i, openId, setOpenId, toggleStatus, author, setAuthor, drafts, setDrafts, publishMemo, mine, editMemo, deleteMemo, saveManual }: { i: DashIssue } & RowShared) {
   const open = openId === i.id;
   const meta = i.status !== "open" ? STATUS_META[i.status] : null;
   const dim = i.status === "dismissed";
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editDraft, setEditDraft] = useState("");
+  const [manualDraft, setManualDraft] = useState("");
   const startEdit = (mid: string, content: string) => { setEditingId(mid); setEditDraft(content); };
   const saveEdit = () => { if (editingId) editMemo(i, editingId, editDraft); setEditingId(null); };
+  // 등기부등본 판독 불가 + PDF 링크 있음 → 수기 입력 가능
+  const manualEligible = i.category === "followup" && i.evidence.registryShares == null && !!i.evidence.registryUrl;
+  const submitManual = () => { const n = Number(manualDraft.replace(/[,\s]/g, "")); if (Number.isFinite(n) && n >= 0) { saveManual(i, n); setManualDraft(""); } };
   return (
     <li className={dim ? "opacity-55" : ""}>
       <div onClick={() => setOpenId(open ? null : i.id)} className="flex w-full cursor-pointer items-center gap-2.5 px-4 py-2.5 text-left hover:bg-gray-50">
@@ -211,6 +235,25 @@ function Row({ i, openId, setOpenId, toggleStatus, author, setAuthor, drafts, se
       {open && (
         <div className="space-y-3 border-t border-gray-100 bg-gray-50/60 px-4 py-3 text-xs">
           <Evidence i={i} />
+
+          {/* 등기부등본 판독 불가 → PDF 보고 발행주식총수 직접 입력 */}
+          {manualEligible && (
+            <div className="flex flex-wrap items-center gap-1.5 rounded-md bg-amber-50 px-2.5 py-2 ring-1 ring-amber-200">
+              <span className="text-[11px] font-medium text-amber-800">등기부등본 판독 불가 — 직접 입력:</span>
+              <input
+                value={manualDraft}
+                onChange={(e) => setManualDraft(e.target.value)}
+                onKeyDown={(e) => { if (e.key === "Enter") submitManual(); }}
+                inputMode="numeric"
+                placeholder="발행주식총수"
+                className="w-32 rounded border border-amber-300 bg-white px-2 py-1 text-xs focus:border-[#1f3a5f] focus:outline-none"
+              />
+              <span className="text-[11px] text-gray-400">주</span>
+              <button onClick={submitManual} disabled={!manualDraft.trim()} className="rounded-md bg-[#1f3a5f] px-2.5 py-1 text-xs font-medium text-white disabled:opacity-40">저장</button>
+              {i.evidence.registryUrl && <a href={i.evidence.registryUrl} target="_blank" rel="noopener noreferrer" className="text-[11px] text-[#1f3a5f] underline">PDF 확인 ↗</a>}
+            </div>
+          )}
+
           <div className="flex flex-wrap items-center gap-1.5">
             <ActionBtn active={i.status === "ack"} on={() => toggleStatus(i, "ack")} cls="border-blue-300 bg-blue-50 text-blue-700">확인</ActionBtn>
             <ActionBtn active={i.status === "dismissed"} on={() => toggleStatus(i, "dismissed")} cls="border-gray-300 bg-gray-100 text-gray-700">무시</ActionBtn>

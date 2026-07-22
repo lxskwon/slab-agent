@@ -18,4 +18,13 @@ create table if not exists fund_interp (
   updated_at timestamptz not null default now()
 );
 
+-- 등기부등본 판독 불가 건의 수기 입력 발행주식총수 (키 = 등기부 PDF URL)
+create table if not exists registry_manual (
+  url text primary key,
+  shares bigint not null,
+  issue_date text,
+  author text,
+  updated_at timestamptz not null default now()
+);
+
 -- 감액 원본 xlsx는 Storage 버킷 'sheets'에 저장 (시드 스크립트가 자동 생성).
