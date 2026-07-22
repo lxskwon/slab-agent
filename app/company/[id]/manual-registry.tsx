@@ -16,12 +16,10 @@ export default function ManualRegistry({ url, current, isManual }: { url: string
     const n = Number(draft.replace(/[,\s]/g, ""));
     if (!Number.isFinite(n) || n < 0) return;
     setBusy(true);
-    let author = "";
-    try { author = localStorage.getItem("memoAuthor") || ""; } catch {}
     try {
       await fetch("/api/registry-manual", {
         method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url, shares: n, author: author || undefined }),
+        body: JSON.stringify({ url, shares: n }), // author는 서버가 로그인 이름으로 설정
       });
     } catch {}
     setDraft(""); setBusy(false); router.refresh();

@@ -39,12 +39,10 @@ export default function QueueBoard({ issues, fund }: { issues: DashIssue[]; fund
   const itemsRef = useRef(items);
   itemsRef.current = items;
 
-  // 이름 + 내가 쓴 메모 id를 브라우저에 기억
+  // 작성자 = 로그인 사용자 이름(basic-auth) → /api/me. 내가 쓴 메모 id(편집권한)는 기기에 기억.
   useEffect(() => {
-    try {
-      const a = localStorage.getItem("memoAuthor"); if (a) setAuthor(a);
-      setMine(new Set(JSON.parse(localStorage.getItem("myMemoIds") || "[]")));
-    } catch {}
+    try { setMine(new Set(JSON.parse(localStorage.getItem("myMemoIds") || "[]"))); } catch {}
+    fetch("/api/me").then((r) => r.json()).then((d) => { if (d?.user) setAuthor(d.user); }).catch(() => {});
   }, []);
   const rememberMine = (next: Set<string>) => {
     try { localStorage.setItem("myMemoIds", JSON.stringify([...next])); } catch {}
@@ -82,16 +80,14 @@ export default function QueueBoard({ issues, fund }: { issues: DashIssue[]; fund
   const newId = () => (typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random()}`);
 
   const publishMemo = (i: DashIssue) => {
-    const a = author.trim();
     const content = (drafts[i.id] ?? "").trim();
-    if (!a || !content) return;
-    try { localStorage.setItem("memoAuthor", a); } catch {}
+    if (!content) return;
     const memoId = newId();
-    const memo = { id: memoId, author: a, content, at: new Date().toISOString() };
+    const memo = { id: memoId, author: author || "익명", content, at: new Date().toISOString() };
     setItems((prev) => prev.map((x) => (x.id === i.id ? { ...x, memos: [...x.memos, memo] } : x)));
     setDrafts((d) => ({ ...d, [i.id]: "" }));
     setMine((prev) => rememberMine(new Set(prev).add(memoId)));
-    post({ id: i.id, memo: { memoId, author: a, content } });
+    post({ id: i.id, memo: { memoId, content } }); // author는 서버가 로그인 이름으로 설정
   };
 
   const editMemoFn = (i: DashIssue, memoId: string, content: string) => {
@@ -116,7 +112,7 @@ export default function QueueBoard({ issues, fund }: { issues: DashIssue[]; fund
     try {
       await fetch("/api/registry-manual", {
         method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url, shares, author: author.trim() || undefined }),
+        body: JSON.stringify({ url, shares }), // author는 서버가 로그인 이름으로 설정
       });
     } catch {}
     router.refresh(); // 서버 재평가 반영
@@ -315,12 +311,7 @@ function Row({ i, openId, setOpenId, toggleStatus, author, setAuthor, drafts, se
               );
             })}
             <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
-              <input
-                value={author}
-                onChange={(e) => setAuthor(e.target.value)}
-                placeholder="이름"
-                className="w-20 rounded-md border border-gray-200 bg-white px-2 py-1 text-xs focus:border-[#1f3a5f] focus:outline-none"
-              />
+              {author && <span className="shrink-0 text-[11px] font-medium text-gray-500">{author}:</span>}
               <input
                 value={drafts[i.id] ?? ""}
                 onChange={(e) => setDrafts((d) => ({ ...d, [i.id]: e.target.value }))}
@@ -330,7 +321,7 @@ function Row({ i, openId, setOpenId, toggleStatus, author, setAuthor, drafts, se
               />
               <button
                 onClick={() => publishMemo(i)}
-                disabled={!author.trim() || !(drafts[i.id] ?? "").trim()}
+                disabled={!(drafts[i.id] ?? "").trim()}
                 className="rounded-md bg-[#1f3a5f] px-2.5 py-1 text-xs font-medium text-white disabled:opacity-40"
               >게시</button>
             </div>
