@@ -4,7 +4,7 @@ import { z } from "zod";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const Body = z.object({ name: z.string().trim().min(1).max(60), password: z.string() });
+const Body = z.object({ name: z.string().trim().min(1).max(60), password: z.string().trim() });
 
 // 커스텀 로그인: 이름 + 비밀번호. 비밀번호 맞으면 인증 쿠키 + 이름 쿠키 설정.
 export async function POST(req: Request) {
