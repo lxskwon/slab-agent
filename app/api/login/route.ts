@@ -17,6 +17,7 @@ export async function POST(req: Request) {
   const res = NextResponse.json({ ok: true });
   const opts = { httpOnly: true, secure: true, sameSite: "lax" as const, path: "/", maxAge: 60 * 60 * 24 * 30 };
   if (pw) res.cookies.set("slab_auth", pw, opts);
-  res.cookies.set("slab_name", encodeURIComponent(name), opts);
+  // NextResponse.cookies.set 이 값을 자동으로 URL 인코딩하므로 여기서 다시 인코딩하지 않음.
+  res.cookies.set("slab_name", name, opts);
   return res;
 }
