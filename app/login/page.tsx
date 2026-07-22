@@ -31,11 +31,12 @@ export default function LoginPage() {
     <div className="mx-auto mt-16 max-w-sm">
       <h1 className="text-xl font-bold" style={{ color: NAVY }}>SLAB 데이터 최신화 대시보드</h1>
       <p className="mt-1 text-xs text-gray-500">이름과 비밀번호를 입력해 주세요. 이름은 메모 작성자로 표시됩니다.</p>
-      <form onSubmit={submit} className="mt-5 space-y-3 rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+      <form onSubmit={submit} autoComplete="off" className="mt-5 space-y-3 rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
         <div>
           <label className="mb-1 block text-xs font-medium text-gray-600">이름</label>
           <input
             value={name} onChange={(e) => setName(e.target.value)} autoFocus
+            name="slab-display-name" autoComplete="off"
             placeholder="예: 홍길동"
             className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-[#1f3a5f] focus:outline-none"
           />
@@ -44,6 +45,7 @@ export default function LoginPage() {
           <label className="mb-1 block text-xs font-medium text-gray-600">비밀번호</label>
           <input
             type="password" value={password} onChange={(e) => setPassword(e.target.value)}
+            name="slab-access-code" autoComplete="new-password"
             className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-[#1f3a5f] focus:outline-none"
           />
         </div>
