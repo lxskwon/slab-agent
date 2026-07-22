@@ -2,28 +2,34 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 /**
- * SITE_PASSWORD 환경변수가 있으면 HTTP Basic 인증으로 전체 사이트를 보호.
- * (Vercel 공개 URL에 내부 재무데이터가 올라가므로 공유 비밀번호로 게이트)
- * 로컬/컨테이너에서 SITE_PASSWORD 미설정 시 통과 → 기존 동작 유지.
+ * SITE_PASSWORD가 있으면 커스텀 로그인(/login)으로 보호.
+ * - 페이지 요청: 인증 쿠키(slab_auth) 없으면 /login 으로 리다이렉트
+ * - /api/* : 쿠키 또는 basic-auth(테스트용) 허용, 없으면 401
+ * SITE_PASSWORD 미설정(로컬)이면 통과.
  */
 export function middleware(req: NextRequest) {
   const pw = process.env.SITE_PASSWORD;
   if (!pw) return NextResponse.next();
 
-  const auth = req.headers.get("authorization");
-  if (auth?.startsWith("Basic ")) {
-    try {
-      const decoded = atob(auth.slice(6));
-      const pass = decoded.slice(decoded.indexOf(":") + 1);
-      if (pass === pw) return NextResponse.next();
-    } catch {
-      /* fallthrough */
+  const { pathname } = req.nextUrl;
+  if (pathname === "/login" || pathname === "/api/login" || pathname === "/api/logout") return NextResponse.next();
+
+  if (req.cookies.get("slab_auth")?.value === pw) return NextResponse.next();
+
+  if (pathname.startsWith("/api/")) {
+    const auth = req.headers.get("authorization");
+    if (auth?.startsWith("Basic ")) {
+      try {
+        const decoded = atob(auth.slice(6));
+        if (decoded.slice(decoded.indexOf(":") + 1) === pw) return NextResponse.next();
+      } catch { /* fall through */ }
     }
+    return new NextResponse("인증이 필요합니다.", { status: 401 });
   }
-  return new NextResponse("인증이 필요합니다.", {
-    status: 401,
-    headers: { "WWW-Authenticate": 'Basic realm="SLAB", charset="UTF-8"' },
-  });
+
+  const url = req.nextUrl.clone();
+  url.pathname = "/login";
+  return NextResponse.redirect(url);
 }
 
 export const config = {
