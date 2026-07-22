@@ -204,7 +204,7 @@ async function computeDashboardBase(): Promise<Dashboard> {
 }
 
 // SLAB 집계는 5분 캐시(콜드 로드/타임아웃 완화). 메모/검토상태는 매 요청 Redis에서 신선하게 병합.
-const cachedBase = unstable_cache(computeDashboardBase, ["dashboard-base-v3"], { revalidate: 300 });
+const cachedBase = unstable_cache(computeDashboardBase, ["dashboard-base-v4"], { revalidate: 300 });
 
 export async function getDashboard(): Promise<Dashboard> {
   const base = await cachedBase();
@@ -217,9 +217,9 @@ function fmt(n: number | null): string {
   return n == null ? "—" : n.toLocaleString("ko-KR");
 }
 
-/** 검토 상태 저장 키 (숫자 detail은 제외 — 실행마다 안정적이어야 하므로) */
-export function issueId(fundSlug: string, category: string, company: string, kind: string): string {
-  return [fundSlug, category, company, kind].join("|");
+/** 검토 상태 저장 키. kind(불일치/확인필요 등)는 심각도가 바뀌면 변하므로 제외 — 회사·펀드·분류 단위로 안정적이어야 메모가 유지됨. */
+export function issueId(fundSlug: string, category: string, company: string): string {
+  return [fundSlug, category, company].join("|");
 }
 function mkIssue(
   f: FundInfo,
@@ -231,7 +231,7 @@ function mkIssue(
   evidence: IssueEvidence,
 ): DashIssue {
   return {
-    id: issueId(f.search, category, row.company, kind),
+    id: issueId(f.search, category, row.company),
     fund: f.name, fundSlug: f.search, company: row.company, companyId: row.companyId,
     kind, category, severity, detail, evidence,
     status: "open", memos: [],

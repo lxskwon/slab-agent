@@ -100,3 +100,30 @@ export async function deleteMemo(id: string, memoId: string, at: string): Promis
   item.memos = item.memos.filter((m) => m.id !== memoId); item.updatedAt = at;
   await writeItem(id, item);
 }
+
+/** 1회성 마이그레이션: 구 id(fund|category|company|kind) → 신 id(fund|category|company). kind 제거로 심각도 변경 시 메모 유실 방지. */
+export async function migrateStripKind(): Promise<{ migrated: number }> {
+  const c = getServiceClient();
+  if (!c) return { migrated: 0 };
+  const { data } = await c.from(TABLE).select("id,status,memos,updated_at");
+  const merged = new Map<string, ReviewItem>();
+  const oldIds: string[] = [];
+  for (const r of data ?? []) {
+    const oldId = (r as any).id as string;
+    const parts = oldId.split("|");
+    if (parts.length <= 3) continue; // 이미 신 형식
+    oldIds.push(oldId);
+    const newId = parts.slice(0, 3).join("|");
+    const item = rowToItem(r);
+    const ex = merged.get(newId);
+    if (ex) { ex.memos = [...ex.memos, ...item.memos]; if (ex.status === "open") ex.status = item.status; }
+    else merged.set(newId, item);
+  }
+  for (const [id, it] of merged) {
+    await c.from(TABLE).upsert({ id, status: it.status, memos: it.memos, updated_at: it.updatedAt || new Date().toISOString() });
+  }
+  for (const oldId of oldIds) {
+    if (!merged.has(oldId)) await c.from(TABLE).delete().eq("id", oldId);
+  }
+  return { migrated: oldIds.length };
+}
