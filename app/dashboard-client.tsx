@@ -5,6 +5,7 @@ import { useState } from "react";
 import type { Dashboard } from "@/lib/slab/service";
 import { NAVY } from "./tracker-tables";
 import QueueBoard from "./queue-board";
+import CompanySearch from "./company-search";
 
 function Kpi({ label, value, sub, href }: { label: string; value: React.ReactNode; sub?: string; href?: string }) {
   const body = (
@@ -30,6 +31,9 @@ export default function DashboardClient({ dash }: { dash: Dashboard }) {
 
   return (
     <div className="space-y-4">
+      {/* 기업 검색 */}
+      <CompanySearch companies={dash.companies} />
+
       {/* 전역 필터 + 내보내기 */}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-2">

@@ -86,10 +86,16 @@ export interface DashFund {
   red: number;
   yellow: number;
 }
+export interface CompanyIndexEntry {
+  id: string;
+  name: string;
+  funds: string[]; // 이 기업이 속한 펀드 이름들
+}
 export interface Dashboard {
   totals: { funds: number; companies: number; red: number; yellow: number; registryPct: number; processed: number };
   issues: DashIssue[];
   funds: DashFund[];
+  companies: CompanyIndexEntry[]; // 검색용 전체 기업 목록(companyId 기준 중복 제거)
 }
 
 // SLAB 집계(무거움)만 계산 — 사람 검토(메모/상태) 병합은 하지 않음. 이 결과가 캐시된다.
@@ -195,6 +201,22 @@ async function computeDashboardBase(): Promise<Dashboard> {
     for (const r of t.followup) uniqCompanies.add(r.companyId || r.company.replace(/\s/g, ""));
   }
   const companies = uniqCompanies.size;
+
+  // 검색용 기업 인덱스: companyId 있는 기업만, 펀드 이름 모아서 중복 제거
+  const coIndex = new Map<string, { name: string; funds: Set<string> }>();
+  for (const { f, t } of built) {
+    if (!t) continue;
+    for (const r of t.followup) {
+      if (!r.companyId) continue;
+      const e = coIndex.get(r.companyId) ?? { name: r.company, funds: new Set<string>() };
+      e.funds.add(f.name);
+      coIndex.set(r.companyId, e);
+    }
+  }
+  const companyIndex: CompanyIndexEntry[] = [...coIndex.entries()]
+    .map(([id, e]) => ({ id, name: e.name, funds: [...e.funds] }))
+    .sort((a, b) => a.name.localeCompare(b.name, "ko"));
+
   const writeoffCount = dashFunds.filter((f) => f.writeoffUploaded).length;
   const registryPct = totAttached ? Math.round((totParsed / totAttached) * 100) : 100;
   // red 먼저, 그 다음 yellow
@@ -203,11 +225,12 @@ async function computeDashboardBase(): Promise<Dashboard> {
     totals: { funds: funds.length, companies, red, yellow, registryPct, processed: writeoffCount },
     issues,
     funds: dashFunds,
+    companies: companyIndex,
   };
 }
 
 // SLAB 집계는 5분 캐시(콜드 로드/타임아웃 완화). 메모/검토상태는 매 요청 Redis에서 신선하게 병합.
-const cachedBase = unstable_cache(computeDashboardBase, ["dashboard-base-v7"], { revalidate: 300, tags: ["dashboard-base"] });
+const cachedBase = unstable_cache(computeDashboardBase, ["dashboard-base-v8"], { revalidate: 300, tags: ["dashboard-base"] });
 
 export async function getDashboard(): Promise<Dashboard> {
   const base = await cachedBase();
