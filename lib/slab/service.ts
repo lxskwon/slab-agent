@@ -129,7 +129,8 @@ async function computeDashboardBase(): Promise<Dashboard> {
         registryQuarter: r.registryQuarter, registryUrl: r.registryUrl, registryManual: r.registryManual,
         slabShares: r.slabShares, reportShares: r.reportShares,
       };
-      const worthy = r.match === "불일치" || /처리 대기|판독 불가|오첨부|상이|해외/.test(r.note);
+      // 수기 입력했지만 SLAB 발행주식총수가 없어 대조 불가한 건도 계속 표시(조용히 사라지지 않도록)
+      const worthy = r.match === "불일치" || (r.registryManual && r.slabShares == null) || /처리 대기|판독 불가|오첨부|상이|해외/.test(r.note);
       if (worthy) {
         const key = r.companyId || r.company;
         fuFundCount.set(key, (fuFundCount.get(key) ?? 0) + 1);
@@ -167,7 +168,7 @@ async function computeDashboardBase(): Promise<Dashboard> {
     totParsed += hasReg;
     const red = fu.mismatch + wo.notReflected;
     // 큐와 동일하게 기업당 하나만 집계: 불일치(red)인 행은 yellow로 중복 계산하지 않음
-    const followupYellow = t.followup.filter((r) => r.match !== "불일치" && /처리 대기|판독 불가|오첨부|상이|해외/.test(r.note)).length;
+    const followupYellow = t.followup.filter((r) => r.match !== "불일치" && ((r.registryManual && r.slabShares == null) || /처리 대기|판독 불가|오첨부|상이|해외/.test(r.note))).length;
     const yellow = (writeoffUploaded ? wo.pending : 0) + followupYellow;
     dashFunds.push({
       name: f.name, slug: f.search, processed: true, writeoffUploaded, companies: t.followup.length,
