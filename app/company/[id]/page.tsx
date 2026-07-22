@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getCompanyDetail } from "@/lib/slab/service";
 import { NAVY } from "../../tracker-tables";
+import ManualRegistry from "./manual-registry";
 
 export const dynamic = "force-dynamic";
 
@@ -70,6 +71,12 @@ export default async function CompanyPage({ params }: { params: Promise<{ id: st
           <div className="px-4 py-6 text-center text-sm text-gray-400">후속투자 데이터가 없습니다.</div>
         )}
         {fu?.note && <div className="border-t border-gray-100 px-4 py-2.5 text-xs text-gray-500">비고 · {fu.note}</div>}
+        {/* 등기부등본 판독 불가 / 수기 입력 → 언제든 입력·수정·삭제 (큐에서 빠진 건도 여기서) */}
+        {fu?.registryUrl && (fu.registryShares == null || fu.registryManual) && (
+          <div className="border-t border-gray-100 px-4 py-2.5">
+            <ManualRegistry url={fu.registryUrl} current={fu.registryShares} isManual={fu.registryManual} />
+          </div>
+        )}
       </div>
 
       {/* 소속 펀드 + 감액 상태 */}

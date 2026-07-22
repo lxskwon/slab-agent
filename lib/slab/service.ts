@@ -608,6 +608,7 @@ export interface CompanyDetail {
     registryQuarter: string | null;
     registryDate: string | null;
     registryUrl: string | null;
+    registryManual: boolean;
     reportShares: number | null;
     match: FollowupRow["match"];
     note: string;
@@ -636,7 +637,7 @@ export async function getCompanyDetail(companyId: string): Promise<CompanyDetail
       followup = {
         slabShares: fuRow.slabShares, registryShares: fuRow.registryShares,
         registryQuarter: fuRow.registryQuarter ?? null, registryDate: fuRow.registryDate,
-        registryUrl: fuRow.registryUrl ?? null, reportShares: fuRow.reportShares ?? null,
+        registryUrl: fuRow.registryUrl ?? null, registryManual: !!fuRow.registryManual, reportShares: fuRow.reportShares ?? null,
         match: fuRow.match, note: fuRow.note,
       };
     }
