@@ -122,6 +122,18 @@ export default function QueueBoard({ issues, fund }: { issues: DashIssue[]; fund
     router.refresh(); // 서버 재평가 반영
   };
 
+  const clearManual = async (i: DashIssue) => {
+    const url = i.evidence.registryUrl;
+    if (!url) return;
+    try {
+      await fetch("/api/registry-manual", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url, remove: true }),
+      });
+    } catch {}
+    router.refresh();
+  };
+
   const rank = (s: DashIssue["severity"]) => (s === "red" ? 0 : 1);
   const isMulti = (i: DashIssue) => (/개\s*펀드$/.test(i.fund) ? 1 : 0); // 여러 펀드 이슈는 각 그룹 맨 아래로
   const forCat = (category: DashIssue["category"]) =>
@@ -136,7 +148,7 @@ export default function QueueBoard({ issues, fund }: { issues: DashIssue[]; fund
 
   const hiddenCount = (["followup", "writeoff"] as const).reduce((n, c) => n + forCat(c).filter((i) => i.status === "dismissed").length, 0);
 
-  const rowProps = { openId, setOpenId, toggleStatus, author, setAuthor, drafts, setDrafts, publishMemo, mine, editMemo: editMemoFn, deleteMemo: deleteMemoFn, saveManual };
+  const rowProps = { openId, setOpenId, toggleStatus, author, setAuthor, drafts, setDrafts, publishMemo, mine, editMemo: editMemoFn, deleteMemo: deleteMemoFn, saveManual, clearManual };
 
   return (
     <div className="space-y-3">
@@ -180,6 +192,7 @@ type RowShared = {
   editMemo: (i: DashIssue, memoId: string, content: string) => void;
   deleteMemo: (i: DashIssue, memoId: string) => void;
   saveManual: (i: DashIssue, shares: number) => void;
+  clearManual: (i: DashIssue) => void;
 };
 
 function Section({ title, issues, ...shared }: { title: string; issues: DashIssue[] } & RowShared) {
@@ -205,7 +218,7 @@ function Section({ title, issues, ...shared }: { title: string; issues: DashIssu
   );
 }
 
-function Row({ i, openId, setOpenId, toggleStatus, author, setAuthor, drafts, setDrafts, publishMemo, mine, editMemo, deleteMemo, saveManual }: { i: DashIssue } & RowShared) {
+function Row({ i, openId, setOpenId, toggleStatus, author, setAuthor, drafts, setDrafts, publishMemo, mine, editMemo, deleteMemo, saveManual, clearManual }: { i: DashIssue } & RowShared) {
   const open = openId === i.id;
   const meta = i.status !== "open" ? STATUS_META[i.status] : null;
   const dim = i.status === "dismissed";
@@ -214,8 +227,9 @@ function Row({ i, openId, setOpenId, toggleStatus, author, setAuthor, drafts, se
   const [manualDraft, setManualDraft] = useState("");
   const startEdit = (mid: string, content: string) => { setEditingId(mid); setEditDraft(content); };
   const saveEdit = () => { if (editingId) editMemo(i, editingId, editDraft); setEditingId(null); };
-  // 등기부등본 판독 불가 + PDF 링크 있음 → 수기 입력 가능
-  const manualEligible = i.category === "followup" && i.evidence.registryShares == null && !!i.evidence.registryUrl;
+  // 등기부등본 판독 불가(수기 입력 가능) 또는 이미 수기 입력된 건(수정/삭제 가능)
+  const manualEligible = i.category === "followup" && !!i.evidence.registryUrl && (i.evidence.registryShares == null || i.evidence.registryManual);
+  const isManual = !!i.evidence.registryManual;
   const submitManual = () => { const n = Number(manualDraft.replace(/[,\s]/g, "")); if (Number.isFinite(n) && n >= 0) { saveManual(i, n); setManualDraft(""); } };
   return (
     <li className={dim ? "opacity-55" : ""}>
@@ -236,10 +250,12 @@ function Row({ i, openId, setOpenId, toggleStatus, author, setAuthor, drafts, se
         <div className="space-y-3 border-t border-gray-100 bg-gray-50/60 px-4 py-3 text-xs">
           <Evidence i={i} />
 
-          {/* 등기부등본 판독 불가 → PDF 보고 발행주식총수 직접 입력 */}
+          {/* 등기부등본 판독 불가 → PDF 보고 발행주식총수 직접 입력 (이미 입력된 건은 수정/삭제) */}
           {manualEligible && (
             <div className="flex flex-wrap items-center gap-1.5 rounded-md bg-amber-50 px-2.5 py-2 ring-1 ring-amber-200">
-              <span className="text-[11px] font-medium text-amber-800">등기부등본 판독 불가 — 직접 입력:</span>
+              <span className="text-[11px] font-medium text-amber-800">
+                {isManual ? `수기 입력값: ${fmt(i.evidence.registryShares)}주 — 수정:` : "등기부등본 판독 불가 — 직접 입력:"}
+              </span>
               <input
                 value={manualDraft}
                 onChange={(e) => setManualDraft(e.target.value)}
@@ -250,6 +266,7 @@ function Row({ i, openId, setOpenId, toggleStatus, author, setAuthor, drafts, se
               />
               <span className="text-[11px] text-gray-400">주</span>
               <button onClick={submitManual} disabled={!manualDraft.trim()} className="rounded-md bg-[#1f3a5f] px-2.5 py-1 text-xs font-medium text-white disabled:opacity-40">저장</button>
+              {isManual && <button onClick={() => clearManual(i)} className="text-[11px] text-gray-400 hover:text-red-600">지우기</button>}
               {i.evidence.registryUrl && <a href={i.evidence.registryUrl} target="_blank" rel="noopener noreferrer" className="text-[11px] text-[#1f3a5f] underline">PDF 확인 ↗</a>}
             </div>
           )}

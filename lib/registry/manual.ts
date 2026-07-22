@@ -27,6 +27,15 @@ export async function getManualMap(): Promise<Map<string, ManualReg>> {
   return out;
 }
 
+export async function deleteManual(url: string): Promise<void> {
+  const c = getServiceClient();
+  if (c) { await c.from(TABLE).delete().eq("url", url); return; }
+  const map = await getManualMap();
+  map.delete(url);
+  await mkdir(path.dirname(FILE), { recursive: true });
+  await writeFile(FILE, JSON.stringify(Object.fromEntries(map), null, 2));
+}
+
 export async function setManual(url: string, m: ManualReg): Promise<void> {
   const c = getServiceClient();
   if (c) {

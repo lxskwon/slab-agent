@@ -19,6 +19,7 @@ export interface FollowupRow {
   flag?: Flag;
   registryQuarter?: string | null; // 채택된 등기부 분기 (예: "2025년 3분기")
   registryUrl?: string | null; // 등기부 PDF 원본 링크 (증거)
+  registryManual?: boolean; // 발행주식총수가 수기 입력값인지
 }
 
 export interface WriteoffRow {

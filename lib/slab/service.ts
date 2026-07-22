@@ -51,6 +51,7 @@ export interface IssueEvidence {
   registryDate?: string | null;
   registryQuarter?: string | null;
   registryUrl?: string | null;
+  registryManual?: boolean;
   slabShares?: number | null;
   reportShares?: number | null;
   // 감액
@@ -125,7 +126,7 @@ async function computeDashboardBase(): Promise<Dashboard> {
       if (r.registryShares != null) hasReg += 1;
       const fuEvidence: IssueEvidence = {
         registryShares: r.registryShares, registryDate: r.registryDate,
-        registryQuarter: r.registryQuarter, registryUrl: r.registryUrl,
+        registryQuarter: r.registryQuarter, registryUrl: r.registryUrl, registryManual: r.registryManual,
         slabShares: r.slabShares, reportShares: r.reportShares,
       };
       const worthy = r.match === "불일치" || /처리 대기|판독 불가|오첨부|상이|해외/.test(r.note);
@@ -396,7 +397,7 @@ function applyManualRow(r: FollowupRow, manual: Map<string, ManualReg>): Followu
   // 판독 불가/처리 대기/오첨부 관련 비고 제거 후 '수기 입력' 표시
   const kept = r.note.split(" · ").filter((s) => s && !/판독|처리 대기|오첨부/.test(s));
   kept.push(`등기부등본 수기 입력${mo.author ? ` (${mo.author})` : ""}`);
-  return { ...r, registryShares: mo.shares, registryDate: mo.issueDate ?? r.registryDate, match, followupApplicable, flag, note: kept.join(" · ") };
+  return { ...r, registryShares: mo.shares, registryDate: mo.issueDate ?? r.registryDate, registryManual: true, match, followupApplicable, flag, note: kept.join(" · ") };
 }
 
 export async function getFundTracker(fundSearch: string): Promise<FundTracker | null> {
