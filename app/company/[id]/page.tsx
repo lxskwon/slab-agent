@@ -39,7 +39,7 @@ export default async function CompanyPage({ params }: { params: Promise<{ id: st
             <h1 className="text-2xl font-bold tracking-tight" style={{ color: NAVY }}>{c.name}</h1>
             <p className="mt-1 text-xs text-gray-500">
               {c.nameEn && <span>{c.nameEn} · </span>}
-              {c.foreign ? `해외기업 (계약언어: ${c.lang})` : "국내기업"}
+              {c.foreign ? "해외기업" : "국내기업"}
               {c.investStatus && <span> · SLAB 상태: {c.investStatus}</span>}
             </p>
           </div>

@@ -207,7 +207,7 @@ async function computeDashboardBase(): Promise<Dashboard> {
 }
 
 // SLAB 집계는 5분 캐시(콜드 로드/타임아웃 완화). 메모/검토상태는 매 요청 Redis에서 신선하게 병합.
-const cachedBase = unstable_cache(computeDashboardBase, ["dashboard-base-v6"], { revalidate: 300, tags: ["dashboard-base"] });
+const cachedBase = unstable_cache(computeDashboardBase, ["dashboard-base-v7"], { revalidate: 300, tags: ["dashboard-base"] });
 
 export async function getDashboard(): Promise<Dashboard> {
   const base = await cachedBase();
@@ -509,8 +509,8 @@ async function buildTracker(fundSearch: string): Promise<FundTracker | null> {
     if (!reg.attached) notes.push("등기부등본 미첨부");
     else if (reg.oversized) notes.push("등기부등본 용량 초과 · 수동 확인 필요");
     else if (reg.unprocessed) notes.push("등기부등본 처리 대기");
-    else if (!reg.cachedOk) notes.push(foreign ? `해외기업(계약언어: ${lang}) 등기서류 판독 불가` : "등기서류 판독 불가");
-    else if (foreign) notes.push(`해외기업(계약언어: ${lang})`);
+    else if (!reg.cachedOk) notes.push(foreign ? "해외기업 등기서류 판독 불가" : "등기서류 판독 불가");
+    else if (foreign) notes.push("해외기업");
     if (reg.lowConfidenceOcr) notes.push("OCR 판독(재확인 권장)");
     if (slabShares == null) notes.push("SLAB 발행주식총수 미기재");
 
