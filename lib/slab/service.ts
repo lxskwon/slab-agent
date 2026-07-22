@@ -204,7 +204,7 @@ async function computeDashboardBase(): Promise<Dashboard> {
 }
 
 // SLAB 집계는 5분 캐시(콜드 로드/타임아웃 완화). 메모/검토상태는 매 요청 Redis에서 신선하게 병합.
-const cachedBase = unstable_cache(computeDashboardBase, ["dashboard-base-v5"], { revalidate: 300 });
+const cachedBase = unstable_cache(computeDashboardBase, ["dashboard-base-v6"], { revalidate: 300 });
 
 export async function getDashboard(): Promise<Dashboard> {
   const base = await cachedBase();
@@ -305,23 +305,28 @@ interface RegistryView {
   url: string | null; // 채택된 등기부 PDF 원본 링크 (증거 확인용)
 }
 
-// 대상 분기 = 제출된 분기보고 중 가장 최근 것 (자동 감지). SLAB에 새 분기가 제출되면 자동으로 따라감.
+// 대상 분기 = 지금 '광범위하게 제출되는' 분기 (자동 감지). 최근 제출 200건 중 가장 흔한(mode) 분기.
+// 최댓값이 아니라 최빈값을 쓰는 이유: 일부 기업이 다음 분기를 일찍 제출해도 대부분이 아직 이번 분기면
+// 리뷰 대상은 이번 분기여야 함(안 그러면 미제출 기업들 데이터가 비어 이슈가 사라짐).
 export interface TargetQuarter { year: number; quarter: string; key: number; label: string }
 let _target: TargetQuarter | null = null;
 export async function getTargetQuarter(): Promise<TargetQuarter> {
   if (_target) return _target;
   try {
-    // "report made" 최신순 상위 100건 → 그중 제출된 것의 최대 (연도·분기)
-    const rows = await slabList<Obj>("quarterlyupdate", { sort: { field: "report made", descending: true }, limit: 100, maxPages: 1 });
-    let best = { y: 0, q: 0 };
+    const rows = await slabList<Obj>("quarterlyupdate", { sort: { field: "report made", descending: true }, limit: 200, maxPages: 1 });
+    const cnt = new Map<number, number>();
     for (const r of rows) {
       if (!isSubmitted(r)) continue;
-      const y = (r.year as number) ?? 0;
-      const q = quarterNum(r.quarter as string);
-      if (y * 10 + q > best.y * 10 + best.q) best = { y, q };
+      const k = ((r.year as number) ?? 0) * 10 + quarterNum(r.quarter as string);
+      if (k > 0) cnt.set(k, (cnt.get(k) ?? 0) + 1);
     }
-    if (best.y > 0) {
-      _target = { year: best.y, quarter: `${best.q}분기`, key: best.y * 10 + best.q, label: `${best.y}년 ${best.q}분기` };
+    let bestKey = 0, bestCnt = -1;
+    for (const [k, c] of cnt) {
+      if (c > bestCnt || (c === bestCnt && k > bestKey)) { bestCnt = c; bestKey = k; } // 최빈값, 동률이면 최신
+    }
+    if (bestKey > 0) {
+      const y = Math.floor(bestKey / 10), q = bestKey % 10;
+      _target = { year: y, quarter: `${q}분기`, key: bestKey, label: `${y}년 ${q}분기` };
       return _target;
     }
   } catch { /* 폴백 */ }
