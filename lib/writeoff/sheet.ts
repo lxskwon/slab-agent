@@ -205,6 +205,32 @@ function findHeader(ws: ExcelJS.Worksheet): { headerRow: number; nameCol: number
   return { headerRow: 0, nameCol: 0, noCol: 0 };
 }
 
+// 감액/청산 신호로 볼 명시적 종료 키워드 (재무 수치 추론 아님, 명시적 표현만).
+const CLOSURE_RE = /폐업|청산|해산|완전자본잠식|자본잠식|파산|상각|감액|written[- ]?off|w\/o/i;
+
+/** 이 워크시트에 감액/청산을 명확히 읽을 수 있는 신호(상태 열 또는 명시적 종료 키워드)가 있는지. */
+function wsHasWriteoffSignal(ws: ExcelJS.Worksheet): boolean {
+  const lastCol = Math.min(ws.columnCount, 50);
+  const maxRow = Math.min(ws.rowCount, 500);
+  let statusCol = false;
+  for (let r = 1; r <= maxRow; r++) {
+    for (let i = 1; i <= lastCol; i++) {
+      const s = cellText(ws.getRow(r).getCell(i)).trim();
+      if (!s) continue;
+      if (!statusCol && (s === "상태" || s.toLowerCase() === "status")) statusCol = true;
+      if (CLOSURE_RE.test(s)) return true;
+    }
+  }
+  return statusCol;
+}
+
+/** sheetToText 결과 텍스트에 감액/청산 신호가 있는지 (process 단계 사전 검증용). */
+export function hasWriteoffSignalInText(text: string): boolean {
+  const headerLine = text.split("\n").find((l) => l.startsWith("헤더:")) ?? "";
+  const statusCol = /상태/.test(headerLine) || /\bstatus\b/i.test(headerLine);
+  return statusCol || CLOSURE_RE.test(text);
+}
+
 /** 워크시트가 '회사별' 표인지 점수화: 기업명/회사명 열 아래 회사 행 수. 표가 아니면 0. */
 function companyTableScore(ws: ExcelJS.Worksheet): number {
   const { headerRow, nameCol, noCol } = findHeader(ws);
@@ -232,11 +258,13 @@ export async function listTabs(slug: string): Promise<string[]> {
   const scored = wb.worksheets.map((w, idx) => ({
     name: w.name,
     score: companyTableScore(w),
-    preferred: w.name.trim() === "투자집행" ? 0 : 1, // 표준 탭명 우선
+    signal: wsHasWriteoffSignal(w), // 감액/청산 신호 있는 탭
     idx,
   }));
-  // '투자집행' 최우선 → 회사 행 많은 순 → 원래 순서
-  scored.sort((a, b) => a.preferred - b.preferred || b.score - a.score || a.idx - b.idx);
+  // 기본값은 표준 요약 탭 '투자 및 전환현황'(감액/폐업이 깔끔히 표기됨). 없으면 감액신호+회사표 있는 탭 순.
+  const rank = (s: (typeof scored)[number]) =>
+    s.name.trim() === "투자 및 전환현황" ? 0 : s.score > 0 && s.signal ? 1 : s.score > 0 ? 2 : 3;
+  scored.sort((a, b) => rank(a) - rank(b) || b.score - a.score || a.idx - b.idx);
   return scored.map((s) => s.name);
 }
 

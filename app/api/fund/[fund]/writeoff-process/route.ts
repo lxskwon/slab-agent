@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { sheetToText, normName } from "@/lib/writeoff/sheet";
+import { sheetToText, normName, hasWriteoffSignalInText } from "@/lib/writeoff/sheet";
 import { interpretSheet } from "@/lib/writeoff/interpret";
 import { saveInterp } from "@/lib/writeoff/interp-cache";
 import { invalidateFund } from "@/lib/slab/service";
@@ -24,6 +24,13 @@ export async function POST(
     const { text, names } = await sheetToText(fund, parsed.data.tab);
     if (!text.trim()) {
       return NextResponse.json({ ok: false, error: "탭에서 데이터를 읽지 못함" }, { status: 400 });
+    }
+    // 감액/청산을 판단할 명시적 신호(상태 열 또는 폐업/청산/상각 등)가 없으면 억지로 추론하지 않고 안내.
+    if (!hasWriteoffSignalInText(text)) {
+      return NextResponse.json(
+        { ok: false, error: "이 탭에서는 감액/청산 상태를 명확히 읽을 수 없습니다. 상태 열이나 폐업/청산 표기가 있는 다른 탭(예: '투자 및 전환현황')을 선택하세요." },
+        { status: 400 },
+      );
     }
     const companies = await interpretSheet(text);
     if (companies.length === 0) {
