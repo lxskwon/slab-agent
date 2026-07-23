@@ -53,8 +53,31 @@ export function nameKeys(ko?: string, en?: string): string[] {
   return [...keys];
 }
 
+/**
+ * 셀 텍스트를 안전하게 추출. exceljs의 cell.text 게터는 수식 결과가 null이거나
+ * 리치텍스트/하이퍼링크 등 특정 타입에서 내부적으로 .toString()을 호출하다 throw할 수 있어
+ * try/catch로 감싸고 value에서 직접 복원한다.
+ */
+export function cellText(cell: ExcelJS.Cell): string {
+  try {
+    const t = cell.text;
+    return t == null ? "" : String(t);
+  } catch {
+    const v = cell.value as unknown;
+    if (v == null) return "";
+    if (typeof v === "object") {
+      const o = v as { result?: unknown; text?: unknown; richText?: { text?: string }[] };
+      if (o.result != null) return String(o.result);
+      if (o.text != null) return String(o.text);
+      if (Array.isArray(o.richText)) return o.richText.map((r) => r?.text ?? "").join("");
+      return "";
+    }
+    return String(v);
+  }
+}
+
 function isNumbered(cell: ExcelJS.Cell): boolean {
-  return /^\d+$/.test(String(cell.text ?? "").trim());
+  return /^\d+$/.test(cellText(cell).trim());
 }
 
 /** 워크북 → 회사명키 → {상태, 이름} 맵 */
@@ -92,9 +115,9 @@ function parseWorkbook(wb: ExcelJS.Workbook): Map<string, SheetEntry> {
   ws.eachRow((row, r) => {
     if (r <= headerRow) return;
     if (!isNumbered(row.getCell(noCol))) return;
-    const ko = String(row.getCell(koCol).text ?? "").trim();
-    const en = enCol ? String(row.getCell(enCol).text ?? "").trim() : "";
-    const st = String(row.getCell(statusCol).text ?? "").trim();
+    const ko = cellText(row.getCell(koCol)).trim();
+    const en = enCol ? cellText(row.getCell(enCol)).trim() : "";
+    const st = cellText(row.getCell(statusCol)).trim();
     if (!st) return;
     const entry: SheetEntry = { status: st, name: ko || en };
     for (const k of nameKeys(ko, en)) setPref(k, entry);
@@ -168,7 +191,7 @@ const isNoHeader = (s: string) => /^no\.?$/i.test(s) || s === "번호" || s === 
  */
 function findHeader(ws: ExcelJS.Worksheet): { headerRow: number; nameCol: number; noCol: number } {
   const lastCol = Math.min(ws.columnCount, 50);
-  const txt = (r: number, i: number) => String(ws.getRow(r).getCell(i).text ?? "").replace(/\s+/g, " ").trim();
+  const txt = (r: number, i: number) => cellText(ws.getRow(r).getCell(i)).replace(/\s+/g, " ").trim();
   const maxRow = Math.min(ws.rowCount, 60);
   for (let r = 1; r <= maxRow; r++) {
     let nameCol = 0, noCol = 0;
@@ -186,7 +209,7 @@ function findHeader(ws: ExcelJS.Worksheet): { headerRow: number; nameCol: number
 function companyTableScore(ws: ExcelJS.Worksheet): number {
   const { headerRow, nameCol, noCol } = findHeader(ws);
   if (!headerRow) return 0;
-  const txt = (r: number, i: number) => String(ws.getRow(r).getCell(i).text ?? "").replace(/\s+/g, " ").trim();
+  const txt = (r: number, i: number) => cellText(ws.getRow(r).getCell(i)).replace(/\s+/g, " ").trim();
   let count = 0;
   ws.eachRow((row, r) => {
     if (r <= headerRow) return;
@@ -232,7 +255,7 @@ export async function sheetToText(
   const ws = wb.getWorksheet(tab) ?? wb.worksheets[0];
   if (!ws) return { text: "", names: [] };
   const lastCol = Math.min(ws.columnCount, 50);
-  const txt = (r: number, i: number) => String(ws.getRow(r).getCell(i).text ?? "").replace(/\s+/g, " ").trim();
+  const txt = (r: number, i: number) => cellText(ws.getRow(r).getCell(i)).replace(/\s+/g, " ").trim();
 
   let { headerRow, nameCol, noCol } = findHeader(ws);
   if (!headerRow) {
