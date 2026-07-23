@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { sheetToText, normName, hasWriteoffSignalInText } from "@/lib/writeoff/sheet";
+import { sheetToText, normName, nameKeys, hasWriteoffSignalInText } from "@/lib/writeoff/sheet";
 import { interpretSheet } from "@/lib/writeoff/interpret";
 import { saveInterp } from "@/lib/writeoff/interp-cache";
-import { invalidateFund } from "@/lib/slab/service";
+import { invalidateFund, getFundCompanyNames } from "@/lib/slab/service";
 
 export const runtime = "nodejs";
 export const maxDuration = 300;
@@ -31,6 +31,19 @@ export async function POST(
         { ok: false, error: "이 탭에서는 감액/청산 상태를 명확히 읽을 수 없습니다. 상태 열이나 폐업/청산 표기가 있는 다른 탭(예: '투자 및 전환현황')을 선택하세요." },
         { status: 400 },
       );
+    }
+    // 잘못된 펀드의 시트 방지: 시트의 회사들이 이 펀드 포트폴리오와 거의 안 겹치면 거부 (LLM 호출 전, 원문 이름으로 판정).
+    const fundCompanies = await getFundCompanyNames(fund);
+    if (fundCompanies.length > 0) {
+      const sheetKeys = new Set<string>();
+      for (const nm of names) for (const k of nameKeys(nm)) sheetKeys.add(k);
+      const matched = fundCompanies.filter((fc) => nameKeys(fc.name, fc.nameEn).some((k) => sheetKeys.has(k))).length;
+      if (matched / fundCompanies.length < 0.3) {
+        return NextResponse.json(
+          { ok: false, error: `이 시트의 회사들이 이 펀드 포트폴리오와 거의 일치하지 않습니다 (${matched}/${fundCompanies.length} 매칭). 다른 펀드의 시트일 수 있으니 확인하세요.` },
+          { status: 400 },
+        );
+      }
     }
     const companies = await interpretSheet(text);
     if (companies.length === 0) {

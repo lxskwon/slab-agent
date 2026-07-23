@@ -316,6 +316,18 @@ export async function getFunds(): Promise<FundInfo[]> {
   return fundsCache;
 }
 
+/** 펀드의 SLAB 포트폴리오 회사명 목록 (감액 시트가 이 펀드 것인지 검증용). company의 'fund type' 기준. */
+export async function getFundCompanyNames(fundSearch: string): Promise<{ name: string; nameEn: string }[]> {
+  const fund = (await getFunds()).find((f) => f.search === fundSearch);
+  if (!fund) return [];
+  const companies = await slabList<Obj>("company", {
+    constraints: [{ key: "fund type", constraint_type: "contains", value: fund.id }],
+  });
+  return companies
+    .map((c) => ({ name: (c["company name"] as string) ?? "", nameEn: (c["company name eng"] as string) ?? "" }))
+    .filter((c) => !isJunkCompany(c.name));
+}
+
 // ---- registry (CACHE-ONLY: 파싱/OCR은 배치 스크립트가 담당) ----
 interface RegistryView {
   shares: number | null;
