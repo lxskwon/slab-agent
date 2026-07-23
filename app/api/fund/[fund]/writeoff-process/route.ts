@@ -28,7 +28,7 @@ export async function POST(
     // 감액/청산을 판단할 명시적 신호(상태 열 또는 폐업/청산/상각 등)가 없으면 억지로 추론하지 않고 안내.
     if (!hasWriteoffSignalInText(text)) {
       return NextResponse.json(
-        { ok: false, error: "이 탭에서는 감액/청산 상태를 명확히 읽을 수 없습니다. 상태 열이나 폐업/청산 표기가 있는 다른 탭(예: '투자 및 전환현황')을 선택하세요." },
+        { ok: false, error: "이 탭에서는 감액/청산 상태를 명확히 읽을 수 없습니다. 상태 열이나 폐업/청산 표기가 있는 다른 탭('투자 및 전환현황' 등)을 선택하거나, 올바른 투자현황 DB 파일인지 확인 후 다시 업로드해 주세요." },
         { status: 400 },
       );
     }
@@ -48,7 +48,7 @@ export async function POST(
     const companies = await interpretSheet(text);
     if (companies.length === 0) {
       return NextResponse.json(
-        { ok: false, error: "이 탭에서 회사 목록을 찾지 못했습니다. 회사별 데이터가 있는 탭(예: '투자집행')을 선택하세요." },
+        { ok: false, error: "이 탭에서 회사 목록을 찾지 못했습니다. 회사별 데이터가 있는 다른 탭을 선택하거나, 올바른 투자현황 DB 파일인지 확인 후 다시 업로드해 주세요." },
         { status: 400 },
       );
     }
