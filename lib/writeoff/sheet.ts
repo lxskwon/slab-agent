@@ -241,10 +241,15 @@ export async function sheetToText(
   }
 
   const lines: string[] = [];
+  // 헤더 위 요약 블록(예: '감액 기업: 가이버스 폐업, 인테그리틱스 완전자본잠식')을 컨텍스트로 포함 —
+  // 회사별 표에는 없어도 여기에 명시된 감액/청산 신호를 LLM이 볼 수 있게 한다.
   if (headerRow > 1) {
-    const grp = Array.from({ length: lastCol }, (_, i) => txt(headerRow - 1, i + 1));
-    if (grp.some(Boolean))
-      lines.push("그룹: " + grp.map((g, i) => (g ? `${colLetter(i + 1)}:${g}` : "")).filter(Boolean).join(" | "));
+    const summary: string[] = [];
+    for (let r = 1; r < headerRow; r++) {
+      const rowVals = Array.from({ length: lastCol }, (_, i) => txt(r, i + 1)).filter(Boolean);
+      if (rowVals.length) summary.push(rowVals.join(" | "));
+    }
+    if (summary.length) lines.push("[상단 요약]\n" + summary.join("\n"), "");
   }
   lines.push(
     "헤더: " + Array.from({ length: lastCol }, (_, i) => txt(headerRow, i + 1)).map((h, i) => (h ? `${colLetter(i + 1)}=${h}` : "")).filter(Boolean).join(" | "),

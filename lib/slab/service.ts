@@ -230,7 +230,7 @@ async function computeDashboardBase(): Promise<Dashboard> {
 }
 
 // SLAB 집계는 5분 캐시(콜드 로드/타임아웃 완화). 메모/검토상태는 매 요청 Redis에서 신선하게 병합.
-const cachedBase = unstable_cache(computeDashboardBase, ["dashboard-base-v8"], { revalidate: 300, tags: ["dashboard-base"] });
+const cachedBase = unstable_cache(computeDashboardBase, ["dashboard-base-v9"], { revalidate: 300, tags: ["dashboard-base"] });
 
 export async function getDashboard(): Promise<Dashboard> {
   const base = await cachedBase();
@@ -454,20 +454,20 @@ async function buildTracker(fundSearch: string): Promise<FundTracker | null> {
     }
   }
 
-  const spis = await slabList<Obj>("sparklabinvestment", {
-    constraints: [{ key: "fund", constraint_type: "equals", value: fund.id }],
-  });
+  // 펀드 포트폴리오 = company의 'fund type' 리스트에 이 펀드가 포함된 회사 (공동투자 포함).
+  // SLAB 온보딩 화면과 동일 기준. (기존엔 sparklabinvestment.fund로 잡아 공동투자 회사가 누락됐음.)
+  const [companies, spis] = await Promise.all([
+    slabList<Obj>("company", { constraints: [{ key: "fund type", constraint_type: "contains", value: fund.id }] }),
+    slabList<Obj>("sparklabinvestment", { constraints: [{ key: "fund", constraint_type: "equals", value: fund.id }] }),
+  ]);
+  // SLAB 투자상태: 이 펀드의 sparklabinvestment 값이 있으면 우선, 없으면(공동투자 등) company 자체 상태로 폴백.
   const statusByCompany = new Map<string, string>();
   for (const s of spis) {
     const cid = s.company as string;
     if (cid && !statusByCompany.has(cid)) statusByCompany.set(cid, (s["investment status"] as string) ?? "");
   }
-  const companyIds = [...statusByCompany.keys()];
-
-  const [companies, qupsAll] = await Promise.all([
-    listByIdsIn<Obj>("company", "_id", companyIds),
-    listByIdsIn<Obj>("quarterlyupdate", "company", companyIds),
-  ]);
+  const companyIds = companies.map((c) => c._id as string);
+  const qupsAll = await listByIdsIn<Obj>("quarterlyupdate", "company", companyIds);
   const qupsByCompany = new Map<string, Obj[]>();
   for (const q of qupsAll) {
     const cid = q.company as string;

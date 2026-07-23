@@ -15,6 +15,7 @@ export interface Constraint {
     | "not equal"
     | "text contains"
     | "in"
+    | "contains" // 리스트 필드가 특정 값을 포함하는지 (예: company."fund type")
     | "greater than"
     | "less than";
   value: unknown;
