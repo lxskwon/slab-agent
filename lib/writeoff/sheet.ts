@@ -159,13 +159,62 @@ function colLetter(i: number): string {
   return s;
 }
 
-/** 업로드된 펀드 파일의 탭 이름 목록 */
+const isNameHeader = (s: string) => /^(기업명|회사명)/.test(s); // 앞에서부터 일치 → "주식 전환 기업명" 같은 오탐 배제
+const isNoHeader = (s: string) => /^no\.?$/i.test(s) || s === "번호" || s === "순번";
+
+/**
+ * 회사별 표의 헤더 위치 탐색. 요약 블록이 위에 있고 표가 아래에서 시작할 수 있어 최대 60행까지 스캔.
+ * No. 열은 실제 'No./번호' 헤더가 있을 때만 잡는다(없으면 0 — 행 필터에서 제외).
+ */
+function findHeader(ws: ExcelJS.Worksheet): { headerRow: number; nameCol: number; noCol: number } {
+  const lastCol = Math.min(ws.columnCount, 50);
+  const txt = (r: number, i: number) => String(ws.getRow(r).getCell(i).text ?? "").replace(/\s+/g, " ").trim();
+  const maxRow = Math.min(ws.rowCount, 60);
+  for (let r = 1; r <= maxRow; r++) {
+    let nameCol = 0, noCol = 0;
+    for (let i = 1; i <= lastCol; i++) {
+      const s = txt(r, i);
+      if (isNoHeader(s)) noCol = i;
+      if (isNameHeader(s) && !nameCol) nameCol = i;
+    }
+    if (nameCol) return { headerRow: r, nameCol, noCol };
+  }
+  return { headerRow: 0, nameCol: 0, noCol: 0 };
+}
+
+/** 워크시트가 '회사별' 표인지 점수화: 기업명/회사명 열 아래 회사 행 수. 표가 아니면 0. */
+function companyTableScore(ws: ExcelJS.Worksheet): number {
+  const { headerRow, nameCol, noCol } = findHeader(ws);
+  if (!headerRow) return 0;
+  const txt = (r: number, i: number) => String(ws.getRow(r).getCell(i).text ?? "").replace(/\s+/g, " ").trim();
+  let count = 0;
+  ws.eachRow((row, r) => {
+    if (r <= headerRow) return;
+    if (!txt(r, nameCol)) return;
+    if (noCol && !/^\d+$/.test(txt(r, noCol))) return; // No. 열이 있으면 번호 있는 행만
+    count += 1;
+  });
+  return count;
+}
+
+/**
+ * 업로드된 펀드 파일의 탭 이름 목록 — '회사별 표'로 보이는 탭을 앞으로 정렬.
+ * (요약 탭 '투자 및 전환현황' 등은 회사 목록이 없어 감액 분석 대상이 아니므로 뒤로.)
+ */
 export async function listTabs(slug: string): Promise<string[]> {
   const buf = await getFundBuffer(slug);
   if (!buf) return [];
   const wb = new ExcelJS.Workbook();
   await wb.xlsx.load(buf as any);
-  return wb.worksheets.map((w) => w.name);
+  const scored = wb.worksheets.map((w, idx) => ({
+    name: w.name,
+    score: companyTableScore(w),
+    preferred: w.name.trim() === "투자집행" ? 0 : 1, // 표준 탭명 우선
+    idx,
+  }));
+  // '투자집행' 최우선 → 회사 행 많은 순 → 원래 순서
+  scored.sort((a, b) => a.preferred - b.preferred || b.score - a.score || a.idx - b.idx);
+  return scored.map((s) => s.name);
 }
 
 /**
@@ -185,23 +234,11 @@ export async function sheetToText(
   const lastCol = Math.min(ws.columnCount, 50);
   const txt = (r: number, i: number) => String(ws.getRow(r).getCell(i).text ?? "").replace(/\s+/g, " ").trim();
 
-  let headerRow = 0, nameCol = 0, noCol = 0;
-  for (let r = 1; r <= 8; r++) {
-    for (let i = 1; i <= lastCol; i++) {
-      const s = txt(r, i);
-      if (/^no\.?$/i.test(s) || s === "번호" || s === "순번") noCol = i;
-      if ((s.includes("기업명") || s.includes("회사명")) && !nameCol) {
-        headerRow = r;
-        nameCol = i;
-      }
-    }
-    if (headerRow) break;
-  }
+  let { headerRow, nameCol, noCol } = findHeader(ws);
   if (!headerRow) {
     headerRow = 1;
     nameCol = 1;
   }
-  if (!noCol) noCol = nameCol - 1; // No.는 보통 회사명 왼쪽
 
   const lines: string[] = [];
   if (headerRow > 1) {

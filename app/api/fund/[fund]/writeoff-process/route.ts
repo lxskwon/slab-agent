@@ -27,7 +27,10 @@ export async function POST(
     }
     const companies = await interpretSheet(text);
     if (companies.length === 0) {
-      return NextResponse.json({ ok: false, error: "회사를 인식하지 못함" }, { status: 400 });
+      return NextResponse.json(
+        { ok: false, error: "이 탭에서 회사 목록을 찾지 못했습니다. 회사별 데이터가 있는 탭(예: '투자집행')을 선택하세요." },
+        { status: 400 },
+      );
     }
     // (1)/(2) 중복은 코드로 결정: 이름에 명시적 (숫자) 접미사가 있는 경우만.
     // (같은 번호로 두 번 나오는 이상치(예: 51/51)는 (1)/(2) 중복이 아니므로 제외)
