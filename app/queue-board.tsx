@@ -229,7 +229,7 @@ function Row({ i, openId, setOpenId, toggleStatus, author, setAuthor, drafts, se
   const submitManual = () => { const n = Number(manualDraft.replace(/[,\s]/g, "")); if (Number.isFinite(n) && n >= 0) { saveManual(i, n); setManualDraft(""); } };
   return (
     <li className={dim ? "opacity-55" : ""}>
-      <div onClick={() => setOpenId(open ? null : i.id)} className="flex w-full cursor-pointer items-start gap-2.5 px-4 py-2.5 text-left hover:bg-gray-50">
+      <div onClick={() => setOpenId(open ? null : i.id)} className="flex w-full cursor-pointer items-center gap-2.5 px-4 py-2.5 text-left hover:bg-gray-50">
         <span className="w-20 shrink-0 truncate text-[11px] font-medium text-gray-400" title={i.fund}>{i.fund}</span>
         {i.companyId ? (
           <Link href={`/company/${i.companyId}`} onClick={(e) => e.stopPropagation()} className="w-24 shrink-0 truncate text-sm font-medium hover:text-[#1f3a5f] hover:underline">{i.company}</Link>
