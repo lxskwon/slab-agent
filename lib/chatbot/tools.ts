@@ -203,6 +203,7 @@ export async function dispatchTool(name: string, input: unknown): Promise<unknow
         펀드별: detail.funds.map((f) => ({
           펀드: f.name,
           SLAB투자상태: f.slabStatus || "(미기재)",
+          스프레드시트상태: f.writeoffUploaded ? (f.sheetStatus ?? "(미등재)") : "감액시트 미업로드",
           감액분석: f.writeoffUploaded ? (f.reflected ?? "") : "미업로드",
           비고: f.note ?? "",
         })),

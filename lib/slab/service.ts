@@ -629,6 +629,7 @@ export interface CompanyFundLink {
   slabStatus: string; // SLAB이 이 펀드에서 기록한 투자상태 (전 펀드 표시)
   writeoffUploaded: boolean;
   reflected?: string; // 감액 DB 업로드된 펀드만: 이미 반영됨/미반영/판단애매
+  sheetStatus?: string; // 감액 DB 업로드된 펀드만: 투자현황 DB(스프레드시트) 상태
   note?: string; // 업로드된 펀드의 비고 (중복 등)
 }
 export interface CompanyDetail {
@@ -683,6 +684,7 @@ export async function getCompanyDetail(companyId: string): Promise<CompanyDetail
       slabStatus: woRow?.slabStatus ?? "",
       writeoffUploaded: uploaded,
       reflected: uploaded ? (woRow?.reflected || undefined) : undefined,
+      sheetStatus: uploaded ? (woRow?.sheetStatus || undefined) : undefined,
       note: uploaded ? (woRow?.note || undefined) : undefined,
     });
   }
