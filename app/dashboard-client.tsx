@@ -6,12 +6,13 @@ import type { Dashboard } from "@/lib/slab/service";
 import { NAVY } from "./tracker-tables";
 import QueueBoard from "./queue-board";
 import CompanySearch from "./company-search";
+import { Info } from "./tooltip";
 
-function Kpi({ label, value, sub, href }: { label: string; value: React.ReactNode; sub?: string; href?: string }) {
+function Kpi({ label, value, sub, href, tip }: { label: string; value: React.ReactNode; sub?: string; href?: string; tip?: string }) {
   const body = (
     <div className={`flex h-full flex-col rounded-xl border border-gray-200 bg-white px-3.5 py-2.5 shadow-sm ${href ? "transition hover:border-[#1f3a5f] hover:shadow" : ""}`}>
       <div className="flex items-center justify-between text-[11px] font-medium text-gray-500">
-        {label}
+        <span className="inline-flex items-center gap-1">{label}{tip && <Info text={tip} pos="bottom" />}</span>
         {href && <span className="text-gray-300">→</span>}
       </div>
       <div className="mt-0.5 truncate text-2xl font-bold tabular-nums" style={{ color: NAVY }}>{value}</div>
@@ -67,25 +68,27 @@ export default function DashboardClient({ dash }: { dash: Dashboard }) {
         <Kpi
           label="펀드"
           value={sel ? sel.name : totals.funds}
-         
+          tip="SLAB에 등록된 전체 펀드 수입니다. 클릭하면 펀드별 상세로 이동합니다."
           sub={sel ? "선택된 펀드" : "클릭해서 펀드별 보기"}
           href={sel ? `/fund/${sel.slug}` : "/funds"}
         />
         <Kpi
           label="포트폴리오사 수"
           value={sel ? sel.companies : totals.companies}
+          tip="전체 펀드의 고유 포트폴리오 기업 수입니다. 여러 펀드에 공동투자된 기업은 1개로 계산합니다."
           sub={sel ? "이 펀드 기업 수" : `${totals.funds}개 펀드 전체`}
         />
         <Kpi
           label="감액 분석"
           value={sel ? (sel.writeoffUploaded ? "완료" : "미업로드") : `${totals.processed} / ${totals.funds}`}
-         
+          tip="감액(투자자산 상각) 투자현황 DB가 업로드·분석된 펀드 수 / 전체 펀드 수입니다."
           sub="투자현황 DB"
           href={sel ? `/fund/${sel.slug}?tab=writeoff` : "/funds"}
         />
         <Kpi
           label="등기부등본 처리율"
           value={`${sel ? sel.registryPct : totals.registryPct}%`}
+          tip="첨부된 등기부등본 중 발행주식총수 판독(OCR)이 완료된 비율입니다."
           sub={sel ? "이 펀드 판독률" : "첨부된 등기부등본 중 판독 완료"}
           href={sel ? `/fund/${sel.slug}` : "/funds"}
         />

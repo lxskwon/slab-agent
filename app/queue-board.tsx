@@ -5,11 +5,26 @@ import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { DashIssue } from "@/lib/slab/service";
 import type { ReviewStatus } from "@/lib/review/store";
+import { Info } from "./tooltip";
 
 const kindColor: Record<string, string> = {
   "후속 불일치": "bg-red-100 text-red-700 ring-red-200",
   "감액 미반영": "bg-red-100 text-red-700 ring-red-200",
   "확인 필요": "bg-amber-100 text-amber-700 ring-amber-200",
+};
+// 각 라벨 설명 (마우스 오버 시 표시)
+const kindTip: Record<string, string> = {
+  "후속 불일치": "등기부등본과 SLAB의 발행주식총수가 서로 다릅니다.",
+  "감액 미반영": "스프레드시트는 감액/청산인데 SLAB에는 아직 반영되지 않았습니다.",
+  "확인 필요": "판독 대기·수치 상이 등 사람이 직접 확인해야 하는 항목입니다.",
+};
+const statusTip: Record<Exclude<ReviewStatus, "open">, string> = {
+  ack: "검토 완료로 표시한 항목입니다.",
+  dismissed: "조치 불필요(무시)로 표시한 항목입니다.",
+};
+const sectionTip: Record<string, string> = {
+  "후속투자": "등기부등본·SLAB·분기보고의 발행주식총수를 교차 검증합니다.",
+  "감액": "스프레드시트의 감액/청산 상태가 SLAB에 반영됐는지 확인합니다.",
 };
 const HEADER = { bar: "bg-gray-100 border-gray-200", dot: "bg-gray-500", text: "text-gray-800" };
 const STATUS_META: Record<Exclude<ReviewStatus, "open">, { label: string; chip: string }> = {
@@ -200,6 +215,7 @@ function Section({ title, issues, ...shared }: { title: string; issues: DashIssu
         <h2 className={`flex items-center gap-2 text-sm font-semibold ${HEADER.text}`}>
           <span className={`h-2 w-2 rounded-full ${HEADER.dot}`} />
           {title} <span className="font-normal opacity-60">({issues.length})</span>
+          {sectionTip[title] && <Info text={sectionTip[title]} pos="bottom" />}
         </h2>
         <span className="text-[11px] text-gray-500">🔴 조치 {red} · 🟡 확인 {yellow}</span>
       </div>
@@ -236,10 +252,10 @@ function Row({ i, openId, setOpenId, toggleStatus, author, setAuthor, drafts, se
         ) : (
           <span className="w-24 shrink-0 truncate text-sm font-medium">{i.company}</span>
         )}
-        <span className={`w-20 shrink-0 rounded-full py-0.5 text-center text-[11px] ring-1 ${kindColor[i.kind]}`}>{i.kind}</span>
+        <span title={kindTip[i.kind]} className={`w-20 shrink-0 rounded-full py-0.5 text-center text-[11px] ring-1 ${kindColor[i.kind]}`}>{i.kind}</span>
         <span className="min-w-0 flex-1 break-words text-xs leading-snug text-gray-500">{i.detail}</span>
         {i.memos.length > 0 && <span className="shrink-0 text-[11px] text-gray-400">💬 {i.memos.length}</span>}
-        {meta && <span className={`shrink-0 rounded-full px-1.5 py-0.5 text-[10px] ring-1 ${meta.chip}`}>{meta.label}</span>}
+        {meta && <span title={i.status !== "open" ? statusTip[i.status] : undefined} className={`shrink-0 rounded-full px-1.5 py-0.5 text-[10px] ring-1 ${meta.chip}`}>{meta.label}</span>}
         <span className="shrink-0 text-gray-300">{open ? "▾" : "▸"}</span>
       </div>
       {open && (
