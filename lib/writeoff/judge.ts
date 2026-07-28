@@ -1,4 +1,5 @@
 import Anthropic from "@anthropic-ai/sdk";
+import { logLlmUsage, usageFrom } from "@/lib/llm/usage";
 import type { ReflectionStatus } from "@/lib/types";
 
 /**
@@ -76,6 +77,7 @@ export async function judgeWriteoff(
     output_config: { format: { type: "json_schema", schema: SCHEMA } },
     messages: [{ role: "user", content: prompt(company, spreadsheetStatus, slabStatus) }],
   });
+  await logLlmUsage({ feature: "감액 판정", model: MODEL, ...usageFrom(res) });
 
   const textBlock = res.content.find((b) => b.type === "text");
   if (!textBlock || textBlock.type !== "text") {

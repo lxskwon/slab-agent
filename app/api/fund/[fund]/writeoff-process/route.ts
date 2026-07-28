@@ -4,6 +4,7 @@ import { sheetToText, normName, nameKeys, hasWriteoffSignalInText } from "@/lib/
 import { interpretSheet } from "@/lib/writeoff/interpret";
 import { saveInterp } from "@/lib/writeoff/interp-cache";
 import { invalidateFund, getFundCompanyNames } from "@/lib/slab/service";
+import { authUser } from "@/lib/auth";
 
 export const runtime = "nodejs";
 export const maxDuration = 300;
@@ -45,7 +46,7 @@ export async function POST(
         );
       }
     }
-    const companies = await interpretSheet(text);
+    const companies = await interpretSheet(text, authUser(req) || undefined);
     if (companies.length === 0) {
       return NextResponse.json(
         { ok: false, error: "이 탭에서 회사 목록을 찾지 못했습니다. 회사별 데이터가 있는 다른 탭을 선택하거나, 올바른 투자현황 DB 파일인지 확인 후 다시 업로드해 주세요." },

@@ -27,4 +27,19 @@ create table if not exists registry_manual (
   updated_at timestamptz not null default now()
 );
 
+-- LLM 토큰/비용 사용 기록 (관리자 대시보드용). user는 예약어라 usr 사용.
+create table if not exists llm_usage (
+  id bigint generated always as identity primary key,
+  feature text not null,
+  model text not null,
+  usr text,
+  input_tokens bigint not null default 0,
+  output_tokens bigint not null default 0,
+  cache_read_tokens bigint not null default 0,
+  cache_creation_tokens bigint not null default 0,
+  cost_usd double precision not null default 0,
+  created_at timestamptz not null default now()
+);
+create index if not exists llm_usage_created_idx on llm_usage (created_at desc);
+
 -- 감액 원본 xlsx는 Storage 버킷 'sheets'에 저장 (시드 스크립트가 자동 생성).

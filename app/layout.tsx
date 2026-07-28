@@ -3,6 +3,7 @@ import Link from "next/link";
 import { cookies } from "next/headers";
 import "./globals.css";
 import LogoutButton from "./logout-button";
+import { isAdminName } from "@/lib/auth";
 
 export const metadata: Metadata = {
   title: "SLAB 데이터 최신화 에이전트",
@@ -29,6 +30,11 @@ export default async function RootLayout({
               <Link href="/" className="text-sm font-semibold">
                 SLAB 에이전트
               </Link>
+              {isAdminName(name) && (
+                <Link href="/admin" className="ml-4 text-xs font-medium text-gray-500 hover:text-[#1f3a5f]">
+                  관리자
+                </Link>
+              )}
               {loggedIn && <LogoutButton name={name} />}
             </div>
           </header>

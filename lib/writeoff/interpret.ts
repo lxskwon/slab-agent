@@ -1,4 +1,5 @@
 import Anthropic from "@anthropic-ai/sdk";
+import { logLlmUsage, usageFrom } from "@/lib/llm/usage";
 
 /**
  * LLM 기반 투자현황 시트 해석기 (형식 무관).
@@ -67,7 +68,7 @@ const PROMPT = `아래는 벤처펀드 '투자자산관리' 스프레드시트 �
 7. **statusLabel: 상태(Status) 열에 실제 적힌 문자열을 원문 그대로**(예: "M&A", "Capital Return", "Exit", "Live", "Written-off"). 상태 열이 없으면 statusLabel="".
 표(회사 목록)에 실제 있는 회사만 반환한다([상단 요약]에만 있고 표에 없는 이름은 제외).`;
 
-export async function interpretSheet(sheetText: string): Promise<InterpretedCompany[]> {
+export async function interpretSheet(sheetText: string, user?: string): Promise<InterpretedCompany[]> {
   const client = new Anthropic({ maxRetries: 3 });
   const res = await client.messages.create({
     model: MODEL,
@@ -76,6 +77,7 @@ export async function interpretSheet(sheetText: string): Promise<InterpretedComp
     output_config: { format: { type: "json_schema", schema: SCHEMA } },
     messages: [{ role: "user", content: `${PROMPT}\n\n---\n${sheetText}` }],
   });
+  await logLlmUsage({ feature: "감액 해석", model: MODEL, user, ...usageFrom(res) });
   const block = res.content.find((b) => b.type === "text");
   if (!block || block.type !== "text") throw new Error("시트 해석 응답 없음");
   const parsed = JSON.parse(block.text) as { companies: InterpretedCompany[] };

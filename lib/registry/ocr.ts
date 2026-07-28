@@ -1,4 +1,5 @@
 import Anthropic, { toFile } from "@anthropic-ai/sdk";
+import { logLlmUsage, usageFrom } from "@/lib/llm/usage";
 import type { RegistryExtract } from "@/lib/types";
 
 // base64 인라인은 요청 32MB 제한이 있음. 이보다 크면 Files API로 업로드해 file_id로 참조
@@ -126,6 +127,7 @@ export async function extractViaVision(
           { role: "user", content: [{ type: "document", source }, { type: "text", text: PROMPT + JSON_INSTR }] },
         ],
       } as never);
+      await logLlmUsage({ feature: "등기부 OCR", model: MODEL, ...usageFrom(response) });
       raw = textOf(response);
     } else {
       const response = await client.messages.create({
@@ -137,6 +139,7 @@ export async function extractViaVision(
           { role: "user", content: [{ type: "document", source }, { type: "text", text: PROMPT }] },
         ],
       } as never);
+      await logLlmUsage({ feature: "등기부 OCR", model: MODEL, ...usageFrom(response) });
       raw = textOf(response);
     }
     const parsed = lenientJson(raw);
