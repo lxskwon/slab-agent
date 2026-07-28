@@ -1,0 +1,6 @@
+{"feature":"챗봇","model":"claude-opus-4-8","usr":"","input_tokens":5404,"output_tokens":235,"cache_read_tokens":0,"cache_creation_tokens":0,"cost_usd":0.032895,"created_at":"2026-07-28T07:56:45.344Z"}
+{"feature":"챗봇","model":"claude-opus-4-8","usr":"","input_tokens":7037,"output_tokens":630,"cache_read_tokens":0,"cache_creation_tokens":0,"cost_usd":0.050935,"created_at":"2026-07-28T07:58:23.067Z"}
+{"feature":"챗봇","model":"claude-opus-4-8","usr":"","input_tokens":5226,"output_tokens":294,"cache_read_tokens":0,"cache_creation_tokens":0,"cost_usd":0.03348,"created_at":"2026-07-28T08:11:18.931Z"}
+{"feature":"챗봇","model":"claude-opus-4-8","usr":"","input_tokens":5649,"output_tokens":310,"cache_read_tokens":0,"cache_creation_tokens":0,"cost_usd":0.035995,"created_at":"2026-07-28T08:12:58.288Z"}
+{"feature":"챗봇","model":"claude-opus-4-8","usr":"","input_tokens":6149,"output_tokens":286,"cache_read_tokens":0,"cache_creation_tokens":0,"cost_usd":0.037895,"created_at":"2026-07-28T08:22:32.035Z"}
+{"feature":"챗봇","model":"claude-opus-4-8","usr":"","input_tokens":6678,"output_tokens":330,"cache_read_tokens":0,"cache_creation_tokens":0,"cost_usd":0.04164,"created_at":"2026-07-28T08:23:15.382Z"}

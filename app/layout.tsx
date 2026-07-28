@@ -30,6 +30,9 @@ export default async function RootLayout({
               <Link href="/" className="text-sm font-semibold">
                 SLAB 에이전트
               </Link>
+              <Link href="/chat" className="ml-4 text-xs font-medium text-gray-500 hover:text-[#1f3a5f]">
+                챗봇
+              </Link>
               {isAdminName(name) && (
                 <Link href="/admin" className="ml-4 text-xs font-medium text-gray-500 hover:text-[#1f3a5f]">
                   관리자

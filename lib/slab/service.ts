@@ -230,7 +230,8 @@ async function computeDashboardBase(): Promise<Dashboard> {
 }
 
 // SLAB 집계는 5분 캐시(콜드 로드/타임아웃 완화). 메모/검토상태는 매 요청 Redis에서 신선하게 병합.
-const cachedBase = unstable_cache(computeDashboardBase, ["dashboard-base-v9"], { revalidate: 300, tags: ["dashboard-base"] });
+// 15분 캐시: 콜드 재계산(22개 펀드 SLAB 빌드) 빈도를 낮춤. 사용자 쓰기(수기입력·감액분석)는 revalidateTag로 즉시 무효화되므로 안전.
+const cachedBase = unstable_cache(computeDashboardBase, ["dashboard-base-v9"], { revalidate: 900, tags: ["dashboard-base"] });
 
 export async function getDashboard(): Promise<Dashboard> {
   const base = await cachedBase();

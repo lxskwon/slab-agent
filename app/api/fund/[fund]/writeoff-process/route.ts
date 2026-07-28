@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { z } from "zod";
 import { sheetToText, normName, nameKeys, hasWriteoffSignalInText } from "@/lib/writeoff/sheet";
 import { interpretSheet } from "@/lib/writeoff/interpret";
@@ -65,6 +66,7 @@ export async function POST(
     const duplicatedBases = [...dupBases];
     await saveInterp(fund, { tab: parsed.data.tab, companies, duplicatedBases });
     invalidateFund(fund);
+    revalidateTag("dashboard-base"); // 감액 재분석 결과가 메인 대시보드에 즉시 반영되도록
     return NextResponse.json({ ok: true, count: companies.length });
   } catch (err) {
     console.error("[writeoff-process] 해석 실패:", err);
