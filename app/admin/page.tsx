@@ -34,7 +34,7 @@ export default async function AdminPage() {
         <Card label="총 호출" value={num(s.totals.calls)} />
         <Card label="입력 토큰" value={num(s.totals.inputTokens)} />
         <Card label="출력 토큰" value={num(s.totals.outputTokens)} />
-        <Card label="누적 비용(추정)" value={usd(s.totals.costUsd)} accent />
+        <Card label="누적 비용(추정)" value={usd(s.totals.costUsd)} />
       </div>
 
       {s.totals.calls === 0 && (
@@ -62,11 +62,11 @@ export default async function AdminPage() {
   );
 }
 
-function Card({ label, value, accent }: { label: string; value: string; accent?: boolean }) {
+function Card({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-xl border border-gray-200 bg-white px-3.5 py-2.5 shadow-sm">
       <div className="text-[11px] font-medium text-gray-500">{label}</div>
-      <div className="mt-0.5 truncate text-2xl font-bold tabular-nums" style={{ color: accent ? "#b45309" : NAVY }}>{value}</div>
+      <div className="mt-0.5 truncate text-2xl font-bold tabular-nums" style={{ color: NAVY }}>{value}</div>
     </div>
   );
 }
