@@ -96,6 +96,13 @@ export default function ChatClient() {
   }, [messages, busy]);
 
   function startNew() {
+    // 새 대화: 화면만 비워 새로 시작. 저장된 대화는 유지되며 다음 메시지 전송 시 덮어써진다. 완전 삭제는 deleteConversation.
+    setMessages([]);
+    setInput("");
+    setSavedSession(null);
+  }
+  function deleteConversation() {
+    if (typeof window !== "undefined" && !window.confirm("이 대화를 삭제할까요? 되돌릴 수 없어요.")) return;
     setMessages([]);
     setInput("");
     setSavedSession(null);
@@ -196,13 +203,22 @@ export default function ChatClient() {
       <div className="flex items-center justify-between border-b border-gray-100 px-4 py-2">
         <span className="text-xs text-gray-400">{messages.length > 0 ? "대화 진행 중 · 자동 저장됨" : "SLAB 챗봇"}</span>
         {messages.length > 0 && (
-          <button
-            onClick={startNew}
-            disabled={busy}
-            className="rounded-md border border-gray-200 px-2.5 py-1 text-xs font-medium text-gray-600 hover:bg-gray-50 disabled:opacity-40"
-          >
-            + 새 대화
-          </button>
+          <div className="flex items-center gap-1.5">
+            <button
+              onClick={startNew}
+              disabled={busy}
+              className="rounded-md border border-gray-200 px-2.5 py-1 text-xs font-medium text-gray-600 hover:bg-gray-50 disabled:opacity-40"
+            >
+              + 새 대화
+            </button>
+            <button
+              onClick={deleteConversation}
+              disabled={busy}
+              className="rounded-md border border-gray-200 px-2.5 py-1 text-xs font-medium text-red-600 hover:border-red-200 hover:bg-red-50 disabled:opacity-40"
+            >
+              대화 삭제
+            </button>
+          </div>
         )}
       </div>
 
@@ -228,6 +244,12 @@ export default function ChatClient() {
                 className="rounded-lg border border-gray-300 px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-100"
               >
                 새 대화
+              </button>
+              <button
+                onClick={deleteConversation}
+                className="rounded-lg px-3 py-1.5 text-sm text-red-600 hover:bg-red-50"
+              >
+                대화 삭제
               </button>
             </div>
           </div>
