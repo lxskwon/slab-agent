@@ -1,12 +1,48 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import ReactMarkdown, { type Components } from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 const NAVY = "#1f3a5f";
 
 interface Msg {
   role: "user" | "assistant";
   content: string;
+}
+
+// 답변 마크다운 렌더링 (표/굵게/목록). Tailwind 기본 스타일이 없어 요소별로 지정.
+const MD_COMPONENTS: Components = {
+  p: ({ children }) => <p className="my-1.5 first:mt-0 last:mb-0 leading-relaxed">{children}</p>,
+  strong: ({ children }) => <strong className="font-semibold" style={{ color: NAVY }}>{children}</strong>,
+  ul: ({ children }) => <ul className="my-1.5 list-disc space-y-0.5 pl-5">{children}</ul>,
+  ol: ({ children }) => <ol className="my-1.5 list-decimal space-y-0.5 pl-5">{children}</ol>,
+  li: ({ children }) => <li className="leading-relaxed">{children}</li>,
+  h1: ({ children }) => <h1 className="mb-1.5 mt-2 text-base font-bold first:mt-0" style={{ color: NAVY }}>{children}</h1>,
+  h2: ({ children }) => <h2 className="mb-1.5 mt-2 text-sm font-bold first:mt-0" style={{ color: NAVY }}>{children}</h2>,
+  h3: ({ children }) => <h3 className="mb-1 mt-2 text-sm font-semibold first:mt-0">{children}</h3>,
+  a: ({ href, children }) => (
+    <a href={href} target="_blank" rel="noreferrer" className="underline" style={{ color: NAVY }}>
+      {children}
+    </a>
+  ),
+  code: ({ children }) => <code className="rounded bg-gray-200 px-1 py-0.5 font-mono text-[0.85em]">{children}</code>,
+  table: ({ children }) => (
+    <div className="my-2 overflow-x-auto">
+      <table className="w-full border-collapse text-xs">{children}</table>
+    </div>
+  ),
+  thead: ({ children }) => <thead className="bg-gray-100">{children}</thead>,
+  th: ({ children }) => <th className="border border-gray-300 px-2 py-1 text-left font-semibold">{children}</th>,
+  td: ({ children }) => <td className="border border-gray-200 px-2 py-1 align-top">{children}</td>,
+};
+
+function Answer({ text }: { text: string }) {
+  return (
+    <ReactMarkdown remarkPlugins={[remarkGfm]} components={MD_COMPONENTS}>
+      {text}
+    </ReactMarkdown>
+  );
 }
 
 const SUGGESTIONS = [
@@ -139,11 +175,19 @@ export default function ChatClient() {
               className={
                 m.role === "user"
                   ? "max-w-[80%] whitespace-pre-wrap rounded-2xl px-4 py-2.5 text-sm text-white"
-                  : "max-w-[85%] whitespace-pre-wrap rounded-2xl border border-gray-200 bg-gray-50 px-4 py-2.5 text-sm text-gray-900"
+                  : "max-w-[85%] rounded-2xl border border-gray-200 bg-gray-50 px-4 py-2.5 text-sm text-gray-900"
               }
               style={m.role === "user" ? { backgroundColor: NAVY } : undefined}
             >
-              {m.content || (busy && i === messages.length - 1 ? <span className="text-gray-400">{status || "…"}</span> : "")}
+              {m.role === "user" ? (
+                m.content
+              ) : m.content ? (
+                <Answer text={m.content} />
+              ) : busy && i === messages.length - 1 ? (
+                <span className="text-gray-400">{status || "…"}</span>
+              ) : (
+                ""
+              )}
             </div>
           </div>
         ))}
