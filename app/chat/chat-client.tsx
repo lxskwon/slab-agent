@@ -98,6 +98,7 @@ export default function ChatClient() {
   const [busy, setBusy] = useState(false);
   const [status, setStatus] = useState<string>(""); // 도구/생각 상태
   const scrollRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
@@ -160,6 +161,13 @@ export default function ChatClient() {
     setMessages([]);
     setActiveId(null);
     setInput("");
+  }
+  // 새 대화 시작 — 랜딩으로 이동 후 입력창에 포커스(바로 타이핑 가능). 이전 대화는 목록에 보존됨.
+  function newChat() {
+    setMessages([]);
+    setActiveId(null);
+    setInput("");
+    setTimeout(() => inputRef.current?.focus(), 0);
   }
   function openChat(id: string) {
     const c = chats.find((x) => x.id === id);
@@ -275,6 +283,13 @@ export default function ChatClient() {
             >
               ← 목록
             </button>
+            <button
+              onClick={newChat}
+              disabled={busy}
+              className="whitespace-nowrap rounded-md border border-gray-200 px-2.5 py-1 text-xs font-medium text-gray-600 hover:bg-gray-50 disabled:opacity-40"
+            >
+              + 새 대화
+            </button>
             {activeId && (
               <button
                 onClick={() => deleteChat(activeId)}
@@ -379,6 +394,7 @@ export default function ChatClient() {
         className="flex items-center gap-2 border-t border-gray-200 p-3"
       >
         <input
+          ref={inputRef}
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder={messages.length === 0 ? "새 대화를 시작하세요…" : "펀드나 기업에 대해 물어보세요…"}
