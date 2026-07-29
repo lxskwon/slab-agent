@@ -65,6 +65,7 @@ const PROMPT = `아래는 벤처펀드 '투자자산관리' 스프레드시트 �
 5. name은 시트에 적힌 국문 회사명 그대로(㈜ 등 포함, 트랜치 접미사만 제거). 임의 번역·정규화 금지.
    회사명(영문) 열이 있으면 nameEn에 그대로(없으면 "").
 6. status ∈ live/writeoff/exit/uncertain. note는 감액/exit 사유나 비고 핵심 한 줄(정상이면 "").
+   ※ writeoff/exit로 판정한 경우 note에 시트의 **원문 근거를 그대로** 반드시 넣어라(예: "파산", "폐업", "완전자본잠식", "M&A", "청산"). 표준 라벨로 바꾸지 말고 시트에 적힌 단어를 쓸 것.
 7. **statusLabel: 상태(Status) 열에 실제 적힌 문자열을 원문 그대로**(예: "M&A", "Capital Return", "Exit", "Live", "Written-off"). 상태 열이 없으면 statusLabel="".
 표(회사 목록)에 실제 있는 회사만 반환한다([상단 요약]에만 있고 표에 없는 이름은 제외).`;
 

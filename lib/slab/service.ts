@@ -596,7 +596,10 @@ async function buildTracker(fundSearch: string): Promise<FundTracker | null> {
 
         // 비고: 필요한 것만. 표기는 다르지만 의미가 같으면(M&A/Capital Return ↔ Exit) SLAB 상태를 명시해 '반영됨' 근거를 남김.
         const parts: string[] = [];
-        if (normName(name) !== normName(hit.name)) parts.push(`스프레드시트: ${hit.name}`);
+        // 스프레드시트 원문 근거 명시 (예: "스프레드시트: 파산") — 왜 이 상태로 봤는지 근거를 남김
+        const sheetReason = (hit.note || "").trim();
+        if (sheetReason) parts.push(`스프레드시트: ${sheetReason}`);
+        if (normName(name) !== normName(hit.name)) parts.push(`시트명: ${hit.name}`);
         if (dupSet.has(normName(hit.name))) parts.push("스프레드시트 (1),(2) 중복");
         if (canonStatus(displayStatus) !== canonStatus(slabStatus)) parts.push(`SLAB: ${slabStatus}`);
         woNote = parts.join(" · ");
