@@ -246,9 +246,23 @@ function companyTableScore(ws: ExcelJS.Worksheet): number {
   return count;
 }
 
+// 분석 대상이 아닌 보조 탭(연락처·회수 시나리오·런웨이·자금현황·대시보드) — 회사표가 있어도 뒤로 보냄.
+const DISTRACTOR_TAB = /컨택|contact|시나리오|scenario|runway|런웨이|자금현황|대시보드|dashboard/i;
+// 탭 이름에서 (연도, 분기) 추출 → 분기별 탭이 여러 개면 최신 분기를 기본값으로. 없으면 0.
+function quarterKey(name: string): number {
+  let m = name.match(/(20\d{2})\s*[.\-]?\s*([1-4])\s*Q/i);
+  if (m) return +m[1] * 10 + +m[2];
+  m = name.match(/(20\d{2})\D{0,4}?([1-4])\s*분기/);
+  if (m) return +m[1] * 10 + +m[2];
+  m = name.match(/(\d{2})\s*년\s*([1-4])\s*분기/);
+  if (m) return (2000 + +m[1]) * 10 + +m[2];
+  return 0;
+}
+
 /**
- * 업로드된 펀드 파일의 탭 이름 목록 — '회사별 표'로 보이는 탭을 앞으로 정렬.
- * (요약 탭 '투자 및 전환현황' 등은 회사 목록이 없어 감액 분석 대상이 아니므로 뒤로.)
+ * 업로드된 펀드 파일의 탭 이름 목록 — 감액 분석에 알맞은 탭을 앞으로 정렬(첫 항목이 기본 선택).
+ * 우선순위: '투자 및 전환현황' > (분석용 회사표 + 감액신호) > (분석용 회사표) > 보조/비표 탭.
+ * 같은 등급이면 최신 분기 탭 → 회사 많은 순. (연락처·시나리오·런웨이 등은 회사표라도 뒤로.)
  */
 export async function listTabs(slug: string): Promise<string[]> {
   const buf = await getFundBuffer(slug);
@@ -258,13 +272,18 @@ export async function listTabs(slug: string): Promise<string[]> {
   const scored = wb.worksheets.map((w, idx) => ({
     name: w.name,
     score: companyTableScore(w),
-    signal: wsHasWriteoffSignal(w), // 감액/청산 신호 있는 탭
+    signal: wsHasWriteoffSignal(w),
+    distractor: DISTRACTOR_TAB.test(w.name),
+    q: quarterKey(w.name),
     idx,
   }));
-  // 기본값은 표준 요약 탭 '투자 및 전환현황'(감액/폐업이 깔끔히 표기됨). 없으면 감액신호+회사표 있는 탭 순.
-  const rank = (s: (typeof scored)[number]) =>
-    s.name.trim() === "투자 및 전환현황" ? 0 : s.score > 0 && s.signal ? 1 : s.score > 0 ? 2 : 3;
-  scored.sort((a, b) => rank(a) - rank(b) || b.score - a.score || a.idx - b.idx);
+  const rank = (s: (typeof scored)[number]) => {
+    if (s.name.trim() === "투자 및 전환현황") return 0;
+    if (s.distractor || s.score === 0) return 3;
+    return s.signal ? 1 : 2;
+  };
+  // 등급 → 최신 분기(q 내림차순) → 회사 많은 순 → 원래 순서
+  scored.sort((a, b) => rank(a) - rank(b) || b.q - a.q || b.score - a.score || a.idx - b.idx);
   return scored.map((s) => s.name);
 }
 
