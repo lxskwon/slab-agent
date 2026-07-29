@@ -155,7 +155,8 @@ export default function ChatClient() {
     });
   }, [messages, busy, activeId]);
 
-  function newChat() {
+  // 현재 대화를 떠나 대화 목록(랜딩)으로. 현재 대화는 이미 저장돼 목록에 남아있고, 새 질문을 보내면 새 대화가 시작된다.
+  function backToList() {
     setMessages([]);
     setActiveId(null);
     setInput("");
@@ -268,11 +269,11 @@ export default function ChatClient() {
         {messages.length > 0 && (
           <div className="flex items-center gap-1.5">
             <button
-              onClick={newChat}
+              onClick={backToList}
               disabled={busy}
               className="whitespace-nowrap rounded-md border border-gray-200 px-2.5 py-1 text-xs font-medium text-gray-600 hover:bg-gray-50 disabled:opacity-40"
             >
-              + 새 대화
+              ← 목록
             </button>
             {activeId && (
               <button
