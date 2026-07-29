@@ -5,6 +5,7 @@ import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 
 const NAVY = "#1f3a5f";
+const STORAGE_KEY = "slab-chat-v1"; // 새로고침 후에도 대화 유지 (브라우저 로컬 저장)
 
 interface Msg {
   role: "user" | "assistant";
@@ -65,16 +66,57 @@ export default function ChatClient() {
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
   const [status, setStatus] = useState<string>(""); // 도구/생각 상태
+  const [savedSession, setSavedSession] = useState<Msg[] | null>(null); // 새로고침 전 이전 대화(복원 후보)
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, status]);
 
+  // 마운트 시: 저장된 이전 대화가 있으면 복원 후보로 제시 (자동 로드하지 않고 선택하게)
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      const parsed = JSON.parse(raw) as Msg[];
+      if (Array.isArray(parsed) && parsed.length > 0) setSavedSession(parsed);
+    } catch {
+      /* 파싱 실패 무시 */
+    }
+  }, []);
+
+  // 대화가 진행되면(스트리밍 끝난 상태) 자동 저장
+  useEffect(() => {
+    if (busy || messages.length === 0) return;
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(messages));
+    } catch {
+      /* 용량 초과 등 무시 */
+    }
+  }, [messages, busy]);
+
+  function startNew() {
+    setMessages([]);
+    setInput("");
+    setSavedSession(null);
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch {
+      /* 무시 */
+    }
+  }
+  function continueSession() {
+    if (savedSession) setMessages(savedSession);
+    setSavedSession(null);
+  }
+  const savedUserMsgs = savedSession?.filter((m) => m.role === "user") ?? [];
+  const lastQuestion = savedUserMsgs.length ? savedUserMsgs[savedUserMsgs.length - 1].content : "";
+
   async function send(text: string) {
     const q = text.trim();
     if (!q || busy) return;
     setInput("");
+    setSavedSession(null); // 새 질문을 보내면 복원 안내는 닫음(새 대화 시작으로 간주)
     const history: Msg[] = [...messages, { role: "user", content: q }];
     setMessages([...history, { role: "assistant", content: "" }]);
     setBusy(true);
@@ -150,9 +192,49 @@ export default function ChatClient() {
 
   return (
     <div className="flex flex-col rounded-lg border border-gray-200 bg-white" style={{ height: "70vh" }}>
+      {/* 헤더 (진행 중 표시 + 새 대화) */}
+      <div className="flex items-center justify-between border-b border-gray-100 px-4 py-2">
+        <span className="text-xs text-gray-400">{messages.length > 0 ? "대화 진행 중 · 자동 저장됨" : "SLAB 챗봇"}</span>
+        {messages.length > 0 && (
+          <button
+            onClick={startNew}
+            disabled={busy}
+            className="rounded-md border border-gray-200 px-2.5 py-1 text-xs font-medium text-gray-600 hover:bg-gray-50 disabled:opacity-40"
+          >
+            + 새 대화
+          </button>
+        )}
+      </div>
+
       {/* 메시지 영역 */}
       <div ref={scrollRef} className="flex-1 space-y-4 overflow-y-auto p-4">
-        {messages.length === 0 && (
+        {/* 이전 대화 복원 안내 */}
+        {messages.length === 0 && savedSession && (
+          <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
+            <p className="text-sm font-medium text-gray-800">
+              이전 대화가 있어요 <span className="font-normal text-gray-400">· {savedSession.length}개 메시지</span>
+            </p>
+            {lastQuestion && <p className="mt-1 truncate text-xs text-gray-500">마지막 질문: {lastQuestion}</p>}
+            <div className="mt-3 flex gap-2">
+              <button
+                onClick={continueSession}
+                className="rounded-lg px-3 py-1.5 text-sm font-medium text-white"
+                style={{ backgroundColor: NAVY }}
+              >
+                이어서 하기
+              </button>
+              <button
+                onClick={startNew}
+                className="rounded-lg border border-gray-300 px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-100"
+              >
+                새 대화
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* 예시 질문 (이전 대화 없을 때만) */}
+        {messages.length === 0 && !savedSession && (
           <div className="space-y-3">
             <p className="text-sm text-gray-500">예시 질문:</p>
             <div className="flex flex-wrap gap-2">
