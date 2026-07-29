@@ -87,6 +87,7 @@ function fmtNum(n: number | null | undefined): number | string | null {
 function compactFollowup(r: import("@/lib/tracker/mock-data").FollowupRow) {
   return {
     company: r.company,
+    companyUrl: r.companyId ? `/company/${r.companyId}` : undefined, // 기업 상세 링크
     투자유치여부: r.investStatus,
     등기부발행주식총수: fmtNum(r.registryShares),
     SLAB발행주식총수: fmtNum(r.slabShares),
@@ -94,6 +95,7 @@ function compactFollowup(r: import("@/lib/tracker/mock-data").FollowupRow) {
     일치여부: r.match || "(대조불가)",
     등기부확인일: r.registryDate,
     등기부분기: r.registryQuarter ?? null,
+    등기부링크: r.registryUrl ?? undefined, // 등기부등본 원본 PDF
     비고: r.note || "",
   };
 }
@@ -101,6 +103,7 @@ function compactFollowup(r: import("@/lib/tracker/mock-data").FollowupRow) {
 function compactWriteoff(r: import("@/lib/tracker/mock-data").WriteoffRow) {
   return {
     company: r.company,
+    companyUrl: r.companyId ? `/company/${r.companyId}` : undefined,
     스프레드시트상태: r.sheetStatus,
     SLAB상태: r.slabStatus ?? "",
     반영여부: r.reflected || "",
@@ -115,7 +118,7 @@ export async function dispatchTool(name: string, input: unknown): Promise<unknow
   switch (name) {
     case "list_funds": {
       const funds = await getFunds();
-      return { funds: funds.map((f) => ({ name: f.name, slug: f.search })) };
+      return { funds: funds.map((f) => ({ name: f.name, slug: f.search, fundUrl: `/fund/${f.search}` })) };
     }
 
     case "get_dashboard": {
@@ -133,6 +136,7 @@ export async function dispatchTool(name: string, input: unknown): Promise<unknow
         펀드별: dash.funds.map((f) => ({
           name: f.name,
           slug: f.slug,
+          fundUrl: `/fund/${f.slug}`,
           기업수: f.companies,
           후속: f.followup,
           감액: f.writeoffUploaded ? f.writeoff : "미업로드",
@@ -143,6 +147,8 @@ export async function dispatchTool(name: string, input: unknown): Promise<unknow
         조치필요큐: dash.issues.slice(0, 60).map((i) => ({
           펀드: i.fund,
           기업: i.company,
+          companyUrl: i.companyId ? `/company/${i.companyId}` : undefined,
+          fundUrl: i.fundSlug ? `/fund/${i.fundSlug}` : undefined,
           종류: i.kind,
           분류: i.category === "followup" ? "후속투자" : "감액",
           심각도: i.severity,
@@ -164,6 +170,7 @@ export async function dispatchTool(name: string, input: unknown): Promise<unknow
       return {
         펀드: t.fund.name,
         slug: t.fund.search,
+        fundUrl: `/fund/${t.fund.search}`,
         대상분기: tq.label,
         감액시트상태: t.sheetState === "processed" ? "업로드·해석 완료" : t.sheetState === "uploaded" ? "업로드됨(미해석)" : "미업로드",
         후속투자: t.followup.map(compactFollowup),
@@ -186,6 +193,7 @@ export async function dispatchTool(name: string, input: unknown): Promise<unknow
       if (!detail) return { error: `'${query}' 기업 상세를 불러오지 못했습니다.` };
       return {
         기업: detail.name,
+        companyUrl: `/company/${hit.id}`,
         영문명: detail.nameEn,
         해외기업: detail.foreign,
         투자유치여부: detail.investStatus,
@@ -197,11 +205,13 @@ export async function dispatchTool(name: string, input: unknown): Promise<unknow
               등기부분기: detail.followup.registryQuarter,
               등기부확인일: detail.followup.registryDate,
               일치여부: detail.followup.match || "(대조불가)",
+              등기부링크: detail.followup.registryUrl ?? undefined,
               비고: detail.followup.note || "",
             }
           : null,
         펀드별: detail.funds.map((f) => ({
           펀드: f.name,
+          fundUrl: `/fund/${f.slug}`,
           SLAB투자상태: f.slabStatus || "(미기재)",
           스프레드시트상태: f.writeoffUploaded ? (f.sheetStatus ?? "(미등재)") : "감액시트 미업로드",
           감액분석: f.writeoffUploaded ? (f.reflected ?? "") : "미업로드",
