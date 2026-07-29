@@ -33,6 +33,7 @@ export async function* runChat(history: ChatMessage[], user?: string): AsyncGene
 
   let totalIn = 0;
   let totalOut = 0;
+  let prevTurnHadText = false; // 직전 턴이 텍스트를 냈는지 (도구 호출을 사이에 둔 답변이 붙는 것 방지)
 
   try {
     for (let i = 0; i < MAX_ITERATIONS; i++) {
@@ -45,8 +46,16 @@ export async function* runChat(history: ChatMessage[], user?: string): AsyncGene
         messages: msgs,
       });
 
+      let turnHadText = false;
+      // 직전 턴(예: 도구 호출 전 안내)과 이번 턴 답변 사이에 문단 구분 삽입 — 텍스트가 실제로 나올 때만.
+      let needSeparator = i > 0 && prevTurnHadText;
       for await (const ev of stream) {
         if (ev.type === "content_block_delta" && ev.delta.type === "text_delta") {
+          if (!turnHadText && needSeparator) {
+            yield { type: "text", text: "\n\n" };
+            needSeparator = false;
+          }
+          turnHadText = true;
           yield { type: "text", text: ev.delta.text };
         }
       }
@@ -75,6 +84,7 @@ export async function* runChat(history: ChatMessage[], user?: string): AsyncGene
         results.push({ type: "tool_result", tool_use_id: tu.id, content: JSON.stringify(out) });
       }
       msgs.push({ role: "user", content: results });
+      prevTurnHadText = turnHadText;
     }
   } finally {
     // 사용량은 성공/실패와 무관하게 기록 (관리자 대시보드 집계용).
