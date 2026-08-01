@@ -564,10 +564,14 @@ async function buildTracker(fundSearch: string): Promise<FundTracker | null> {
       }
     }
 
+    const note = notes.join(" · ");
+    // 트래커 색상을 조치 큐(확인 필요)와 일치시킨다: 판독불가·오첨부·해외기업·처리대기·분기보고 상이 신호가 비고에 있으면 노랑
+    if (!flag && /처리 대기|판독 불가|오첨부|상이|해외/.test(note)) flag = "yellow";
+
     followup.push({
       no: 0, company: name, companyId: co._id as string, quarter: target.label,
       investStatus: investStatus(targetQup), registryDate: reg.date, registryShares: reg.shares,
-      slabShares, reportShares, match, followupApplicable, note: notes.join(" · "), flag,
+      slabShares, reportShares, match, followupApplicable, note, flag,
       registryQuarter: reg.regLabel, registryUrl: reg.url,
     });
     // 감액: 스프레드시트 상태 ↔ SLAB 상태 대조
