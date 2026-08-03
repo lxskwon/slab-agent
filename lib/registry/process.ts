@@ -5,16 +5,16 @@ import { getCached, setCached } from "@/lib/registry/cache";
 
 /**
  * 신규 등기부등본 자동 OCR — 관리자 버튼에서 호출.
- * 전 펀드 기업의 등기부 PDF 중 "아직 캐시에 없는" 것만 골라 OCR → Supabase 캐시에 저장.
- * 이미 처리된 PDF(커밋된 스냅샷 + Supabase)는 건너뛰므로, 분기 변경으로 "새로 붙은" 등기부만 처리된다.
+ * 각 기업의 **가장 최신** 등기부 PDF 1건만 대상으로, 아직 캐시에 없으면 OCR → Supabase 캐시 저장.
+ * (분기가 바뀌어 '새로 붙은' 최신 등기부만 처리. 과거 분기 등기부는 건드리지 않는다.
+ *  최신이 판독 불가면 registryView가 이미 캐시된 과거 분기로 폴백/표기하므로 여기서 과거를 OCR하지 않음.)
  * 서버리스 타임아웃 안에서 끝나도록 배치 단위로 처리하고 남은 건수를 반환(버튼이 반복 호출).
  */
 
 const MAX_MB = 450; // Files API 업로드 한도 가드
-
 type Reg = { company: string; url: string; quarter: string };
 
-// 전 펀드 등기부 URL 열거는 SLAB API 호출이 많아 짧게 메모(반복 배치 호출 시 재열거 방지)
+// 전 펀드 열거는 SLAB API 호출이 많아 짧게 메모(반복 배치 호출 시 재열거 방지)
 let enumCache: { at: number; list: Reg[] } | null = null;
 const ENUM_TTL = 3 * 60 * 1000;
 
@@ -31,8 +31,8 @@ async function fetchPdf(url: string): Promise<Buffer | null> {
   }
 }
 
-/** 전 펀드 소속 기업의 등기부 PDF URL(중복 제거, 최신→과거) */
-async function listAllRegistryUrls(): Promise<Reg[]> {
+/** 전 펀드 소속 기업의 '최신' 등기부 PDF 1건씩 (중복 URL 제거) */
+async function listNewestRegistries(): Promise<Reg[]> {
   if (enumCache && Date.now() - enumCache.at < ENUM_TTL) return enumCache.list;
   const funds = await slabList<any>("fund", { limit: 100 });
   const out: Reg[] = [];
@@ -57,12 +57,12 @@ async function listAllRegistryUrls(): Promise<Reg[]> {
       (byCo.get(cid) ?? byCo.set(cid, []).get(cid)!).push(q);
     }
     for (const cid of ids) {
-      for (const q of registerQups(byCo.get(cid) ?? [])) {
-        const u = registerUrl(q);
-        if (u && !seen.has(u)) {
-          seen.add(u);
-          out.push({ company: (nameById.get(cid) as string) ?? cid, url: u, quarter: qLabel(q) });
-        }
+      const newest = registerQups(byCo.get(cid) ?? [])[0]; // 최신 등기부 첨부 분기 1건
+      if (!newest) continue;
+      const u = registerUrl(newest);
+      if (u && !seen.has(u)) {
+        seen.add(u);
+        out.push({ company: (nameById.get(cid) as string) ?? cid, url: u, quarter: qLabel(newest) });
       }
     }
   }
@@ -70,19 +70,26 @@ async function listAllRegistryUrls(): Promise<Reg[]> {
   return out;
 }
 
-export interface ProcessedItem { company: string; quarter: string; url: string; ok: boolean; note: string }
-export interface ProcessResult { processed: ProcessedItem[]; totalUncached: number; remaining: number; done: boolean }
+/** OCR 대상(최신 등기부가 아직 캐시에 없는 기업) 건수 — 비용 확인용, OCR 안 함. */
+export async function countPending(): Promise<number> {
+  const all = await listNewestRegistries();
+  let n = 0;
+  for (const it of all) if (!(await getCached(it.url))) n++;
+  return n;
+}
 
-/** 캐시 없는 등기부를 시간/건수 예산 안에서 OCR. 남은 건수를 반환(버튼이 done까지 반복). */
-export async function processUncachedRegistries(opts: { limit?: number; timeBudgetMs?: number } = {}): Promise<ProcessResult> {
-  const limit = opts.limit ?? 12;
+export interface ProcessedItem { company: string; quarter: string; url: string; ok: boolean; note: string }
+export interface ProcessResult { processed: ProcessedItem[]; totalPending: number; remaining: number; done: boolean }
+
+/** 캐시 없는 '최신' 등기부를 시간/건수 예산 안에서 OCR. 남은 건수를 반환(버튼이 done까지 반복). */
+export async function processPending(opts: { limit?: number; timeBudgetMs?: number } = {}): Promise<ProcessResult> {
+  const limit = opts.limit ?? 10;
   const timeBudgetMs = opts.timeBudgetMs ?? 240000;
-  const all = await listAllRegistryUrls();
+  const all = await listNewestRegistries();
 
   const uncached: Reg[] = [];
-  for (const it of all) {
-    if (!(await getCached(it.url))) uncached.push(it);
-  }
+  for (const it of all) if (!(await getCached(it.url))) uncached.push(it);
+  const totalPending = uncached.length;
 
   const start = Date.now();
   const processed: ProcessedItem[] = [];
@@ -115,6 +122,6 @@ export async function processUncachedRegistries(opts: { limit?: number; timeBudg
     }
   }
 
-  const remaining = Math.max(0, uncached.length - processed.length);
-  return { processed, totalUncached: uncached.length, remaining, done: remaining === 0 };
+  const remaining = Math.max(0, totalPending - processed.length);
+  return { processed, totalPending, remaining, done: remaining === 0 };
 }
