@@ -1,4 +1,4 @@
-import Anthropic from "@anthropic-ai/sdk";
+import OpenAI from "openai";
 import { logLlmUsage, usageFrom } from "@/lib/llm/usage";
 import type { ReflectionStatus } from "@/lib/types";
 
@@ -10,7 +10,7 @@ import type { ReflectionStatus } from "@/lib/types";
  * (예: 스프레드시트 "Written-off" vs SLAB "감액 처리 완료").
  */
 
-const MODEL = "claude-opus-4-8";
+const MODEL = "gpt-4.1-mini";
 
 const SCHEMA = {
   type: "object",
@@ -62,26 +62,28 @@ export async function judgeWriteoff(
     };
   }
   // 키 없으면 LLM 미실행 → 판단애매로 표시 (배포 환경에 키가 없을 때 graceful)
-  if (!process.env.ANTHROPIC_API_KEY) {
+  if (!process.env.OPENAI_API_KEY) {
     return {
       reflectionStatus: "판단애매",
-      reasoning: "LLM(ANTHROPIC_API_KEY) 미설정 — 자동 판단 불가, 사람 확인 필요.",
+      reasoning: "LLM(OPENAI_API_KEY) 미설정 — 자동 판단 불가, 사람 확인 필요.",
     };
   }
 
-  const client = new Anthropic();
-  const res = await client.messages.create({
+  const client = new OpenAI();
+  const res = await client.chat.completions.create({
     model: MODEL,
     max_tokens: 1024,
-    thinking: { type: "adaptive" },
-    output_config: { format: { type: "json_schema", schema: SCHEMA } },
+    response_format: {
+      type: "json_schema",
+      json_schema: { name: "writeoff_judge", strict: true, schema: SCHEMA },
+    },
     messages: [{ role: "user", content: prompt(company, spreadsheetStatus, slabStatus) }],
-  });
+  } as never);
   await logLlmUsage({ feature: "감액 판정", model: MODEL, ...usageFrom(res) });
 
-  const textBlock = res.content.find((b) => b.type === "text");
-  if (!textBlock || textBlock.type !== "text") {
+  const text = res.choices?.[0]?.message?.content;
+  if (typeof text !== "string" || !text.trim()) {
     throw new Error("감액 판단 응답에 텍스트 결과 없음");
   }
-  return JSON.parse(textBlock.text) as WriteoffJudgeResult;
+  return JSON.parse(text) as WriteoffJudgeResult;
 }

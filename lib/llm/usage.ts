@@ -4,18 +4,22 @@ import { readFile, writeFile, mkdir } from "node:fs/promises";
 import path from "node:path";
 
 /**
- * LLM 토큰/비용 사용 기록. Claude 호출마다 logLlmUsage()로 남기고,
+ * LLM 토큰/비용 사용 기록. LLM 호출마다 logLlmUsage()로 남기고,
  * 관리자 대시보드에서 getUsageSummary()로 집계. Supabase(llm_usage) 또는 디스크(폴백).
- * 비용 계산이 정확하도록 모델별 단가를 명시 (claude-api 스킬 기준, $/1M tokens).
+ * 비용 계산이 정확하도록 모델별 단가를 명시 ($/1M tokens).
  */
 
 const PRICING: Record<string, { in: number; out: number }> = {
+  // 현재 사용 모델 (OpenAI)
+  "gpt-4.1": { in: 2, out: 8 }, // 등기부 OCR (정확도 우선)
+  "gpt-4.1-mini": { in: 0.4, out: 1.6 }, // 챗봇 · 감액 해석 · 감액 판정
+  // 과거 기록(Anthropic)도 대시보드에서 올바른 단가로 집계되도록 유지
   "claude-opus-4-8": { in: 5, out: 25 },
   "claude-opus-4-7": { in: 5, out: 25 },
   "claude-sonnet-4-6": { in: 3, out: 15 },
   "claude-haiku-4-5": { in: 1, out: 5 },
 };
-const DEFAULT_PRICE = { in: 5, out: 25 };
+const DEFAULT_PRICE = { in: 2, out: 8 };
 
 export interface UsageInput {
   feature: string; // 예: "등기부 OCR", "감액 해석", "감액 판정", "챗봇"
@@ -27,14 +31,20 @@ export interface UsageInput {
   cacheCreationTokens?: number;
 }
 
-/** Anthropic 응답의 usage 블록에서 토큰 수 추출 (필드 없으면 0). */
+/**
+ * OpenAI 응답의 usage 블록에서 토큰 수 추출 (필드 없으면 0).
+ * OpenAI는 prompt_tokens에 캐시 히트분이 포함되므로, 이중 계산을 막기 위해
+ * 캐시분(cached_tokens)을 input에서 빼고 cacheRead로 따로 넘긴다(costOf에서 0.1× 적용).
+ */
 export function usageFrom(res: unknown): { inputTokens: number; outputTokens: number; cacheReadTokens: number; cacheCreationTokens: number } {
-  const u = (res as { usage?: Record<string, number> })?.usage ?? {};
+  const u = (res as { usage?: { prompt_tokens?: number; completion_tokens?: number; prompt_tokens_details?: { cached_tokens?: number } } })?.usage ?? {};
+  const cached = u.prompt_tokens_details?.cached_tokens ?? 0;
+  const prompt = u.prompt_tokens ?? 0;
   return {
-    inputTokens: u.input_tokens ?? 0,
-    outputTokens: u.output_tokens ?? 0,
-    cacheReadTokens: u.cache_read_input_tokens ?? 0,
-    cacheCreationTokens: u.cache_creation_input_tokens ?? 0,
+    inputTokens: Math.max(0, prompt - cached),
+    outputTokens: u.completion_tokens ?? 0,
+    cacheReadTokens: cached,
+    cacheCreationTokens: 0, // OpenAI는 캐시 쓰기 비용을 별도 청구하지 않음
   };
 }
 

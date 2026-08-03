@@ -1,23 +1,22 @@
-import Anthropic, { toFile } from "@anthropic-ai/sdk";
+import OpenAI, { toFile } from "openai";
 import { logLlmUsage, usageFrom } from "@/lib/llm/usage";
 import type { RegistryExtract } from "@/lib/types";
 
-// base64 인라인은 요청 32MB 제한이 있음. 이보다 크면 Files API로 업로드해 file_id로 참조
-// (Files API는 최대 500MB) → 대용량 등기부등본도 OCR 가능.
-const INLINE_MAX = 20 * 1024 * 1024; // ~20MB raw (base64 팽창 감안)
-const FILES_BETA = "files-api-2025-04-14";
+// base64 인라인은 요청 페이로드가 커지므로 이보다 크면 Files API로 업로드해 file_id로 참조.
+const INLINE_MAX = 20 * 1024 * 1024; // ~20MB raw
 
 /**
- * Phase 2 — 스캔본 등기부등본을 Claude 비전으로 판독한다.
+ * Phase 2 — 스캔본 등기부등본을 GPT 비전으로 판독한다.
  *
  * 텍스트 파서와 달리 모델이 페이지 이미지를 직접 보므로,
  * 취소선(말소)이 그어진 발행주식의 총수를 **시각적으로 구분**해
  * 현재 유효한 값만 추출할 수 있다.
  *
- * ANTHROPIC_API_KEY가 없으면 호출하지 않는다 (source.ts에서 가드).
+ * 정확도가 가장 중요한 경로라 상위 모델(gpt-4.1)을 쓴다.
+ * OPENAI_API_KEY가 없으면 호출하지 않는다 (extract.ts에서 가드).
  */
 
-const MODEL = "claude-opus-4-8";
+const MODEL = "gpt-4.1";
 
 const SCHEMA = {
   type: "object",
@@ -63,12 +62,6 @@ const PROMPT = `첨부한 법인 등기 서류(한국 등기부등본/등기사�
 
 숫자는 콤마 없이 정수. 확신이 낮으면 confidence를 낮추고 reasoning에 이유(언어/스캔품질 등)를 남겨라.`;
 
-function textOf(res: { content?: Array<{ type: string; text?: string }> }): string {
-  const b = res.content?.find((x) => x.type === "text");
-  if (!b || b.type !== "text" || typeof b.text !== "string") throw new Error("OCR 응답에 텍스트 없음");
-  return b.text;
-}
-
 function lenientJson(t: string): Partial<OcrResult> {
   try {
     return JSON.parse(t) as OcrResult;
@@ -90,58 +83,49 @@ export async function extractViaVision(
   companyName: string,
   fileName: string,
 ): Promise<RegistryExtract> {
-  const client = new Anthropic({ maxRetries: 4 }); // 연결 오류 재시도 강화
+  const client = new OpenAI({ maxRetries: 4 }); // 연결 오류 재시도 강화
   const large = pdfBuffer.length > INLINE_MAX;
 
-  // 대용량이면 Files API 업로드 후 file_id 참조, 아니면 base64 인라인
-  let source: Record<string, unknown>;
+  // 대용량이면 Files API 업로드 후 file_id 참조, 아니면 base64 data URL 인라인
+  let filePart: { type: "file"; file: { file_id: string } | { filename: string; file_data: string } };
   let uploadedId: string | null = null;
   if (large) {
-    // 업로드 파일명은 추출과 무관 → 안전한 짧은 이름 사용 (원본이 255자 초과 시 400 방지)
-    const uploaded = await client.beta.files.upload({
+    // 업로드 파일명은 추출과 무관 → 안전한 짧은 이름 사용
+    const uploaded = await client.files.create({
       file: await toFile(pdfBuffer, "register.pdf", { type: "application/pdf" }),
-      betas: [FILES_BETA],
+      purpose: "user_data",
     });
     uploadedId = uploaded.id;
-    source = { type: "file", file_id: uploaded.id };
+    filePart = { type: "file", file: { file_id: uploaded.id } };
   } else {
-    source = {
-      type: "base64",
-      media_type: "application/pdf",
-      data: pdfBuffer.toString("base64"),
+    filePart = {
+      type: "file",
+      file: {
+        filename: "register.pdf",
+        file_data: `data:application/pdf;base64,${pdfBuffer.toString("base64")}`,
+      },
     };
   }
 
-  const JSON_INSTR =
-    '\n\n반드시 이 JSON만 출력(설명/마크다운 금지): {"shareCountTotal": <정수 또는 null>, "issueDate": "<YYYY-MM-DD 또는 null>", "confidence": <0~1>, "reasoning": "<한 줄>"}';
-
   try {
-    let raw: string;
-    if (large) {
-      // Files API(beta): output_config(structured)와 조합 시 400 → 프롬프트-JSON + 관대한 파싱
-      const response = await client.beta.messages.create({
-        model: MODEL,
-        max_tokens: 2048,
-        betas: [FILES_BETA],
-        messages: [
-          { role: "user", content: [{ type: "document", source }, { type: "text", text: PROMPT + JSON_INSTR }] },
-        ],
-      } as never);
-      await logLlmUsage({ feature: "등기부 OCR", model: MODEL, ...usageFrom(response) });
-      raw = textOf(response);
-    } else {
-      const response = await client.messages.create({
-        model: MODEL,
-        max_tokens: 2048,
-        thinking: { type: "adaptive" as const },
-        output_config: { format: { type: "json_schema" as const, schema: SCHEMA } },
-        messages: [
-          { role: "user", content: [{ type: "document", source }, { type: "text", text: PROMPT }] },
-        ],
-      } as never);
-      await logLlmUsage({ feature: "등기부 OCR", model: MODEL, ...usageFrom(response) });
-      raw = textOf(response);
-    }
+    const response = await client.chat.completions.create({
+      model: MODEL,
+      max_tokens: 2048,
+      response_format: {
+        type: "json_schema",
+        json_schema: { name: "registry_extract", strict: true, schema: SCHEMA },
+      },
+      messages: [
+        {
+          role: "user",
+          content: [{ type: "text", text: PROMPT }, filePart],
+        },
+      ],
+    } as never);
+    await logLlmUsage({ feature: "등기부 OCR", model: MODEL, ...usageFrom(response) });
+
+    const raw = response.choices?.[0]?.message?.content;
+    if (typeof raw !== "string" || !raw.trim()) throw new Error("OCR 응답에 텍스트 없음");
     const parsed = lenientJson(raw);
     return {
       companyName,
@@ -154,7 +138,7 @@ export async function extractViaVision(
   } finally {
     if (uploadedId) {
       try {
-        await client.beta.files.delete(uploadedId, { betas: [FILES_BETA] });
+        await client.files.delete(uploadedId);
       } catch {
         /* 업로드 파일 정리 실패는 무시 */
       }

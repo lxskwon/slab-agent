@@ -11,8 +11,8 @@ PRD: `../Downloads/SLAB_에이전트_PRD.md`
 - ✅ Supabase 스키마 (`supabase/migrations/0001_init.sql`)
 - ✅ 후속투자 파이프라인: SLAB 발행주식총수 ↔ 등기부등본 발행주식총수 **exact match**
 - ✅ 등기부등본 **텍스트 PDF** 파서 (발행주식총수 · 발행일, 말소 항목 제외)
-- ✅ **스캔 PDF OCR** (Phase 2): Claude 비전으로 취소선(말소) 시각 판독 → 현재 유효 발행주식총수 추출 + confidence
-- ✅ **감액 파이프라인 (Phase 3)**: 스프레드시트 상태 ↔ SLAB 상태를 **Claude LLM**이 비교 → 이미 반영됨/미반영/판단애매 + 근거 (표현이 달라도 의미로 판단)
+- ✅ **스캔 PDF OCR** (Phase 2): GPT 비전(gpt-4.1)으로 취소선(말소) 시각 판독 → 현재 유효 발행주식총수 추출 + confidence
+- ✅ **감액 파이프라인 (Phase 3)**: 스프레드시트 상태 ↔ SLAB 상태를 **GPT LLM**이 비교 → 이미 반영됨/미반영/판단애매 + 근거 (표현이 달라도 의미로 판단)
 - ✅ 대시보드: 개요 · 후속투자 리뷰 · 감액 리뷰(색상 플래그, LLM 근거, 확인, 필터/검색) · "지금 새로고침"(두 파이프라인 실행)
 - ✅ 감사 로그(review_history) 자동 기록
 
@@ -23,9 +23,9 @@ PRD: `../Downloads/SLAB_에이전트_PRD.md`
 | SLAB API (실데이터) | 목업 — API 스펙 확정 후 `RealSlabClient` 구현 | `lib/slab/client.ts` |
 | 감액 스프레드시트 (실데이터) | 목업 — Google 서비스 계정 확보 후 `GoogleSheetsSource` 구현 | `lib/writeoff/spreadsheet.ts` |
 
-감액 LLM 판단은 실제로 동작한다(`lib/writeoff/judge.ts`, `claude-opus-4-8`) — 목업은 스프레드시트·SLAB 상태값뿐이다.
+감액 LLM 판단은 실제로 동작한다(`lib/writeoff/judge.ts`, `gpt-4.1-mini`) — 목업은 스프레드시트·SLAB 상태값뿐이다.
 
-OCR은 `ANTHROPIC_API_KEY`가 설정돼 있으면 스캔본에 자동 실행된다(`lib/registry/ocr.ts`, 모델 `claude-opus-4-8`). 키가 없으면 스캔본은 confidence 0("재확인 필요")로 표시된다.
+OCR은 `OPENAI_API_KEY`가 설정돼 있으면 스캔본에 자동 실행된다(`lib/registry/ocr.ts`, 모델 `gpt-4.1`). 키가 없으면 스캔본은 confidence 0("재확인 필요")로 표시된다.
 
 ## 빠른 시작
 

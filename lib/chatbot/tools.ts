@@ -1,5 +1,5 @@
 import "server-only";
-import type Anthropic from "@anthropic-ai/sdk";
+import type OpenAI from "openai";
 import {
   getFunds,
   getDashboard,
@@ -19,43 +19,55 @@ import {
  * 모든 도구는 읽기 전용 — 데이터를 변경하지 않는다.
  */
 
-// ---- 도구 정의 (Claude tool-use 스키마) ----
-export const CHAT_TOOLS: Anthropic.Tool[] = [
+// ---- 도구 정의 (OpenAI function-calling 스키마) ----
+export const CHAT_TOOLS: OpenAI.Chat.Completions.ChatCompletionTool[] = [
   {
-    name: "list_funds",
-    description: "SparkLabs가 운용하는 전체 펀드 목록(이름·슬러그)을 반환한다. 어떤 펀드가 있는지, 펀드 이름의 정확한 표기를 확인할 때 사용.",
-    input_schema: { type: "object", properties: {}, additionalProperties: false },
-  },
-  {
-    name: "get_dashboard",
-    description:
-      "전 펀드 요약을 반환한다: 대상 분기, 총계(불일치·확인필요 건수, 등기부등본 처리율), 펀드별 통계, 그리고 '조치 필요 큐'(후속투자 불일치·감액 미반영·확인 필요 이슈 목록). '지금 확인해야 할 게 뭐야', '전체 현황', '불일치 몇 건' 같은 질문에 사용.",
-    input_schema: { type: "object", properties: {}, additionalProperties: false },
-  },
-  {
-    name: "get_fund_tracker",
-    description:
-      "특정 펀드의 후속투자·감액 대조 상세를 반환한다. 각 기업의 등기부/SLAB/분기보고 발행주식수, 일치여부, 감액 반영여부, 비고까지. 특정 펀드의 상태를 물을 때 사용.",
-    input_schema: {
-      type: "object",
-      properties: {
-        fund: { type: "string", description: "펀드 이름 또는 슬러그 (예: 'SKF4', 'CJFtr', '스파크펫'). 부분 일치도 허용." },
-      },
-      required: ["fund"],
-      additionalProperties: false,
+    type: "function",
+    function: {
+      name: "list_funds",
+      description: "SparkLabs가 운용하는 전체 펀드 목록(이름·슬러그)을 반환한다. 어떤 펀드가 있는지, 펀드 이름의 정확한 표기를 확인할 때 사용.",
+      parameters: { type: "object", properties: {}, additionalProperties: false },
     },
   },
   {
-    name: "get_company_detail",
-    description:
-      "특정 기업이 속한 모든 펀드에서의 상태를 반환한다: 등기부/SLAB/분기보고 발행주식수, 일치여부, 펀드별 SLAB 투자상태·감액 반영여부. 특정 회사에 대해 물을 때 사용.",
-    input_schema: {
-      type: "object",
-      properties: {
-        company: { type: "string", description: "회사명 (예: '프론트맨', '엘로이랩'). ㈜/공백 무시하고 부분 일치도 허용." },
+    type: "function",
+    function: {
+      name: "get_dashboard",
+      description:
+        "전 펀드 요약을 반환한다: 대상 분기, 총계(불일치·확인필요 건수, 등기부등본 처리율), 펀드별 통계, 그리고 '조치 필요 큐'(후속투자 불일치·감액 미반영·확인 필요 이슈 목록). '지금 확인해야 할 게 뭐야', '전체 현황', '불일치 몇 건' 같은 질문에 사용.",
+      parameters: { type: "object", properties: {}, additionalProperties: false },
+    },
+  },
+  {
+    type: "function",
+    function: {
+      name: "get_fund_tracker",
+      description:
+        "특정 펀드의 후속투자·감액 대조 상세를 반환한다. 각 기업의 등기부/SLAB/분기보고 발행주식수, 일치여부, 감액 반영여부, 비고까지. 특정 펀드의 상태를 물을 때 사용.",
+      parameters: {
+        type: "object",
+        properties: {
+          fund: { type: "string", description: "펀드 이름 또는 슬러그 (예: 'SKF4', 'CJFtr', '스파크펫'). 부분 일치도 허용." },
+        },
+        required: ["fund"],
+        additionalProperties: false,
       },
-      required: ["company"],
-      additionalProperties: false,
+    },
+  },
+  {
+    type: "function",
+    function: {
+      name: "get_company_detail",
+      description:
+        "특정 기업이 속한 모든 펀드에서의 상태를 반환한다: 등기부/SLAB/분기보고 발행주식수, 일치여부, 펀드별 SLAB 투자상태·감액 반영여부. 특정 회사에 대해 물을 때 사용.",
+      parameters: {
+        type: "object",
+        properties: {
+          company: { type: "string", description: "회사명 (예: '프론트맨', '엘로이랩'). ㈜/공백 무시하고 부분 일치도 허용." },
+        },
+        required: ["company"],
+        additionalProperties: false,
+      },
     },
   },
 ];

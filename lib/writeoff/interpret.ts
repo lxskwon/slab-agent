@@ -1,4 +1,4 @@
-import Anthropic from "@anthropic-ai/sdk";
+import OpenAI from "openai";
 import { logLlmUsage, usageFrom } from "@/lib/llm/usage";
 
 /**
@@ -7,7 +7,7 @@ import { logLlmUsage, usageFrom } from "@/lib/llm/usage";
  * (1)/(2) 트랜치는 한 회사로 합침.
  */
 
-const MODEL = "claude-opus-4-8";
+const MODEL = "gpt-4.1-mini";
 
 export interface InterpretedCompany {
   name: string; // 시트에 적힌 국문 회사명 (트랜치 접미사 제거)
@@ -70,17 +70,19 @@ const PROMPT = `아래는 벤처펀드 '투자자산관리' 스프레드시트 �
 표(회사 목록)에 실제 있는 회사만 반환한다([상단 요약]에만 있고 표에 없는 이름은 제외).`;
 
 export async function interpretSheet(sheetText: string, user?: string): Promise<InterpretedCompany[]> {
-  const client = new Anthropic({ maxRetries: 3 });
-  const res = await client.messages.create({
+  const client = new OpenAI({ maxRetries: 3 });
+  const res = await client.chat.completions.create({
     model: MODEL,
     max_tokens: 16000,
-    thinking: { type: "adaptive" },
-    output_config: { format: { type: "json_schema", schema: SCHEMA } },
+    response_format: {
+      type: "json_schema",
+      json_schema: { name: "sheet_companies", strict: true, schema: SCHEMA },
+    },
     messages: [{ role: "user", content: `${PROMPT}\n\n---\n${sheetText}` }],
-  });
+  } as never);
   await logLlmUsage({ feature: "감액 해석", model: MODEL, user, ...usageFrom(res) });
-  const block = res.content.find((b) => b.type === "text");
-  if (!block || block.type !== "text") throw new Error("시트 해석 응답 없음");
-  const parsed = JSON.parse(block.text) as { companies: InterpretedCompany[] };
+  const text = res.choices?.[0]?.message?.content;
+  if (typeof text !== "string" || !text.trim()) throw new Error("시트 해석 응답 없음");
+  const parsed = JSON.parse(text) as { companies: InterpretedCompany[] };
   return parsed.companies ?? [];
 }

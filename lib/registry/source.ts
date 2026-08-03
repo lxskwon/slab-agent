@@ -45,7 +45,7 @@ export class FileRegistrySource implements RegistrySource {
         if (perPage < 40) {
           // 스캔본 → Phase 2 비전 OCR. 키가 있으면 판독, 없으면 '재확인 필요' 표시.
           const fileName = path.basename(pdfPath);
-          if (process.env.ANTHROPIC_API_KEY) {
+          if (process.env.OPENAI_API_KEY) {
             try {
               return await extractViaVision(buf, companyName, fileName);
             } catch (err) {
