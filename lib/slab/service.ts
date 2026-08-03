@@ -283,10 +283,15 @@ function investStatus(qup: Obj | null): string {
   if (v === "Expected") return "투자예정";
   return "해당없음";
 }
+// SLAB에 남아 있는 테스트/더미 회사 (fund type 태그만 있고 실제 포트폴리오 아님).
+// ㈜·(주)·주식회사·공백 제거한 정규화 이름으로 매칭.
+const TEST_COMPANIES = new Set(["한글회사", "영어회사", "이하진"]);
 function isJunkCompany(name: string | undefined): boolean {
   if (!name) return true;
   const t = name.trim();
-  return t === "" || /^\d+$/.test(t);
+  if (t === "" || /^\d+$/.test(t)) return true;
+  const norm = t.replace(/㈜|\(주\)|주식회사/g, "").replace(/\s/g, "");
+  return TEST_COMPANIES.has(norm);
 }
 function formatK(d: string | null): string | null {
   const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(d ?? "");
