@@ -4,6 +4,7 @@ import Link from "next/link";
 import { isAdminName } from "@/lib/auth";
 import { getUsageSummary } from "@/lib/llm/usage";
 import { NAVY } from "../tracker-tables";
+import { RegistryProcessButton } from "./registry-process-button";
 
 export const dynamic = "force-dynamic";
 
@@ -28,6 +29,8 @@ export default async function AdminPage() {
         </div>
         <Link href="/" className="text-xs text-gray-400 hover:text-[#1f3a5f]">← 대시보드</Link>
       </div>
+
+      <RegistryProcessButton />
 
       {/* 합계 */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">

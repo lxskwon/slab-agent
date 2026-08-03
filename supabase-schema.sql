@@ -27,6 +27,18 @@ create table if not exists registry_manual (
   updated_at timestamptz not null default now()
 );
 
+-- 등기부등본 OCR 파싱 결과 캐시 (키 = 등기부 PDF URL). 런타임 자동 OCR 결과가 여기 쌓인다.
+-- (기존 커밋 스냅샷 data/registry-cache.json 은 읽기 폴백으로 계속 사용됨)
+create table if not exists registry_cache (
+  url text primary key,
+  share_count_total bigint,
+  issue_date text,
+  method text,
+  confidence real,
+  oversized boolean not null default false,
+  updated_at timestamptz not null default now()
+);
+
 -- LLM 토큰/비용 사용 기록 (관리자 대시보드용). user는 예약어라 usr 사용.
 create table if not exists llm_usage (
   id bigint generated always as identity primary key,
