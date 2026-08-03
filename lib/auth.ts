@@ -1,5 +1,5 @@
 // 관리자 이름 목록. 로그인 이름이 여기 있으면 관리자(사용량 대시보드 접근). 이름 기반이라 해당 이름으로 로그인하면 자동 관리자.
-const ADMIN_NAMES = ["권지윤", "김호민"];
+const ADMIN_NAMES = ["권지윤", "김호민", "이준행"];
 
 /** 이름이 관리자인지. */
 export function isAdminName(name: string | null | undefined): boolean {
