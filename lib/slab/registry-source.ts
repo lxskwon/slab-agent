@@ -16,6 +16,32 @@ export function qLabel(q: Obj): string {
   return `${q.year}년 ${q.quarter}`;
 }
 
+/**
+ * 등기부 PDF 파일명에 인코딩된 발급일을 YYYY-MM-DD로 추출 (없으면 null).
+ * 실제 파일명 관례가 다양함: "…_20260701.pdf", "…(2026.04.16).pdf", "… 2026-01-21.pdf",
+ * "…_26.04.15.pdf" 등. 구분자(. - _ / 공백 년월일) 유무를 모두 처리.
+ * OCR로 읽은 날짜보다 신뢰도가 높아 표시/저장 시 이 값을 우선한다.
+ * (파일명 끝쪽 날짜를 우선하도록 각 패턴에서 마지막 매치를 채택; 유효한 월·일만 인정)
+ */
+export function dateFromFilename(url: string | null | undefined): string | null {
+  if (!url) return null;
+  let name = url.split("/").pop() ?? "";
+  try { name = decodeURIComponent(name); } catch { /* 원본 유지 */ }
+  const pad = (s: string) => s.padStart(2, "0");
+  const last = (re: RegExp) => { const a = [...name.matchAll(re)]; return a.length ? a[a.length - 1] : null; };
+  const MO = "(0?[1-9]|1[0-2])", DY = "(0?[1-9]|[12]\\d|3[01])", SEP = "[.\\-_/ 년월]";
+  // 1) YYYY(구분자)MM(구분자)DD  2) YYYYMMDD  3) YY(구분자)MM(구분자)DD  4) YYMMDD
+  let m = last(new RegExp(`(?<!\\d)(20\\d{2})${SEP}${MO}${SEP}${DY}(?!\\d)`, "g"));
+  if (m) return `${m[1]}-${pad(m[2])}-${pad(m[3])}`;
+  m = last(/(?<!\d)(20\d{2})(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])(?!\d)/g);
+  if (m) return `${m[1]}-${m[2]}-${m[3]}`;
+  m = last(new RegExp(`(?<!\\d)(\\d{2})${SEP}${MO}${SEP}${DY}(?!\\d)`, "g"));
+  if (m) return `20${m[1]}-${pad(m[2])}-${pad(m[3])}`;
+  m = last(/(?<!\d)(\d{2})(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])(?!\d)/g);
+  if (m) return `20${m[1]}-${m[2]}-${m[3]}`;
+  return null;
+}
+
 /** quarterlyupdate에 첨부된 company register 파일 URL (없으면 null) */
 export function registerUrl(q: Obj): string | null {
   const cr = q["company register"];

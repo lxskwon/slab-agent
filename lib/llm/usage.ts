@@ -32,19 +32,29 @@ export interface UsageInput {
 }
 
 /**
- * OpenAI 응답의 usage 블록에서 토큰 수 추출 (필드 없으면 0).
- * OpenAI는 prompt_tokens에 캐시 히트분이 포함되므로, 이중 계산을 막기 위해
- * 캐시분(cached_tokens)을 input에서 빼고 cacheRead로 따로 넘긴다(costOf에서 0.1× 적용).
+ * LLM 응답의 usage 블록에서 토큰 수 추출 (필드 없으면 0).
+ * 두 공급자 형식을 모두 지원한다: Anthropic(등기부 OCR)은 input_tokens/output_tokens,
+ * OpenAI(챗봇·감액 해석·판정)는 prompt_tokens/completion_tokens.
  */
 export function usageFrom(res: unknown): { inputTokens: number; outputTokens: number; cacheReadTokens: number; cacheCreationTokens: number } {
-  const u = (res as { usage?: { prompt_tokens?: number; completion_tokens?: number; prompt_tokens_details?: { cached_tokens?: number } } })?.usage ?? {};
-  const cached = u.prompt_tokens_details?.cached_tokens ?? 0;
-  const prompt = u.prompt_tokens ?? 0;
+  const u = (res as { usage?: Record<string, unknown> })?.usage ?? {};
+  // Anthropic 형식
+  if ("input_tokens" in u || "output_tokens" in u) {
+    return {
+      inputTokens: (u.input_tokens as number) ?? 0,
+      outputTokens: (u.output_tokens as number) ?? 0,
+      cacheReadTokens: (u.cache_read_input_tokens as number) ?? 0,
+      cacheCreationTokens: (u.cache_creation_input_tokens as number) ?? 0,
+    };
+  }
+  // OpenAI 형식: prompt_tokens에 캐시 히트분이 포함되므로 분리(costOf에서 0.1× 적용)
+  const cached = (u.prompt_tokens_details as { cached_tokens?: number } | undefined)?.cached_tokens ?? 0;
+  const prompt = (u.prompt_tokens as number) ?? 0;
   return {
     inputTokens: Math.max(0, prompt - cached),
-    outputTokens: u.completion_tokens ?? 0,
+    outputTokens: (u.completion_tokens as number) ?? 0,
     cacheReadTokens: cached,
-    cacheCreationTokens: 0, // OpenAI는 캐시 쓰기 비용을 별도 청구하지 않음
+    cacheCreationTokens: 0,
   };
 }
 

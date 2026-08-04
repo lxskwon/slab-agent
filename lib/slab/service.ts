@@ -3,7 +3,7 @@ import { unstable_cache } from "next/cache";
 import { slabList, slabGet, slabEnabled, type Constraint } from "./api";
 import { getCached } from "@/lib/registry/cache";
 import { getManualMap, type ManualReg } from "@/lib/registry/manual";
-import { qKey, qLabel, quarterNum, registerQups, registerUrl } from "./registry-source";
+import { qKey, qLabel, quarterNum, registerQups, registerUrl, dateFromFilename } from "./registry-source";
 import { nameKeys, normName, hasFundSheet, listTabs } from "@/lib/writeoff/sheet";
 import { loadInterp } from "@/lib/writeoff/interp-cache";
 import type { InterpretedCompany } from "@/lib/writeoff/interpret";
@@ -404,9 +404,10 @@ async function registryView(qups: Obj[], targetKey: number): Promise<RegistryVie
       continue;
     }
     if (cached.shareCountTotal != null) {
+      // 발행일은 파일명(신뢰도 높음) 우선, 없으면 OCR 값. OCR 날짜 오독을 표시 단계에서 차단.
       return mk(q, {
         shares: cached.shareCountTotal,
-        date: formatK(cached.issueDate),
+        date: formatK(dateFromFilename(registerUrl(q)) ?? cached.issueDate),
         cachedOk: true,
         lowConfidenceOcr: cached.method === "ocr" && (cached.confidence ?? 1) < 0.8,
         supersededNote: problems.length ? problems.join(" · ") : null,

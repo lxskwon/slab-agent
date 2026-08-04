@@ -1,5 +1,5 @@
 import { slabList } from "@/lib/slab/api";
-import { registerQups, registerUrl, qLabel } from "@/lib/slab/registry-source";
+import { registerQups, registerUrl, qLabel, dateFromFilename } from "@/lib/slab/registry-source";
 import { extractFromBuffer } from "@/lib/registry/extract";
 import { getCached, setCached } from "@/lib/registry/cache";
 
@@ -109,12 +109,14 @@ export async function processPending(opts: { limit?: number; timeBudgetMs?: numb
     }
     try {
       const ex = await extractFromBuffer(buf, it.company, "register.pdf");
-      await setCached(it.url, { shareCountTotal: ex.shareCountTotal, issueDate: ex.issueDate, method: ex.method, confidence: ex.confidence ?? 0 });
+      // 발행일은 파일명(신뢰도 높음) 우선, 없으면 OCR 값
+      const issueDate = dateFromFilename(it.url) ?? ex.issueDate;
+      await setCached(it.url, { shareCountTotal: ex.shareCountTotal, issueDate, method: ex.method, confidence: ex.confidence ?? 0 });
       processed.push({
         ...it,
         ok: ex.shareCountTotal != null,
         note: ex.shareCountTotal != null
-          ? `${ex.method} · ${ex.shareCountTotal.toLocaleString()}주${ex.issueDate ? ` · ${ex.issueDate}` : ""}`
+          ? `${ex.method} · ${ex.shareCountTotal.toLocaleString()}주${issueDate ? ` · ${issueDate}` : ""}`
           : "오첨부/판독 불가",
       });
     } catch (e: any) {

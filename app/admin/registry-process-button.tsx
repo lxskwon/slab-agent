@@ -55,7 +55,7 @@ export function RegistryProcessButton() {
         <div>
           <div className="text-sm font-semibold text-gray-800">신규 등기부등본 자동 OCR</div>
           <div className="mt-0.5 text-[11px] text-gray-500">
-            각 기업의 <b>최신</b> 등기부만 골라 GPT OCR로 판독 → 트래커에 자동 반영. (이미 처리된 건·과거 분기는 건너뜀 · GPT-4.1 호출 비용 발생)
+            각 기업의 <b>최신</b> 등기부만 골라 Claude Opus OCR로 판독 → 트래커에 자동 반영. (이미 처리된 건·과거 분기는 건너뜀 · Claude Opus 호출 비용 발생)
           </div>
         </div>
         {(phase === "idle" || phase === "done" || phase === "error") && (
@@ -75,7 +75,7 @@ export function RegistryProcessButton() {
       {phase === "confirm" && (
         <div className="mt-3 flex items-center justify-between gap-3 rounded-lg bg-amber-50 px-3 py-2.5">
           <div className="text-xs text-amber-900">
-            처리할 새 등기부 <b>{pending}건</b> — GPT-4.1 OCR을 <b>{pending}회</b> 호출합니다(건당 비용 발생). 진행할까요?
+            처리할 새 등기부 <b>{pending}건</b> — Claude Opus OCR을 <b>{pending}회</b> 호출합니다(건당 비용 발생). 진행할까요?
           </div>
           <div className="flex shrink-0 gap-2">
             <button onClick={() => setPhase("idle")} className="rounded-md border border-gray-300 bg-white px-3 py-1.5 text-xs font-medium text-gray-600">취소</button>
