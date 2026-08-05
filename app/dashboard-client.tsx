@@ -83,14 +83,12 @@ export default function DashboardClient({ dash }: { dash: Dashboard }) {
           value={sel ? (sel.writeoffUploaded ? "완료" : "미업로드") : `${totals.processed} / ${totals.funds}`}
           tip="감액(투자자산 상각) 투자현황 DB가 업로드·분석된 펀드 수 / 전체 펀드 수입니다."
           sub="투자현황 DB"
-          href={sel ? `/fund/${sel.slug}?tab=writeoff` : "/funds"}
         />
         <Kpi
           label="등기부등본 처리율"
           value={`${sel ? sel.registryPct : totals.registryPct}%`}
           tip="첨부된 등기부등본 중 발행주식총수 판독(OCR)이 완료된 비율입니다."
           sub={sel ? "이 펀드 판독률" : "첨부된 등기부등본 중 판독 완료"}
-          href={sel ? `/fund/${sel.slug}` : "/funds"}
         />
       </div>
 
